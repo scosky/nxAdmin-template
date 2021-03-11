@@ -1,11 +1,11 @@
 export default {
-  title: 'nx-admin',
+  title: 'EASY-IM',
   logo: 'N',
   author: 'BY nxmin',
   whiteList: ['/login', '/404', '/401', '/lock'],
   lockPage: '/lock',
   info: {
-    title: 'nx-admin',
+    title: 'EASY-IM',
     list: [
       'nxAdmin-template 是一个基于XXXX工程可视化管理平台，采用token交互验证方式。',
       '您可以 nxAdmin-template 为基础，不只限制于vue的页面，你可以嵌入任意第三方网站，基于iframe框架。',

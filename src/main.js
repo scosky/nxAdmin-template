@@ -22,7 +22,7 @@ import store from './store'
 
 // Internationalization
 import i18n from './lang'
-
+Vue.use(ElementUI)
 import {
   loadStyle
 } from './utils/util'

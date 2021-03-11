@@ -1,10 +1,6 @@
 <template>
   <div class="app-container">
    <nx-github-corner></nx-github-corner>
-     <!-- <a target="_blank" href="https://github.com/mgbq/vue-permission"><img
-        style="position: absolute; top: 48px; right: 0; border: 0;"
-        src="../../../static/img/report/forkme.png"
-        alt="Fork me on GitHub"></a> -->
     <div class="item">
       <h4>数据展示</h4>
       <nx-data-display :option="option"></nx-data-display>

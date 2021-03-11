@@ -13,3 +13,6 @@ package-lock.json
 *.ntvs*
 *.njsproj
 *.sln
+
+#Electron-builder output
+/dist_electron
