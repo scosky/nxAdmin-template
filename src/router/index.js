@@ -58,13 +58,31 @@ export const constantRouterMap = [
   {
     path: '/group',
     component: Layout,
-    meta: { title: '群组', icon: 'dashboard' },
+    meta: { title: '群管理', icon: 'dashboard' },
     children: [
       {
         path: 'group',
-        name: '群组列表',
+        name: '群列表',
         component: () => import('@/views/group/group'),
-        meta: { title: '群组列表', icon: 'dashboard' }
+        meta: { title: '群列表', icon: 'dashboard' }
+      },
+      {
+        path: 'odds',
+        name: '赔率',
+        component: () => import('@/views/group/odds'),
+        meta: { title: '赔率', icon: 'dashboard' }
+      },
+      {
+        path: 'trust',
+        name: '托号',
+        component: () => import('@/views/group/trust'),
+        meta: { title: '托号', icon: 'dashboard' }
+      },
+      {
+        path: 'monitor',
+        name: '监控',
+        component: () => import('@/views/group/monitor'),
+        meta: { title: '监控', icon: 'dashboard' }
       }
     ]
   },
