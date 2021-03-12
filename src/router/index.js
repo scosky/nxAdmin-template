@@ -68,21 +68,21 @@ export const constantRouterMap = [
       },
       {
         path: 'odds',
-        name: '赔率',
+        name: '赔率设置',
         component: () => import('@/views/group/odds'),
-        meta: { title: '赔率', icon: 'dashboard' }
+        meta: { title: '赔率设置', icon: 'dashboard' }
       },
       {
         path: 'trust',
-        name: '托号',
+        name: '托号设置',
         component: () => import('@/views/group/trust'),
-        meta: { title: '托号', icon: 'dashboard' }
+        meta: { title: '托号设置', icon: 'dashboard' }
       },
       {
         path: 'monitor',
-        name: '监控',
+        name: '开奖监控',
         component: () => import('@/views/group/monitor'),
-        meta: { title: '监控', icon: 'dashboard' }
+        meta: { title: '开奖监控', icon: 'dashboard' }
       }
     ]
   },

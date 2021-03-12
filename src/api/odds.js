@@ -8,6 +8,7 @@ export function singleFive(data) {
 
   })
 }
+
 export function doubleFive(data) {
   return request({
     url: '/odds/doubleFive',
@@ -15,16 +16,18 @@ export function doubleFive(data) {
     data: data
   })
 }
+
 export function singleSix(data) {
   return request({
-    url: '/odds/singleFive',
+    url: '/odds/singleSix',
     method: 'get',
     data: data
   })
 }
+
 export function doubleSix(data) {
   return request({
-    url: '/odds/doubleFive',
+    url: '/odds/doubleSix',
     method: 'get',
     data: data
   })

@@ -2,45 +2,47 @@
   <div class="app-container">
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['1', '3']">
+        <el-menu :default-openeds="['1']">
           <el-submenu index="1">
             <template slot="title"
-              ><i class="el-icon-message"></i>玩法5</template
+              ><i class="el-icon-setting"></i>5包赔率</template
             >
             <el-menu-item-group>
               <el-menu-item index="1-1" @click="singleFive"
-                >单雷玩法</el-menu-item
+                >单雷赔率</el-menu-item
               >
               <el-menu-item index="1-2" @click="doubleFive"
-                >双雷玩法</el-menu-item
+                >多雷赔率</el-menu-item
               >
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
-            <template slot="title"><i class="el-icon-menu"></i>玩法6</template>
+            <template slot="title"
+              ><i class="el-icon-setting"></i>6包赔率</template
+            >
             <el-menu-item-group>
               <el-menu-item index="1-1" @click="singleSix"
-                >单雷玩法</el-menu-item
+                >单雷赔率</el-menu-item
               >
               <el-menu-item index="1-2" @click="doubleSix"
-                >双雷玩法</el-menu-item
+                >多雷赔率</el-menu-item
               >
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title"
-              ><i class="el-icon-setting"></i>玩法9</template
+              ><i class="el-icon-setting"></i>9包赔率</template
             >
             <el-menu-item-group>
-              <el-menu-item index="1-1">单雷玩法</el-menu-item>
-              <el-menu-item index="1-2">双雷玩法</el-menu-item>
-              <el-menu-item index="1-3">三雷玩法</el-menu-item>
-              <el-menu-item index="1-4">四雷玩法</el-menu-item>
-              <el-menu-item index="1-5">五雷玩法</el-menu-item>
-              <el-menu-item index="1-6">六雷玩法</el-menu-item>
-              <el-menu-item index="1-7">七雷玩法</el-menu-item>
-              <el-menu-item index="1-8">八雷玩法</el-menu-item>
-              <el-menu-item index="1-9">九雷玩法</el-menu-item>
+              <el-menu-item index="1-1">单雷赔率</el-menu-item>
+              <el-menu-item index="1-2">双雷赔率</el-menu-item>
+              <el-menu-item index="1-3">三雷赔率</el-menu-item>
+              <el-menu-item index="1-4">四雷赔率</el-menu-item>
+              <el-menu-item index="1-5">五雷赔率</el-menu-item>
+              <el-menu-item index="1-6">六雷赔率</el-menu-item>
+              <el-menu-item index="1-7">七雷赔率</el-menu-item>
+              <el-menu-item index="1-8">八雷赔率</el-menu-item>
+              <el-menu-item index="1-9">九雷赔率</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
@@ -49,17 +51,13 @@
       <el-container>
         <el-header style="text-align: right; font-size: 12px">
           <span style="margin-right: 45%">{{ name }}</span>
-          <el-dropdown>
-            <i class="el-icon-setting" style="margin-right: 15px"></i>
-          </el-dropdown>
-          <span>xxx群</span>
+          <el-dropdown></el-dropdown>
         </el-header>
 
         <el-main>
           <div v-for="odd in odds" :key="odd.index" class="odds-wap">
-            <span> {{ singleName }}{{ odd.index }}雷：</span>
+            <span> 中{{ odd.index }}雷:返</span>
             <el-input
-              style="width: 20%"
               v-model="odd.value"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
             ></el-input
@@ -87,11 +85,9 @@ export default {
     return {
       odds: [],
       name: "",
-      singleName: "",
     };
   },
   methods: {
-
     handleInput(e) {
       let a = e.key.replace(/[^\d]/g, "");
       if (!a && e.keyCode !== 8) {
@@ -99,33 +95,27 @@ export default {
       }
     },
     singleFive() {
-      this.name = "玩法5 单雷玩法";
-      this.singleName = "单";
+      this.name = "5包赔率 单雷";
       singleFive().then((res) => {
-        console.log(res);
-        this.odds = res.data.val;
+        this.odds = res.data.singleFive;
       });
     },
     doubleFive() {
-      this.name = "玩法5 双雷玩法";
-      this.singleName = "单";
+      this.name = "5包赔率 多雷";
       doubleFive().then((res) => {
-        this.odds = res.data.val;
+        this.odds = res.data.doubleFive;
       });
     },
     singleSix() {
-      this.name = "玩法6 单雷玩法";
-      this.singleName = "单";
+      this.name = "6包赔率 单雷";
       singleSix().then((res) => {
-        this.odds = res.data.val;
+        this.odds = res.data.singleSix;
       });
     },
     doubleSix() {
-      this.name = "玩法6双雷玩法";
-
-      this.singleName = "单";
+      this.name = "6包赔率 多雷";
       doubleSix().then((res) => {
-        this.odds = res.data.val;
+        this.odds = res.data.doubleSix;
       });
     },
     oddsSubmit() {
@@ -165,5 +155,11 @@ export default {
 }
 .el-container {
   height: 800px !important;
+}
+.odds-wap .el-input {
+  width: 180px;
+}
+.odds-wap .el-input .el-input__inner {
+  text-align: center;
 }
 </style>

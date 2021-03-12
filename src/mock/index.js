@@ -3,8 +3,8 @@ import tableAPI from './table'
 import loginAPI from './login'
 import articleAPI from './article'
 import groupAPI from './group'
-import singleFiveAPI from './singleFive'
-import doubleFiveAPI from "./doubleFive"
+import oddsAPI from './odds'
+
 // 设置全局延时 没有延时的话有时候会检测不到数据变化 建议保留
 Mock.setup({
   timeout: '300-600'
@@ -31,8 +31,12 @@ Mock.mock(/\/user\/edit/, 'get', tableAPI.updateUser)
 
 // 群组
 Mock.mock(/\/group\/listpage/, 'get', groupAPI.getGroupList)
-Mock.mock(/\/odds\/singleFive/, 'get', singleFiveAPI.getData)
-Mock.mock(/\/odds\/doubleFive/, 'get', doubleFiveAPI.getData)
+
+// 赔率
+Mock.mock(/\/odds\/singleFive/, 'get', oddsAPI.getSingleFiveData)
+Mock.mock(/\/odds\/doubleFive/, 'get', oddsAPI.getDoubleFiveData)
+Mock.mock(/\/odds\/singleSix/, 'get', oddsAPI.getSingleSixData)
+Mock.mock(/\/odds\/doubleSix/, 'get', oddsAPI.getDoubleSixData)
 
 
 export default Mock
