@@ -64,7 +64,6 @@
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
             ></el-input
             >&nbsp;
-            <el-input style="width: 20%" v-model="odd.value"></el-input>&nbsp;
             <span>倍</span>
           </div>
           <el-row>
