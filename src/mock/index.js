@@ -29,7 +29,7 @@ Mock.mock(/\/user\/batchremove/, 'get', tableAPI.batchremove)
 Mock.mock(/\/user\/add/, 'get', tableAPI.createUser)
 Mock.mock(/\/user\/edit/, 'get', tableAPI.updateUser)
 
-//群组
+// 群组
 Mock.mock(/\/group\/listpage/, 'get', groupAPI.getGroupList)
 Mock.mock(/\/odds\/singleFive/, 'get', singleFiveAPI.getData)
 Mock.mock(/\/odds\/doubleFive/, 'get', doubleFiveAPI.getData)
