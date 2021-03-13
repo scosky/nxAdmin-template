@@ -121,7 +121,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary">修改</el-button>
+        <el-button type="primary" @click="updateUser" >修改</el-button>
         <el-button @click.native="dialogFormVisible = false">取消</el-button>
       </div>
     </el-dialog>
@@ -273,12 +273,23 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          this.passwordFormVisible=false
+          this.$message({
+          message: '更改密码成功',
+          type: 'success'
+        });
         } else {
           console.log("error submit!!");
           return false;
         }
       });
+    },
+    updateUser(){
+      this.dialogFormVisible=false
+        this.$message({
+          message: '修改个人资料成功',
+          type: 'success'
+        });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

@@ -14,7 +14,7 @@ for (let i = 1; i < 60; i++) {
     const index = Math.floor(Math.random() * phonePrefix.length)
     var phone = phonePrefix[index] + Mock.mock(/\d{8}/)
     members.push(Mock.mock({
-        id:  Mock.Random.integer(0, 100)+"",
+        id:  Mock.Random.integer(0, 10000)+"",
         name: Mock.Random.cname(),
         phone:phone,
         isTrust: Mock.Random.integer(0, 1)
@@ -24,15 +24,15 @@ for (let i = 1; i < 60; i++) {
 
 export default {
     membersList: config => {
-            const { phone,id, page = 1, limit = 10 } = param2Obj(config.url)
+            const { phone,id, page = 1, limit = 10 } = param2Obj(config.url);
             const mockList = members.filter(group => {  
               if (phone && group.phone.indexOf(phone) === -1){
                 return false
               } 
-              if (id && group.id.indexOf(id) === -1){
+              if (id && id != group.id ){
                 return false
               } 
-              if (id && group.id.indexOf(id) === -1 && phone && group.phone.indexOf(phone) === -1 ){
+              if (id == group.id && phone && group.phone.indexOf(phone) === -1 ){
                 return false
               } 
               return true

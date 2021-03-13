@@ -31,6 +31,7 @@
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button
+            :plain="true"
             v-if="scope.row.isTrust === 0"
             size="mini"
             type="primary"
@@ -38,6 +39,7 @@
             >设置托号</el-button
           >
           <el-button
+            :plain="true"
             v-else-if="scope.row.isTrust === 1"
             size="mini"
             type="primary"
@@ -82,11 +84,15 @@ export default {
   },
   methods: {
     handleEdit(index, row) {
-      return this.trusts[index].isTrust === 1
+      this.trusts[index].isTrust === 1
         ? (row.isTrust = 0)
         : this.trusts[index].isTrust === 0
         ? (row.isTrust = 1)
         : "";
+        this.$message({
+          message: '修改成功',
+          type: 'success'
+        });
     },
     handleCurrent(val) {
       this.page = val;
