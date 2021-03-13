@@ -55,21 +55,31 @@
         </el-header>
 
         <el-main>
+          <div  >
+             <el-radio v-model="radio" label="1">开启</el-radio>
+            <el-radio v-model="radio" label="2">关闭</el-radio>
+          </div>
+  
           <div v-for="odd in odds" :key="odd.index" class="odds-wap">
             <span> 中{{ odd.index }}雷:返</span>
             <el-input
               v-model="odd.value"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+              class="oddsinput"
             ></el-input
             >&nbsp;
             <span>倍</span>
           </div>
           <el-row>
             <el-button
-              style="margin-left: 50%"
               :plain="true"
               @click="oddsSubmit"
               >修改</el-button
+            >
+               <el-button
+              :plain="true"
+              @click="oddRest"
+              >重置</el-button
             >
           </el-row>
         </el-main>
@@ -85,34 +95,49 @@ export default {
     return {
       odds: [],
       name: "",
+      radio:'1 ',
+      flag:'singleFive'
     };
   },
   methods: {
-    handleInput(e) {
-      let a = e.key.replace(/[^\d]/g, "");
-      if (!a && e.keyCode !== 8) {
-        e.preventDefault();
-      }
+    oddRest(){
+        if(this.flag == "singleFive" ){
+            this.singleFive()
+        }
+        if(this.flag == "doubleFive" ){
+            this.doubleFive()
+        }
+        if(this.flag == "singleSix" ){
+            this.singleSix()
+        }
+        if(this.flag == "doubleSix" ){
+            this.doubleSix()
+        }
+     
     },
     singleFive() {
+       this.flag = 'singleFive'
       this.name = "5包赔率 单雷";
       singleFive().then((res) => {
         this.odds = res.data.singleFive;
       });
     },
     doubleFive() {
+      this.flag = 'doubleFive'
       this.name = "5包赔率 多雷";
       doubleFive().then((res) => {
         this.odds = res.data.doubleFive;
       });
     },
     singleSix() {
+      this.flag = 'singleSix'
       this.name = "6包赔率 单雷";
       singleSix().then((res) => {
         this.odds = res.data.singleSix;
       });
     },
     doubleSix() {
+      this.flag = 'doubleSix'
       this.name = "6包赔率 多雷";
       doubleSix().then((res) => {
         this.odds = res.data.doubleSix;
@@ -133,10 +158,13 @@ export default {
 </script>
 
 <style scoped>
+.el-input .el-input__inner{
+  text-align: center  !important;
+}
 .odds-wap {
   margin: 20px auto;
   letter-spacing: 3px;
-  text-align: center;
+  /* text-align: center; */
 }
 .el-header {
   background-color: #b3c0d1;
