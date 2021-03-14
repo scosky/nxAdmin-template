@@ -83,8 +83,10 @@ export default {
         page: this.page,
         name: this.filters.name,
       };
+      
       getGroupListPage(para).then((res) => {
         this.total = res.data.total;
+        console.log(para);
         this.groups = res.data.groups;
       });
     },
