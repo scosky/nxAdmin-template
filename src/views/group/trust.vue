@@ -21,12 +21,16 @@
       <el-table-column prop="name" label="名字" width="120"> </el-table-column>
       <el-table-column prop="phone" label="手机号" width="150">
       </el-table-column>
-      <el-table-column
-        prop="isTrust"
-        label="是否托号"
-        width="120"
-        :formatter="whether"
-      >
+      <el-table-column prop="isTrust" label="是否托号" width="120">
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.isTrust === 1 ? 'success' : 'info'"
+            disable-transitions
+          >
+            <span v-if="scope.row.isTrust === 0">否</span>
+            <span v-else>是</span>
+          </el-tag>
+        </template>
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
@@ -89,10 +93,10 @@ export default {
         : this.trusts[index].isTrust === 0
         ? (row.isTrust = 1)
         : "";
-        this.$message({
-          message: '修改成功',
-          type: 'success'
-        });
+      this.$message({
+        message: "修改成功",
+        type: "success",
+      });
     },
     handleCurrent(val) {
       this.page = val;
