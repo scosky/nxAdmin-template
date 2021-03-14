@@ -56,44 +56,45 @@
         <el-header style="text-align: center; font-size: 12px">
           <span>{{ titleName }}</span>
         </el-header>
-        <el-main></el-main>
+        <el-main>
+          <component :is="currentView"></component>
+        </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
 <script>
+import fiveSigin from "./fiveSigin";
+import fiveDouble from "./fiveDouble";
 export default {
   name: "odds-te",
   data() {
     return {
       titleName: "5包赔率 单雷",
+      currentView: fiveSigin,
     };
   },
   methods: {
     fiveSiginHandler() {
       this.titleName = "5包赔率 单雷";
-      console.log("fiveSiginHandler");
+      this.currentView = fiveSigin;
     },
     fiveDoubleHandler() {
       this.titleName = "5包赔率 多雷";
-      console.log("fiveDoubleHandler");
+      this.currentView = fiveDouble;
     },
     sexSiginHandler() {
       this.titleName = "6包赔率 单雷";
-      console.log("sexSiginHandler");
     },
     sexDoubleHandler() {
       this.titleName = "6包赔率 多雷";
-      console.log("sexDoubleHandler");
     },
     oneHandler() {
       this.titleName = "9包赔率 单雷";
-      console.log("sexSiginHandler");
     },
     twoHandler() {
       this.titleName = "9包赔率 双雷";
-      console.log("sexDoubleHandler");
     },
   },
   mounted() {
