@@ -14,7 +14,9 @@
           </div></el-col
         >
       </el-row>
+
       <span style="color: #409eff">返倍设置:</span>
+
       <div v-for="odd in odds" :key="odd.index" class="odds-wap gf">
         <span style="margin-left: 20px"> 中{{ odd.index }}雷:返</span>
         <el-input
@@ -33,17 +35,16 @@
 
 <script>
 export default {
-  name: "SixSigin",
+  name: "FiveSigin",
   data() {
     return {
-      name: "6包赔率 单雷",
+      name: "5包赔率 单雷",
       odds: [
         { index: 1, val: "0" },
         { index: 2, val: "0" },
         { index: 3, val: "0" },
         { index: 4, val: "0" },
         { index: 5, val: "0" },
-        { index: 6, val: "0" },
       ],
       radio: "1",
     };

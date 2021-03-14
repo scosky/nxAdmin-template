@@ -2,14 +2,13 @@
   <el-container>
     <el-header style="text-align: right; font-size: 12px">
       <span style="margin-right: 45%">{{ name }}</span>
-      <el-dropdown></el-dropdown>
     </el-header>
 
     <el-main>
       <el-row :gutter="20">
         <el-col :span="7"
-          ><div class=" grid-content bg-purple ">
-              <e>赔率：</e>
+          ><div class="grid-content bg-purple">
+            <span>玩法设置：</span>
             <el-radio v-model="radio" label="1">开启</el-radio>
             <el-radio v-model="radio" label="2">关闭</el-radio>
           </div></el-col
@@ -18,28 +17,28 @@
           ><div class="grid-content bg-purple gf">
             <span>单个赔率</span>
             <el-input
-            size="mini"
-            oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+              v-model="tage"
+              size="mini"
+              oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
             ></el-input>
-            <e>倍</e>
+            <span>倍</span>
           </div></el-col
         >
       </el-row>
-      <div class="two-sigin"></div>
-
+      <span style="color: #409eff">奖率设置:</span>
       <div v-for="odd in odds" :key="odd.index" class="odds-wap gf">
-        <span style="margin-left: 20px;"> 中{{ odd.index }}个:奖</span>
+        <span style="margin-left: 20px"> 中{{ odd.index }}个:奖</span>
         <el-input
           v-model="odd.val"
-           size="mini"
+          size="mini"
           oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
           class="oddsinput"
         ></el-input>
         <span>倍</span>
       </div>
       <el-row>
-        <el-button  @click="oddsSubmit"  type="primary">修改</el-button>
-        <el-button  @click="oddRest"  type="primary">重置</el-button>
+        <el-button @click="oddsSubmit" type="primary">修改</el-button>
+        <el-button @click="oddRest" type="primary">重置</el-button>
       </el-row>
     </el-main>
   </el-container>
@@ -52,16 +51,17 @@ export default {
     return {
       name: "9包赔率 单雷",
       odds: [
-        { index: 2, val: "1" },
-        { index: 3, val: "1" },
-        { index: 4, val: "1" },
-        { index: 5, val: "1" },
-        { index: 6, val: "1" },
-        { index: 7, val: "1" },
-        { index: 8, val: "1" },
-        { index: 9, val: "1" },
+        { index: 2, val: "0" },
+        { index: 3, val: "0" },
+        { index: 4, val: "0" },
+        { index: 5, val: "0" },
+        { index: 6, val: "0" },
+        { index: 7, val: "0" },
+        { index: 8, val: "0" },
+        { index: 9, val: "0" },
       ],
       radio: "1",
+      tage: "0",
     };
   },
   methods: {
@@ -71,25 +71,24 @@ export default {
         type: "success",
       });
     },
+    oddRest() {},
   },
-  oddRest() {},
 };
 </script>
 
 <style>
- .gf input.el-input__inner {
-    border-bottom: 1px solid #42b983;
-    background-color: rgba(255,255,255,0);;
-    border-radius: 0%;
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px ; 
-    font-size: 14px;
+.gf input.el-input__inner {
+  border-bottom: 1px solid #42b983;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 0%;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  font-size: 14px;
 }
- .gf input.el-input__inner:focus{
-    border-bottom-color: #42b983;
+.gf input.el-input__inner:focus {
+  border-bottom-color: #42b983;
 }
-
 </style>
 <style scoped>
 .two-sigin span {
@@ -97,7 +96,7 @@ export default {
 }
 .two-sigin .el-input {
   width: 180px;
-  outline:none;
+  outline: none;
   border: 0;
 }
 .el-input .el-input__inner {
@@ -107,11 +106,10 @@ export default {
   margin: 20px 0;
   letter-spacing: 3px;
   background: #eef1f6;
-  width:58%;
+  width: 58%;
   border-radius: 4px;
-   height: 50px;
-   line-height: 50px;
-  /* text-align: center; */
+  height: 50px;
+  line-height: 50px;
 }
 .el-header {
   background-color: #b3c0d1;
@@ -139,7 +137,6 @@ export default {
 }
 .el-row {
   margin-bottom: 20px;
-
 }
 .el-col {
   border-radius: 4px;
@@ -161,8 +158,8 @@ export default {
   margin: 0 auto;
   line-height: 50px;
 }
-.grid-content e{
-    margin-right: 10px;
+.grid-content e {
+  margin-right: 10px;
 }
 .grid-content .el-input {
   width: 100px;

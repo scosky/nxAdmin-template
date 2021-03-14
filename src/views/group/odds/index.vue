@@ -72,8 +72,8 @@
 </template>
 
 <script>
-import fiveSigin from "./fiev/sigin";
-import fiveDouble from "./fiev/double";
+import fiveSigin from "./five/sigin";
+import fiveDouble from "./five/double";
 import sixSigin from "./six/sigin";
 import sixDouble from "./six/double";
 import oneView from "./nine/one";
@@ -89,7 +89,6 @@ export default {
   name: "odds-te",
   data() {
     return {
-      // titleName: "5包赔率 单雷",
       currentView: fiveSigin,
     };
   },
@@ -128,17 +127,6 @@ export default {
 .el-input .el-input__inner {
   text-align: center !important;
 }
-.odds-wap {
-  margin: 20px auto;
-  letter-spacing: 3px;
-  /* text-align: center; */
-}
-.el-header {
-  background-color: #b3c0d1;
-  color: #333;
-  line-height: 60px;
-}
-
 .el-aside {
   color: #333;
 }
@@ -151,11 +139,17 @@ export default {
 .el-container {
   height: 800px !important;
 }
-.odds-wap .el-input {
-  width: 180px;
+.gf input.el-input__inner {
+  border-bottom: 1px solid #42b983;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 0%;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  font-size: 14px;
 }
-.odds-wap .el-input .el-input__inner {
-  text-align: center;
+.gf input.el-input__inner:focus {
+  border-bottom-color: #42b983;
 }
 </style>
 </style>

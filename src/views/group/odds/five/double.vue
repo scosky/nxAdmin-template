@@ -33,17 +33,15 @@
 
 <script>
 export default {
-  name: "SixSigin",
+  name: "FiveDouble",
   data() {
     return {
-      name: "6包赔率 单雷",
+      name: "5包赔率 多雷",
       odds: [
-        { index: 1, val: "0" },
         { index: 2, val: "0" },
         { index: 3, val: "0" },
         { index: 4, val: "0" },
         { index: 5, val: "0" },
-        { index: 6, val: "0" },
       ],
       radio: "1",
     };
@@ -123,7 +121,7 @@ export default {
 }
 .odds-wap {
   margin: 20px 0;
-  letter-spacing: 1px;
+  letter-spacing: 3px;
   background: #eef1f6;
   width: 58%;
   border-radius: 4px;
