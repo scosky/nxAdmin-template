@@ -65,12 +65,7 @@
             <span>倍</span>
           </div>
           <el-row>
-            <el-button
-              style="margin-left: 50%"
-              :plain="true"
-              @click="oddsSubmit"
-              >修改</el-button
-            >
+            <el-button :plain="true" @click="oddsSubmit">修改</el-button>
           </el-row>
         </el-main>
       </el-container>
@@ -136,7 +131,7 @@ export default {
 .odds-wap {
   margin: 20px auto;
   letter-spacing: 3px;
-  text-align: center;
+  /* text-align: center; */
 }
 .el-header {
   background-color: #b3c0d1;

@@ -69,7 +69,7 @@ export const constantRouterMap = [
       {
         path: 'odds',
         name: '赔率设置',
-        component: () => import('@/views/group/odds'),
+        component: () => import('@/views/group/odds/index'),
         meta: { title: '赔率设置', icon: 'dashboard' }
       },
       {
