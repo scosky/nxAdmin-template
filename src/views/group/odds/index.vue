@@ -34,32 +34,39 @@
               ><i class="el-icon-setting"></i>9包赔率</template
             >
             <el-menu-item-group>
-              <el-menu-item index="3-1" @click="oneHandler"
+              <el-menu-item index="3-1" @click="nineHandler(1)"
                 >单雷赔率</el-menu-item
               >
-              <el-menu-item index="3-2" @click="twoHandler"
+              <el-menu-item index="3-2" @click="nineHandler(2)"
                 >双雷赔率</el-menu-item
               >
-              <el-menu-item index="3-3">三雷赔率</el-menu-item>
-              <el-menu-item index="3-4">四雷赔率</el-menu-item>
-              <el-menu-item index="3-5">五雷赔率</el-menu-item>
-              <el-menu-item index="3-6">六雷赔率</el-menu-item>
-              <el-menu-item index="3-7">七雷赔率</el-menu-item>
-              <el-menu-item index="3-8">八雷赔率</el-menu-item>
-              <el-menu-item index="3-9">九雷赔率</el-menu-item>
+              <el-menu-item index="3-3" @click="nineHandler(3)"
+                >三雷赔率</el-menu-item
+              >
+              <el-menu-item index="3-4" @click="nineHandler(4)"
+                >四雷赔率</el-menu-item
+              >
+              <el-menu-item index="3-5" @click="nineHandler(5)"
+                >五雷赔率</el-menu-item
+              >
+              <el-menu-item index="3-6" @click="nineHandler(6)"
+                >六雷赔率</el-menu-item
+              >
+              <el-menu-item index="3-7" @click="nineHandler(7)"
+                >七雷赔率</el-menu-item
+              >
+              <el-menu-item index="3-8" @click="nineHandler(8)"
+                >八雷赔率</el-menu-item
+              >
+              <el-menu-item index="3-9" @click="nineHandler(9)"
+                >九雷赔率</el-menu-item
+              >
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
       </el-aside>
 
-      <el-container>
-        <el-header style="text-align: center; font-size: 12px">
-          <span>{{ titleName }}</span>
-        </el-header>
-        <el-main>
-          <component :is="currentView"></component>
-        </el-main>
-      </el-container>
+      <component :is="currentView"></component>
     </el-container>
   </div>
 </template>
@@ -69,36 +76,46 @@ import fiveSigin from "./fiev/sigin";
 import fiveDouble from "./fiev/double";
 import sixSigin from "./six/sigin";
 import sixDouble from "./six/double";
+import oneView from "./nine/one";
+import twoView from "./nine/two";
+import threeView from "./nine/three";
+import fourView from "./nine/four";
+import fiveView from "./nine/five";
+import sixView from "./nine/six";
+import sevenView from "./nine/seven";
+import eightView from "./nine/eight";
+import nineView from "./nine/nine";
 export default {
   name: "odds-te",
   data() {
     return {
-      titleName: "5包赔率 单雷",
+      // titleName: "5包赔率 单雷",
       currentView: fiveSigin,
     };
   },
   methods: {
     fiveSiginHandler() {
-      this.titleName = "5包赔率 单雷";
       this.currentView = fiveSigin;
     },
     fiveDoubleHandler() {
-      this.titleName = "5包赔率 多雷";
       this.currentView = fiveDouble;
     },
     sexSiginHandler() {
-      this.titleName = "6包赔率 单雷";
       this.currentView = sixSigin;
     },
     sexDoubleHandler() {
-      this.titleName = "6包赔率 多雷";
       this.currentView = sixDouble;
     },
-    oneHandler() {
-      this.titleName = "9包赔率 单雷";
-    },
-    twoHandler() {
-      this.titleName = "9包赔率 双雷";
+    nineHandler(index) {
+      if (index == 1) this.currentView = oneView;
+      if (index == 2) this.currentView = twoView;
+      if (index == 3) this.currentView = threeView;
+      if (index == 4) this.currentView = fourView;
+      if (index == 5) this.currentView = fiveView;
+      if (index == 6) this.currentView = sixView;
+      if (index == 7) this.currentView = sevenView;
+      if (index == 8) this.currentView = eightView;
+      if (index == 9) this.currentView = nineView;
     },
   },
   mounted() {
@@ -107,7 +124,15 @@ export default {
 };
 </script>
 
-<style>
+<style scopedd>
+.el-input .el-input__inner {
+  text-align: center !important;
+}
+.odds-wap {
+  margin: 20px auto;
+  letter-spacing: 3px;
+  /* text-align: center; */
+}
 .el-header {
   background-color: #b3c0d1;
   color: #333;
@@ -117,12 +142,20 @@ export default {
 .el-aside {
   color: #333;
 }
-
 .el-submenu__title i {
   color: rgb(66, 185, 131) !important;
 }
-
-.el-input {
+.app-container {
+  height: 100% !important;
+}
+.el-container {
+  height: 800px !important;
+}
+.odds-wap .el-input {
   width: 180px;
 }
+.odds-wap .el-input .el-input__inner {
+  text-align: center;
+}
+</style>
 </style>

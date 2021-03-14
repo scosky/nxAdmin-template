@@ -5,14 +5,25 @@
       <el-dropdown></el-dropdown>
     </el-header>
 
-    <el-main>
-      <div>
+    <el-main >
+      <div class="two-sigin cc">
         <el-radio v-model="radio" label="1">开启</el-radio>
         <el-radio v-model="radio" label="2">关闭</el-radio>
+         <span>固定赔率</span>
+           <el-checkbox v-model="checked" class="check"></el-checkbox>
+           <e>赔率</e>
+         <el-input
+          oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+          class="oddsinput"
+        ></el-input
+        >
+          
       </div>
 
-      <div v-for="odd in odds" :key="odd.index" class="odds-wap">
-        <span> 中{{ odd.index }}雷:返</span>
+
+
+      <div v-for="odd in odds" :key="odd.index" class="odds-wap ">
+        <span> 中{{ odd.index }}倍:奖</span>
         <el-input
           v-model="odd.val"
           oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
@@ -31,18 +42,20 @@
 
 <script>
 export default {
-  name: "FiveSigin",
+  name: "nineView",
   data() {
     return {
-      name: "5包赔率 单雷",
+      name: "9包赔率 九雷",
       odds: [
-        { index: 1, val: "1" },
-        { index: 2, val: "1" },
-        { index: 3, val: "1" },
         { index: 4, val: "1" },
         { index: 5, val: "1" },
+        { index: 6, val: "1" },
+        { index: 7, val: "1" },
+        { index: 8, val: "1" },
+        { index: 9, val: "1" },
       ],
       radio: "1",
+      checked:true
     };
   },
   methods: {
@@ -58,6 +71,15 @@ export default {
 </script>
 
 <style scoped>
+.two-sigin span{
+    margin-left: 20px;
+}
+.check{
+    margin: 0 10px;
+}
+.two-sigin .el-input {
+  width: 180px;
+}
 .el-input .el-input__inner {
   text-align: center !important;
 }
