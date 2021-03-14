@@ -65,8 +65,10 @@
 </template>
 
 <script>
-import fiveSigin from "./fiveSigin";
-import fiveDouble from "./fiveDouble";
+import fiveSigin from "./fiev/sigin";
+import fiveDouble from "./fiev/double";
+import sixSigin from "./six/sigin";
+import sixDouble from "./six/double";
 export default {
   name: "odds-te",
   data() {
@@ -86,9 +88,11 @@ export default {
     },
     sexSiginHandler() {
       this.titleName = "6包赔率 单雷";
+      this.currentView = sixSigin;
     },
     sexDoubleHandler() {
       this.titleName = "6包赔率 多雷";
+      this.currentView = sixDouble;
     },
     oneHandler() {
       this.titleName = "9包赔率 单雷";
