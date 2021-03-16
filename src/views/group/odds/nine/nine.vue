@@ -9,8 +9,12 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>赔率：</span>
-            <el-radio v-model="radio" label="1">开启</el-radio>
-            <el-radio v-model="radio" label="2">关闭</el-radio>
+            <el-radio v-model="radio" label="1" @change="openSet"
+              >开启</el-radio
+            >
+            <el-radio v-model="radio" label="2" @change="closeSet"
+              >关闭</el-radio
+            >
           </div></el-col
         >
         <el-col :span="7"
@@ -18,6 +22,7 @@
             <span>单个赔率</span>
             <el-input
               size="mini"
+              :disabled="switchSet"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
             ></el-input>
             <span>倍</span>
@@ -41,6 +46,7 @@ export default {
       name: "9包赔率 九雷",
       odds: [{ index: 9, val: "1" }],
       radio: "1",
+      switchSet: false,
     };
   },
   methods: {
@@ -51,6 +57,14 @@ export default {
       });
     },
     oddRest() {},
+    //开启
+    openSet() {
+      this.switchSet = false;
+    },
+    //关闭
+    closeSet() {
+      this.switchSet = true;
+    },
   },
 };
 </script>

@@ -9,14 +9,14 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>玩法设置：</span>
-            <el-radio v-model="radio" label="1">开启</el-radio>
-            <el-radio v-model="radio" label="2">关闭</el-radio>
+            <el-radio v-model="radio" label="1" @change="openSet">开启</el-radio>
+            <el-radio v-model="radio" label="2" @change="closeSet">关闭</el-radio>
           </div></el-col
         >
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>固定赔率：</span>
-            <el-checkbox v-model="checked" @change="checkMe">选中</el-checkbox>
+            <el-checkbox v-model="checked" @change="checkMe(flag)" :disabled="Select">选中</el-checkbox>
           </div>
         </el-col>
       </el-row>
@@ -25,7 +25,9 @@
           <div class="grid-content bg-purple gf">
             <span>单个赔率</span>
             <el-input
+              v-model="tage"
               size="mini"
+              :disabled="switchSet"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
             ></el-input>
             <span>倍</span>
@@ -37,6 +39,8 @@
             <span>赔率</span>
             <el-input
               size="mini"
+            
+              :disabled="fixedOdds"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
             ></el-input>
             <span>倍</span>
@@ -49,6 +53,7 @@
         <el-input
           v-model="odd.val"
           size="mini"
+          :disabled="switchSet"
           oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
           class="oddsinput"
         ></el-input>
@@ -68,9 +73,21 @@ export default {
   data() {
     return {
       name: "9包赔率 八雷",
-      odds: [{ index: 9, val: "0" }],
+      odds: [
+        { index: 4, val: "0" },
+        { index: 5, val: "0" },
+        { index: 6, val: "0" },
+        { index: 7, val: "0" },
+        { index: 8, val: "0" },
+        { index: 9, val: "0" },
+      ],
       radio: "1",
-      checked: false,
+      checked: true,
+      tage: "0",
+      switchSet:false,
+      flag:1,
+      Select:false,
+      fixedOdds:false
     };
   },
   methods: {
@@ -81,11 +98,43 @@ export default {
       });
     },
     oddRest() {},
-    checkMe() {
-      var flag = this.checked;
-      console.log(flag);
+    checkMe(flag) {
+      if(flag == 1 ) {
+        this.checked = true
+        this.flag = 0
+        this.switchSet = true
+         this.fixedOdds = false
+        
+      }
+      if (flag == 0){
+        this.checked = false
+         this.flag =1
+         this.switchSet = false
+         this.fixedOdds = true
+      
+      }
     },
+    openSet(){
+      this.switchSet = false
+      this.Select = false
+      this.fixedOdds = false
+      this.checkMe(this.flag)
+    },
+    closeSet(){
+      this.switchSet = true
+      this.Select = true
+       this.fixedOdds =true
+     
+    }
   },
+
+  mounted() {
+
+        this.checkMe(this.flag)
+     
+  }
+   
+  
 };
 </script>
 
@@ -101,6 +150,10 @@ export default {
 }
 .gf input.el-input__inner:focus {
   border-bottom-color: #42b983;
+}
+.gf .is-disabled .el-input__inner {
+  background-color:rgba(255, 255, 255, 0);
+  border-bottom: 1px solid #999;
 }
 </style>
 <style scoped>

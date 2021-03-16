@@ -9,15 +9,17 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>玩法设置：</span>
-            <el-radio v-model="radio" label="1">开启</el-radio>
-            <el-radio v-model="radio" label="2">关闭</el-radio>
+          <el-radio v-model="radio" label="1" @change="openSet">开启</el-radio>
+          <el-radio v-model="radio" label="2"  @change="closeSet">关闭</el-radio>
           </div></el-col
         >
         <el-col :span="7"
           ><div class="grid-content bg-purple gf">
             <span>单个赔率</span>
             <el-input
+              v-model="tage"
               size="mini"
+              :disabled="switchSet"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
             ></el-input>
             <span>倍</span>
@@ -30,7 +32,9 @@
         <el-input
           v-model="odd.val"
           size="mini"
+          :disabled="switchSet"
           oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+          class="oddsinput"
         ></el-input>
         <span>倍</span>
       </div>
@@ -58,6 +62,8 @@ export default {
         { index: 9, val: "0" },
       ],
       radio: "1",
+      tage: "0",
+      switchSet:false
     };
   },
   methods: {
@@ -68,6 +74,14 @@ export default {
       });
     },
     oddRest() {},
+        //开启
+    openSet(){
+        this.switchSet= false
+    },
+    //关闭
+    closeSet(){
+      this.switchSet= true
+    }
   },
 };
 </script>
