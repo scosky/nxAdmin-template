@@ -39,7 +39,7 @@
             <span>赔率</span>
             <el-input
               size="mini"
-            
+              v-model="pay"
               :disabled="fixedOdds"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
             ></el-input>
@@ -87,7 +87,8 @@ export default {
       switchSet:false,
       flag:1,
       Select:false,
-      fixedOdds:false
+      fixedOdds:false,
+      pay: "0"
     };
   },
   methods: {

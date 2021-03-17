@@ -82,12 +82,12 @@
             size="small"
             >编辑</el-button
           >
-          <el-button
+          <!-- <el-button
             type="text"
             @click="catMemberHandle(scope.row)"
             size="small"
             >查看群成员</el-button
-          >
+          > -->
         </template>
       </el-table-column>
     </el-table>
@@ -166,11 +166,11 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="editGroup.status" placeholder="群状态">
-            <el-option label="正产" value="0"></el-option>
-            <el-option label="禁言" value="1"></el-option>
-            <el-option label="冻结" value="2"></el-option>
-            <el-option label="删除" value="3"></el-option>
+          <el-select  placeholder="群状态">
+            <el-option label="正产" value="正产"></el-option>
+            <el-option label="禁言" value="禁言"></el-option>
+            <el-option label="冻结" value="冻结"></el-option>
+            <el-option label="删除" value="删除"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="群公告">
@@ -235,7 +235,7 @@ export default {
       this.dialogFormVisible = true;
       this.editGroup = Object.assign({}, row);
     },
-    catMemberHandle(row) {},
+    // catMemberHandle(row) {},
     updateGroupData() {
       this.dialogFormVisible = false;
       this.$message({

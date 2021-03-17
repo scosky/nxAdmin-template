@@ -1,8 +1,11 @@
 <template>
   <div class="app-container">
+     <div class="item">
+      <h4>XXX群赔设置</h4>
+    </div>
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['1']">
+        <el-menu :default-openeds="['1','2','3']">
           <el-submenu index="1">
             <template slot="title"
               ><i class="el-icon-setting"></i>5包赔率</template

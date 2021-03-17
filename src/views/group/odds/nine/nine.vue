@@ -22,6 +22,7 @@
             <span>单个赔率</span>
             <el-input
               size="mini"
+              v-model="flag"
               :disabled="switchSet"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
             ></el-input>
@@ -47,6 +48,7 @@ export default {
       odds: [{ index: 9, val: "1" }],
       radio: "1",
       switchSet: false,
+      flag: "0"
     };
   },
   methods: {
