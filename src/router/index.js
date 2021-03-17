@@ -87,20 +87,20 @@ export const constantRouterMap = [
     ]
   },
 
-  //用户
-  {
-    path: '/user',
-    component: Layout,
-    meta: { title: '用户', icon: 'dashboard' },
-    children: [
-      {
-        path: 'dashboard',
-        name: '用户列表',
-        component: () => import('@/views/user/user'),
-        meta: { title: '用户列表', icon: 'dashboard' }
-      }
-    ]
-  },
+  // //用户
+  // {
+  //   path: '/user',
+  //   component: Layout,
+  //   meta: { title: '用户', icon: 'dashboard' },
+  //   children: [
+  //     {
+  //       path: 'dashboard',
+  //       name: '用户列表',
+  //       component: () => import('@/views/user/user'),
+  //       meta: { title: '用户列表', icon: 'dashboard' }
+  //     }
+  //   ]
+  // },
 
   // 表单
   // {
