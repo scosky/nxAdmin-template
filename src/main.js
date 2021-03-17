@@ -20,6 +20,9 @@ import router from './router'
 
 import store from './store'
 
+import infiniteScroll from 'vue-infinite-scroll'
+Vue.use(infiniteScroll)
+
 // Internationalization
 import i18n from './lang'
 Vue.use(ElementUI)

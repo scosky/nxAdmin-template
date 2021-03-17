@@ -9,9 +9,6 @@
         <el-form-item>
           <el-button type="primary" v-on:click="getGroups">查询</el-button>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary">新增</el-button>
-        </el-form-item>
       </el-form>
     </el-col>
 
