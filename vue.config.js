@@ -56,7 +56,6 @@ module.exports = {
           "allowElevation": true,
           "allowToChangeInstallationDirectory": true,
           "runAfterFinish": false,
-          "guid": "",
           "deleteAppDataOnUninstall": true
         },
         "electronDownload": {
