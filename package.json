@@ -1,8 +1,8 @@
 {
-  "name": "easy-im",
+  "name": "stars",
   "version": "0.0.1",
-  "description": "easy im......",
-  "author": "scoco",
+  "description": "stars......",
+  "author": "stars",
   "scripts": {
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "lint": "eslint --ext .js,.vue src",

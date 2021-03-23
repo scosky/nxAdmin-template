@@ -24,7 +24,7 @@ turnovers.data = data;
 
 export default {
     turnoverList: config => {
-        const { statrTime, endTime, groupId, page = 1, limit = 10 } = param2Obj(config.url);
+        const { statrTime, endTime, page = 1, limit = 10 } = param2Obj(config.url);
         const mockList = turnovers.data.filter(group => {
             return true
         })

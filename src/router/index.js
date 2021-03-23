@@ -27,36 +27,22 @@ export const constantRouterMap = [
   {
     path: '',
     component: Layout,
-    redirect: '/turnover/turnover'
+    redirect: '/dashboard/dashboard'
   },
-  { path: '/login', component: () => import('@/views/login'), name: '登录EASy-IM', hidden: true },
+  { path: '/login', component: () => import('@/views/login'), name: '登录星辰', hidden: true },
   { path: '/404', component: () => import('@/views/errorPage/404'), hidden: true },
   { path: '/401', component: () => import('@/views/errorPage/401'), hidden: true },
 
   {
-    path: '/group',
+    path: '/dashboard',
     component: Layout,
-    meta: { title: '群列表', icon: 'dashboard' },
+    meta: { title: '群管理', icon: 'dashboard' },
     children: [
       {
-        path: 'group',
-        name: '群列表',
-        component: () => import('@/views/group/group'),
-        meta: { title: '群列表', icon: 'dashboard' }
-      }
-    ]
-  },
-
-  {
-    path: '/turnover',
-    component: Layout,
-    meta: { title: '流水统计', icon: 'dashboard' },
-    children: [
-      {
-        path: 'turnover',
-        name: '流水统计',
-        component: () => import('@/views/turnover/turnover'),
-        meta: { title: '流水统计', icon: 'dashboard' }
+        path: 'dashboard',
+        name: '群管理',
+        component: () => import('@/views/dashboard/dashboard'),
+        meta: { title: '群管理', icon: 'dashboard' }
       }
     ]
   }
@@ -72,7 +58,7 @@ export const asyncRouterMap = [
   {
     path: '/group',
     component: Layout,
-    meta: { title: '群管理', icon: 'dashboard' },
+    meta: { title: '群功能设置', icon: 'dashboard' },
     children: [
       {
         path: '/menu',
@@ -96,6 +82,20 @@ export const asyncRouterMap = [
             props: { id: 123 }
           },
           {
+            path: 'claim',
+            name: '赔付号设置',
+            component: () => import('@/views/group/menu/claim/index'),
+            meta: { title: '赔付号设置', icon: 'dashboard' },
+            props: { id: 123 }
+          },
+          {
+            path: 'grab',
+            name: '秒号设置',
+            component: () => import('@/views/group/menu/grab/index'),
+            meta: { title: '秒号设置', icon: 'dashboard' },
+            props: { id: 123 }
+          },
+          {
             path: 'monitor',
             name: '开奖监控',
             component: () => import('@/views/group/menu/monitor/index'),
@@ -107,6 +107,13 @@ export const asyncRouterMap = [
             name: '开奖查询',
             component: () => import('@/views/group/menu/win/index'),
             meta: { title: '开奖查询', icon: 'dashboard' },
+            props: { id: 123 }
+          },
+          {
+            path: 'turnover',
+            name: '流水统计',
+            component: () => import('@/views/group/menu/turnover/index'),
+            meta: { title: '流水统计', icon: 'dashboard' },
             props: { id: 123 }
           }
         ]
@@ -133,6 +140,20 @@ export const asyncRouterMap = [
             props: { id: 456 }
           },
           {
+            path: 'claim1',
+            name: '赔付号设置',
+            component: () => import('@/views/group/menu/claim/index'),
+            meta: { title: '赔付号设置', icon: 'dashboard' },
+            props: { id: 456 }
+          },
+          {
+            path: 'grab1',
+            name: '秒号设置',
+            component: () => import('@/views/group/menu/grab/index'),
+            meta: { title: '秒号设置', icon: 'dashboard' },
+            props: { id: 456 }
+          },
+          {
             path: 'monitor1',
             name: '开奖监控',
             component: () => import('@/views/group/menu/monitor/index'),
@@ -140,10 +161,17 @@ export const asyncRouterMap = [
             props: { id: 456 }
           },
           {
-            path: 'win',
+            path: 'win1',
             name: '开奖查询',
             component: () => import('@/views/group/menu/win/index'),
             meta: { title: '开奖查询', icon: 'dashboard' },
+            props: { id: 456 }
+          },
+          {
+            path: 'turnover1',
+            name: '流水统计',
+            component: () => import('@/views/group/menu/turnover/index'),
+            meta: { title: '流水统计', icon: 'dashboard' },
             props: { id: 456 }
           }
         ]

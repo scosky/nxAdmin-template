@@ -24,9 +24,6 @@
             ></el-date-picker>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="filters.groupId" placeholder="群ID"></el-input>
-          </el-form-item>
-          <el-form-item>
             <el-button type="primary" v-on:click="turs">查询</el-button>
           </el-form-item>
         </el-form>
@@ -69,7 +66,6 @@ export default {
       filters: {
         startTime: "",
         endTime: "",
-        groupId: 0,
       },
       data: {},
       total: 0,
@@ -88,11 +84,9 @@ export default {
         page: this.page,
         startTime: this.filters.startTime,
         endTime: this.filters.endTime,
-        groupId: this.filters.groupId,
       };
       turnoverData(para).then((res) => {
         this.data = res.data.turnoverData;
-        console.log("###" + JSON.stringify(res.data.turnoverData));
         this.total = res.data.total;
       });
     },

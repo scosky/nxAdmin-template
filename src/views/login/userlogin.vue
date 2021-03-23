@@ -49,12 +49,12 @@
 </template>
 
 <script>
-import { isvalidUsername } from "@/utils/validate";
+import { isvalidatemobile } from "@/utils/validate";
 export default {
   name: "userlogin",
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
+      if (!isvalidatemobile(value)) {
         callback(new Error("请输入正确的用户名"));
       } else {
         callback();
@@ -112,7 +112,7 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.$store.dispatch("Login", this.loginForm).then((res) => {
-            this.$router.push({ path: "/group/group" });
+            this.$router.push({ path: "/dashboard/dashboard" });
           });
         }
       });

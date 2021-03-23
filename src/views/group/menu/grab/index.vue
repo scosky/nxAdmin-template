@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="item">
-      <h4>XXX群 托号设置{{ groupId }}</h4>
+      <h4>XXX群 托号、赔付号、抢包号 设置{{ groupId }}</h4>
     </div>
     <section>
       <!--工具条-->
@@ -26,13 +26,14 @@
         </el-table-column>
         <el-table-column prop="phone" label="手机号" width="150">
         </el-table-column>
-        <el-table-column prop="isTrust" label="是否托号" width="120">
+
+        <el-table-column prop="isGrab" label="是否秒号" width="120">
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.isTrust === 1 ? 'success' : 'info'"
+              :type="scope.row.isGrab === 1 ? 'success' : 'info'"
               disable-transitions
             >
-              <span v-if="scope.row.isTrust === 0">否</span>
+              <span v-if="scope.row.isGrab === 0">否</span>
               <span v-else>是</span>
             </el-tag>
           </template>
@@ -42,19 +43,19 @@
           <template slot-scope="scope">
             <el-button
               :plain="true"
-              v-if="scope.row.isTrust === 0"
+              v-if="scope.row.isGrab === 0"
               size="mini"
               type="primary"
-              @click="handleTrust(scope.$index, scope.row)"
-              >设置托号</el-button
+              @click="handleGrab(scope.$index, scope.row)"
+              >设置秒号</el-button
             >
             <el-button
               :plain="true"
-              v-else-if="scope.row.isTrust === 1"
+              v-else-if="scope.row.isGrab === 1"
               size="mini"
               type="primary"
-              @click="handleTrust(scope.$index, scope.row)"
-              >取消托号</el-button
+              @click="handleGrab(scope.$index, scope.row)"
+              >取消秒号</el-button
             >
           </template>
         </el-table-column>
@@ -101,11 +102,11 @@ export default {
     };
   },
   methods: {
-    handleTrust(index, row) {
-      this.trusts[index].isTrust === 1
-        ? (row.isTrust = 0)
-        : this.trusts[index].isTrust === 0
-        ? (row.isTrust = 1)
+    handleGrab(index, row) {
+      this.trusts[index].isGrab === 1
+        ? (row.isGrab = 0)
+        : this.trusts[index].isGrab === 0
+        ? (row.isGrab = 1)
         : "";
       this.$message({
         message: "修改成功",
