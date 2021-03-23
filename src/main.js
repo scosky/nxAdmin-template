@@ -23,7 +23,6 @@ import store from './store'
 import infiniteScroll from 'vue-infinite-scroll'
 Vue.use(infiniteScroll)
 
-// Internationalization
 import i18n from './lang'
 Vue.use(ElementUI)
 import {
@@ -60,7 +59,5 @@ new Vue({
   router,
   store,
   i18n,
-  // template: '<App/>',
-  // components: { App }
   render: h => h(App)
 })

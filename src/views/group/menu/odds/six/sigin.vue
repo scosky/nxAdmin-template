@@ -125,7 +125,6 @@ export default {
 }
 .grid-content .el-input {
   width: 100px;
-  margin: 0 10px;
 }
 .row-bg {
   padding: 10px 0;

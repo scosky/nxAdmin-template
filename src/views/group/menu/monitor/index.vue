@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="item">
-      <h4>XXX群中奖信息</h4>
+      <h4>XXX群 开奖查询历史{{ groupId }}</h4>
     </div>
     <div
       v-infinite-scroll="loadMore"
@@ -26,8 +26,15 @@
 import Mock from "mockjs";
 export default {
   name: "monitor",
+  props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
+      groupId: 0,
       count: 0,
       data: [],
       busy: false,
@@ -78,7 +85,10 @@ export default {
       });
     },
   },
-  mounted() {},
+  mounted() {
+    this.groupId = this.id;
+    console.log("groupId:" + this.groupId);
+  },
 };
 </script>
 <style scoped>

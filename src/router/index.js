@@ -23,144 +23,43 @@ import Layout from '../views/layout/Layout'
   }
 **/
 export const constantRouterMap = [
-  // {
-  //   path: '/',
-  //   component: Layout,
-  //   redirect: '/login',
-  //   name: 'login',
-  //   hidden: true
-  // },
+
   {
     path: '',
     component: Layout,
-    redirect: '/dashboard/dashboard'
+    redirect: '/turnover/turnover'
   },
   { path: '/login', component: () => import('@/views/login'), name: '登录EASy-IM', hidden: true },
   { path: '/404', component: () => import('@/views/errorPage/404'), hidden: true },
   { path: '/401', component: () => import('@/views/errorPage/401'), hidden: true },
 
-  // 报表
-  {
-    path: '/dashboard',
-    component: Layout,
-    meta: { title: 'dashboard', icon: 'dashboard' },
-    children: [
-      {
-        path: 'dashboard',
-        name: 'dashboard',
-        component: () => import('@/views/dashboard/dashboard'),
-        meta: { title: 'dashboard', icon: 'dashboard' }
-      }
-    ]
-  },
-
-  //群组
   {
     path: '/group',
     component: Layout,
-    meta: { title: '群管理', icon: 'dashboard' },
+    meta: { title: '群列表', icon: 'dashboard' },
     children: [
       {
         path: 'group',
         name: '群列表',
         component: () => import('@/views/group/group'),
         meta: { title: '群列表', icon: 'dashboard' }
-      },
-      {
-        path: 'odds',
-        name: '赔率设置',
-        component: () => import('@/views/group/odds/index'),
-        meta: { title: '赔率设置', icon: 'dashboard' }
-      },
-      {
-        path: 'trust',
-        name: '托号设置',
-        component: () => import('@/views/group/trust'),
-        meta: { title: '托号设置', icon: 'dashboard' }
-      },
-      {
-        path: 'monitor',
-        name: '开奖监控',
-        component: () => import('@/views/group/monitor'),
-        meta: { title: '开奖监控', icon: 'dashboard' }
       }
     ]
   },
 
-  // //用户
-  // {
-  //   path: '/user',
-  //   component: Layout,
-  //   meta: { title: '用户', icon: 'dashboard' },
-  //   children: [
-  //     {
-  //       path: 'dashboard',
-  //       name: '用户列表',
-  //       component: () => import('@/views/user/user'),
-  //       meta: { title: '用户列表', icon: 'dashboard' }
-  //     }
-  //   ]
-  // },
-
-  // 表单
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   redirect: '/table/BaseForm',
-  //   name: 'form',
-  //   meta: {
-  //     title: 'form',
-  //     icon: 'form'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'BaseForm',
-  //       name: 'BaseForm',
-  //       component: () => import('@/views/form/BaseForm'),
-  //       meta: { title: 'BaseForm' }
-  //     },
-  //     {
-  //       path: 'VueEditor',
-  //       name: 'VueEditor',
-  //       component: () => import('@/views/form/VueEditor'),
-  //       meta: { title: 'VueEditor' }
-  //     },
-  //     {
-  //       path: 'Upload',
-  //       name: 'Upload',
-  //       component: () => import('@/views/form/Upload'),
-  //       meta: { title: 'Upload' }
-  //     }
-  //   ]
-  // },
-
-  // 表格
-  // {
-  //   path: '/table',
-  //   component: Layout,
-  //   redirect: '/table/complex-table',
-  //   name: 'table',
-  //   meta: {
-  //     title: 'Table',
-  //     icon: 'table'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'complex-table',
-  //       name: 'complex-table',
-  //       component: () => import('@/views/table/complex-table'),
-  //       meta: { title: 'complexTable' }
-  //     },
-  //     {
-  //       path: 'TreeTable',
-  //       name: 'TreeTable',
-  //       component: () => import('@/views/table/tree-table/index'),
-  //       meta: { title: 'treeTable' }
-  //     }
-
-  //   ]
-  // }
-
+  {
+    path: '/turnover',
+    component: Layout,
+    meta: { title: '流水统计', icon: 'dashboard' },
+    children: [
+      {
+        path: 'turnover',
+        name: '流水统计',
+        component: () => import('@/views/turnover/turnover'),
+        meta: { title: '流水统计', icon: 'dashboard' }
+      }
+    ]
+  }
 ]
 
 export default new Router({
@@ -170,18 +69,85 @@ export default new Router({
 })
 export const asyncRouterMap = [
 
-  // {
-  //   path: '/error',
-  //   component: Layout,
-  //   redirect: 'noredirect',
-  //   name: 'errorPages',
-  //   meta: {
-  //     title: 'errorPages',
-  //     icon: '404'
-  //   },
-  //   children: [
-  //     { path: '401', component: () => import('@/views/errorPage/401'), name: 'page401', meta: { title: 'page401', noCache: true }},
-  //     { path: '404', component: () => import('@/views/errorPage/404'), name: 'page404', meta: { title: 'page404', noCache: true }}
-  //   ]
-  // },
-  { path: '*', redirect: '/404', hidden: true }]
+  {
+    path: '/group',
+    component: Layout,
+    meta: { title: '群管理', icon: 'dashboard' },
+    children: [
+      {
+        path: '/menu',
+        name: 'xxx群列表',
+        component: () => import('@/views/group/menu/index'),
+        meta: { title: 'xxx群列表', icon: 'dashboard' },
+        redirect: "/menu/odds",
+        children: [
+          {
+            path: 'odds',
+            name: '赔率设置',
+            component: () => import('@/views/group/menu/odds/index'),
+            meta: { title: '赔率设置', icon: 'dashboard' },
+            props: { id: 123 }
+          },
+          {
+            path: 'trust',
+            name: '托号设置',
+            component: () => import('@/views/group/menu/trust/index'),
+            meta: { title: '托号设置', icon: 'dashboard' },
+            props: { id: 123 }
+          },
+          {
+            path: 'monitor',
+            name: '开奖监控',
+            component: () => import('@/views/group/menu/monitor/index'),
+            meta: { title: '开奖监控', icon: 'dashboard' },
+            props: { id: 123 }
+          },
+          {
+            path: 'win',
+            name: '开奖查询',
+            component: () => import('@/views/group/menu/win/index'),
+            meta: { title: '开奖查询', icon: 'dashboard' },
+            props: { id: 123 }
+          }
+        ]
+      },
+      {
+        path: '/menu1',
+        name: 'xxx1群列表',
+        component: () => import('@/views/group/menu/index'),
+        redirect: "/menu1/odds1",
+        meta: { title: 'xxx1群列表', icon: 'dashboard', groupId: 456 },
+        children: [
+          {
+            path: 'odds1',
+            name: '赔率设置',
+            component: () => import('@/views/group/menu/odds/index'),
+            meta: { title: '赔率设置', icon: 'dashboard' },
+            props: { id: 456 }
+          },
+          {
+            path: 'trust1',
+            name: '托号设置',
+            component: () => import('@/views/group/menu/trust/index'),
+            meta: { title: '托号设置', icon: 'dashboard' },
+            props: { id: 456 }
+          },
+          {
+            path: 'monitor1',
+            name: '开奖监控',
+            component: () => import('@/views/group/menu/monitor/index'),
+            meta: { title: '开奖监控', icon: 'dashboard' },
+            props: { id: 456 }
+          },
+          {
+            path: 'win',
+            name: '开奖查询',
+            component: () => import('@/views/group/menu/win/index'),
+            meta: { title: '开奖查询', icon: 'dashboard' },
+            props: { id: 456 }
+          }
+        ]
+      }
+    ]
+  }
+]

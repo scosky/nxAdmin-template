@@ -22,10 +22,10 @@
       </el-table-column>
       <el-table-column prop="owner" label="群主" width="80"> </el-table-column>
       <!-- <el-table-column
-        prop="isAddFriend"
-        label="添加好友"
-        width="80"
-      ></el-table-column> -->
+         prop="isAddFriend"
+         label="添加好友"
+         width="80"
+       ></el-table-column> -->
       <el-table-column prop="isSetNickname" label="修改群昵称" width="120">
         <template slot-scope="scope">
           <el-tag
@@ -38,15 +38,15 @@
         </template>
       </el-table-column>
       <!-- <el-table-column
-        prop="isVodChat"
-        label="语音/视频"
-        width="80"
-      ></el-table-column>
-      <el-table-column
-        prop="isGrpQrcode"
-        label="启用群二维码"
-        width="80"
-      ></el-table-column> -->
+         prop="isVodChat"
+         label="语音/视频"
+         width="80"
+       ></el-table-column>
+       <el-table-column
+         prop="isGrpQrcode"
+         label="启用群二维码"
+         width="80"
+       ></el-table-column> -->
       <el-table-column prop="inviteConfirm" label="邀请成员确认" width="120">
         <template slot-scope="scope">
           <el-tag
@@ -83,11 +83,11 @@
             >编辑</el-button
           >
           <!-- <el-button
-            type="text"
-            @click="catMemberHandle(scope.row)"
-            size="small"
-            >查看群成员</el-button
-          > -->
+             type="text"
+             @click="catMemberHandle(scope.row)"
+             size="small"
+             >查看群成员</el-button
+           > -->
         </template>
       </el-table-column>
     </el-table>
@@ -166,7 +166,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select  placeholder="群状态">
+          <el-select placeholder="群状态">
             <el-option label="正产" value="正产"></el-option>
             <el-option label="禁言" value="禁言"></el-option>
             <el-option label="冻结" value="冻结"></el-option>
@@ -185,7 +185,7 @@
   </section>
 </template>
 
-<script>
+ <script>
 import { getGroupListPage } from "@/api/groupTable";
 export default {
   data() {
@@ -219,7 +219,7 @@ export default {
       this.page = val;
       this.getGroups();
     },
-    // 获取用户列表
+    //   获取用户列表
     getGroups() {
       const para = {
         page: this.page,
@@ -235,7 +235,7 @@ export default {
       this.dialogFormVisible = true;
       this.editGroup = Object.assign({}, row);
     },
-    // catMemberHandle(row) {},
+    catMemberHandle(row) {},
     updateGroupData() {
       this.dialogFormVisible = false;
       this.$message({
@@ -250,5 +250,5 @@ export default {
 };
 </script>
 
-<style scoped>
+ <style scoped>
 </style>

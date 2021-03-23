@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="item">
-      <h4>XXX群托号设置</h4>
+      <h4>XXX群 托号、赔付号、抢包号 设置{{ groupId }}</h4>
     </div>
     <section>
       <!--工具条-->
@@ -37,14 +37,39 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="150">
+
+        <el-table-column prop="isClaim" label="是否赔付号" width="120">
+          <template slot-scope="scope">
+            <el-tag
+              :type="scope.row.isClaim === 1 ? 'success' : 'info'"
+              disable-transitions
+            >
+              <span v-if="scope.row.isClaim === 0">否</span>
+              <span v-else>是</span>
+            </el-tag>
+          </template>
+        </el-table-column>
+
+        <el-table-column prop="isGrab" label="是否抢包号" width="120">
+          <template slot-scope="scope">
+            <el-tag
+              :type="scope.row.isGrab === 1 ? 'success' : 'info'"
+              disable-transitions
+            >
+              <span v-if="scope.row.isGrab === 0">否</span>
+              <span v-else>是</span>
+            </el-tag>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="操作" width="350">
           <template slot-scope="scope">
             <el-button
               :plain="true"
               v-if="scope.row.isTrust === 0"
               size="mini"
               type="primary"
-              @click="handleEdit(scope.$index, scope.row)"
+              @click="handleTrust(scope.$index, scope.row)"
               >设置托号</el-button
             >
             <el-button
@@ -52,8 +77,42 @@
               v-else-if="scope.row.isTrust === 1"
               size="mini"
               type="primary"
-              @click="handleEdit(scope.$index, scope.row)"
+              @click="handleTrust(scope.$index, scope.row)"
               >取消托号</el-button
+            >
+
+            <el-button
+              :plain="true"
+              v-if="scope.row.isClaim === 0"
+              size="mini"
+              type="primary"
+              @click="handleClaim(scope.$index, scope.row)"
+              >设置赔付号</el-button
+            >
+            <el-button
+              :plain="true"
+              v-else-if="scope.row.isClaim === 1"
+              size="mini"
+              type="primary"
+              @click="handleClaim(scope.$index, scope.row)"
+              >取消赔付号</el-button
+            >
+
+            <el-button
+              :plain="true"
+              v-if="scope.row.isGrab === 0"
+              size="mini"
+              type="primary"
+              @click="handleGrab(scope.$index, scope.row)"
+              >设置抢包号</el-button
+            >
+            <el-button
+              :plain="true"
+              v-else-if="scope.row.isGrab === 1"
+              size="mini"
+              type="primary"
+              @click="handleGrab(scope.$index, scope.row)"
+              >取消抢包号</el-button
             >
           </template>
         </el-table-column>
@@ -79,8 +138,15 @@ import { membersData } from "@/api/turst";
 
 export default {
   name: "trust",
+  props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
+      groupId: 0,
       filters: {
         phone: "",
         id: "",
@@ -93,11 +159,33 @@ export default {
     };
   },
   methods: {
-    handleEdit(index, row) {
+    handleTrust(index, row) {
       this.trusts[index].isTrust === 1
         ? (row.isTrust = 0)
         : this.trusts[index].isTrust === 0
         ? (row.isTrust = 1)
+        : "";
+      this.$message({
+        message: "修改成功",
+        type: "success",
+      });
+    },
+    handleClaim(index, row) {
+      this.trusts[index].isClaim === 1
+        ? (row.isClaim = 0)
+        : this.trusts[index].isClaim === 0
+        ? (row.isClaim = 1)
+        : "";
+      this.$message({
+        message: "修改成功",
+        type: "success",
+      });
+    },
+    handleGrab(index, row) {
+      this.trusts[index].isGrab === 1
+        ? (row.isGrab = 0)
+        : this.trusts[index].isGrab === 0
+        ? (row.isGrab = 1)
         : "";
       this.$message({
         message: "修改成功",
@@ -124,6 +212,8 @@ export default {
     },
   },
   mounted() {
+    this.groupId = this.id;
+    console.log("groupId:" + this.groupId);
     this.members();
   },
 };

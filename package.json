@@ -2,7 +2,7 @@
   "name": "easy-im",
   "version": "0.0.1",
   "description": "easy im......",
-  "author": "sockey",
+  "author": "scoco",
   "scripts": {
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "lint": "eslint --ext .js,.vue src",
@@ -19,8 +19,9 @@
   },
   "main": "background.js",
   "dependencies": {
-    "axios": "0.17.1",
+    "axios": "0.21.1",
     "better-scroll": "^1.12.4",
+    "blueimp-md5": "^2.18.0",
     "cache-loader": "^4.1.0",
     "core-js": "2.6.5",
     "countup.js": "^1.9.3",
@@ -37,7 +38,7 @@
     "showdown": "^1.8.6",
     "simplemde": "^1.11.2",
     "store": "^2.0.12",
-    "vue": "2.5.10",
+    "vue": "2.6.12",
     "vue-cropperjs": "^2.2.1",
     "vue-i18n": "^8.0.0",
     "vue-infinite-scroll": "^2.0.2",
@@ -117,9 +118,6 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "bugs": {
-    "url": "https://github.com/mgbq/nx-admin/issues"
-  },
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
@@ -137,9 +135,5 @@
       "eslint --fix",
       "git add"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mgbq/nx-admin.git"
   }
 }
