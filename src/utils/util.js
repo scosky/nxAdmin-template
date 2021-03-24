@@ -13,8 +13,8 @@ export const loadStyle = url => {
 /**
  * 设置浏览器头部标题
  */
-export const setTitle = function(title) {
-  title = title ? `${title}` : 'EASY-IM'
+export const setTitle = function (title) {
+  title = title ? `${title}` : '星辰'
   window.document.title = title
 }
 

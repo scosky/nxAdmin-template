@@ -1,5 +1,6 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import md5 from 'blueimp-md5'
 
 const user = {
   state: {
@@ -30,10 +31,13 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
+      const pwd = md5(userInfo.password.trim())
       return new Promise((resolve, reject) => {
-        login(username, userInfo.password).then(response => {
+        login(username, pwd).then(response => {
+          console.log("response:" + JSON.stringify(response))
           const data = response
           setToken(data.token)
+          console.log("token:" + data.token)
           commit('SET_TOKEN', data.token)
           resolve()
         }).catch(error => {
@@ -45,26 +49,30 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token).then(response => {
-          const data = response
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+        // getInfo(state.token).then(response => {
+        //   const data = response
+        //   if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+        //     commit('SET_ROLES', data.roles)
+        //   } else {
+        //     reject('getInfo: roles must be a non-null array !')
+        //   }
+        //   commit('SET_NAME', data.name)
+        //   commit('SET_AVATAR', data.avatar)
+        //   resolve(response)
+        // }).catch(error => {
+        //   reject(error)
+        // })
+        const roles = ['admin']
+        commit('SET_ROLES', roles)
+        resolve({ "roles": roles })
       })
     },
 
     // 登出
     LogOut({ commit, state }) {
+      console.log("LogOut")
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
+        logout().then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           removeToken()

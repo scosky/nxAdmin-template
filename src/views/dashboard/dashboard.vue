@@ -1,223 +1,253 @@
 <template>
-  <div class="app-container">
-   <nx-github-corner></nx-github-corner>
-    <div class="item">
-      <h4>数据展示</h4>
-      <nx-data-display :option="option"></nx-data-display>
-    </div>
-    <div class="item">
-      <h4>选项卡展示</h4>
-      <nx-data-tabs :option="easyDataOption"></nx-data-tabs>
-    </div>
-    <div class="item">
-      <h4>卡片的展示</h4>
-      <nx-data-card :option="easyDataOption0"></nx-data-card>
-    </div>
-    <div class="item">
-      <h4>带数字的展示</h4>
-      <nx-data-icons :option="easyDataOption1"></nx-data-icons>
-    </div>
-    <div class="item">
-      <h4>简易展示</h4>
-      <nx-data-icons :option="easyDataOption2"></nx-data-icons>
-    </div>
-  </div>
+  <section class="app-container">
+    <!--工具条-->
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
+      <el-form :inline="true" :model="filters" @submit.native.prevent>
+        <el-form-item>
+          <el-input v-model="filters.name" placeholder="群名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" v-on:click="getGroups">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
+
+    <!--列表-->
+    <el-table :data="groups" highlight-current-row style="width: 100%">
+      <el-table-column prop="groupId" label="群编号" width="120">
+      </el-table-column>
+      <el-table-column prop="name" label="群名称" width="120">
+      </el-table-column>
+      <el-table-column prop="creator" label="创建人" width="80">
+      </el-table-column>
+      <el-table-column prop="owner" label="群主" width="80"> </el-table-column>
+      <!-- <el-table-column
+        prop="allowAddFriend"
+        label="添加好友"
+        width="80"
+      ></el-table-column> -->
+      <el-table-column prop="allowSetNickname" label="修改群昵称" width="120">
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.allowSetNickname === 1 ? 'success' : 'info'"
+            disable-transitions
+          >
+            <span v-if="scope.row.allowSetNickname === 1">允许</span>
+            <span v-else>不允许</span>
+          </el-tag>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column
+        prop="allowVodChat"
+        label="语音/视频"
+        width="80"
+      ></el-table-column>
+      <el-table-column
+        prop="allowGrpQrcode"
+        label="启用群二维码"
+        width="80"
+      ></el-table-column> -->
+      <el-table-column prop="inviteConfirm" label="邀请成员确认" width="120">
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.inviteConfirm === 1 ? 'info' : 'success'"
+            disable-transitions
+          >
+            <span v-if="scope.row.inviteConfirm === 1">需要确认</span>
+            <span v-else>无需确认</span>
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="status" label="状态" width="80">
+        <template slot-scope="scope">
+          <el-tag
+            :type="scope.row.status === 0 ? 'success' : 'info'"
+            disable-transitions
+          >
+            <span v-if="scope.row.status === 0">正常</span>
+            <span v-else-if="scope.row.status === 1">禁言</span>
+            <span v-else-if="scope.row.status === 2">冻结</span>
+            <span v-else-if="scope.row.status === 3">删除</span>
+            <span v-else>未知</span>
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="createTime" label="创建时间" width="200">
+      </el-table-column>
+      <el-table-column label="操作" width="150">
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            @click="editGroupHandler(scope.row)"
+            size="small"
+            >编辑</el-button
+          >
+          <!-- <el-button
+            type="text"
+            @click="catMemberHandle(scope.row)"
+            size="small"
+            >查看群成员</el-button
+          > -->
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <!--工具条-->
+    <el-col :span="24" class="toolbar">
+      <el-pagination
+        layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        :page-size="20"
+        :total="total"
+        style="float: right"
+      >
+      </el-pagination>
+    </el-col>
+
+    <!--编辑界面-->
+    <el-dialog
+      title="群资料"
+      :visible.sync="dialogFormVisible"
+      :close-on-click-modal="false"
+    >
+      <el-form :model="editGroup" label-width="120px" ref="editGroup">
+        <el-form-item label="群ID" prop="groupId">
+          <el-input
+            v-model="editGroup.groupId"
+            auto-complete="off"
+            disabled
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="创建人" prop="name">
+          <el-input
+            v-model="editGroup.creator"
+            auto-complete="off"
+            disabled
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="群主" prop="owner">
+          <el-input
+            v-model="editGroup.owner"
+            auto-complete="off"
+            disabled
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="群昵称" prop="name">
+          <el-input v-model="editGroup.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="允许加好友">
+          <el-radio-group v-model="editGroup.isAddFriend">
+            <el-radio class="radio" :label="1">是</el-radio>
+            <el-radio class="radio" :label="0">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="修改昵称">
+          <el-radio-group v-model="editGroup.isSetNickname">
+            <el-radio class="radio" :label="1">是</el-radio>
+            <el-radio class="radio" :label="0">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="允许语音/视频">
+          <el-radio-group v-model="editGroup.isVodChat">
+            <el-radio class="radio" :label="1">是</el-radio>
+            <el-radio class="radio" :label="0">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="启用群二维码">
+          <el-radio-group v-model="editGroup.isGrpQrcode">
+            <el-radio class="radio" :label="1">是</el-radio>
+            <el-radio class="radio" :label="0">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="邀请成员需确认">
+          <el-radio-group v-model="editGroup.inviteConfirm">
+            <el-radio class="radio" :label="1">是</el-radio>
+            <el-radio class="radio" :label="0">否</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-select placeholder="群状态">
+            <el-option label="正产" value="正产"></el-option>
+            <el-option label="禁言" value="禁言"></el-option>
+            <el-option label="冻结" value="冻结"></el-option>
+            <el-option label="删除" value="删除"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="群公告">
+          <el-input type="textarea" v-model="editGroup.intro"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="updateGroupData">修改</el-button>
+        <el-button @click.native="dialogFormVisible = false">取消</el-button>
+      </div>
+    </el-dialog>
+  </section>
 </template>
 
 <script>
-
-import nxDataDisplay from '@/components/nx-data-display/nx-data-display'
-import nxDataCard from '@/components/nx-data-card/nx-data-card'
-import nxDataTabs from '@/components/nx-data-tabs/nx-data-tabs'
-import nxDataIcons from '@/components/nx-data-icons/nx-data-icons'
-import nxGithubCorner from '@/components/nx-github-corner'
+import { getGroupListPage } from "@/api/groupTable";
 export default {
-  name: 'report',
-  components: {
-    nxDataDisplay,
-    nxDataCard,
-    nxDataTabs,
-    nxDataIcons,
-    nxGithubCorner
-
-  },
   data() {
     return {
-      option: {
-        span: 8,
-        color: '#15A0FF',
-        data: [
-          {
-            count: 1000,
-            title: '日活跃数'
-          },
-          {
-            count: 3000,
-            title: '月活跃数'
-          },
-          {
-            count: 20000,
-            title: '年活跃数'
-          }
-        ]
+      dialogFormVisible: false,
+      filters: {
+        name: "",
       },
-      easyDataOption: {
-        span: 6,
-        data: [
-          {
-            title: '分类统计',
-            subtitle: '实时',
-            count: 7993,
-            allcount: 10222,
-            text: '当前分类总记录数',
-            color: 'rgb(49, 180, 141)',
-            key: '类'
-          },
-          {
-            title: '附件统计',
-            subtitle: '实时',
-            count: 3112,
-            allcount: 10222,
-            text: '当前上传的附件数',
-            color: 'rgb(56, 161, 242)',
-            key: '附'
-          },
-          {
-            title: '文章统计',
-            subtitle: '实时',
-            count: 908,
-            allcount: 10222,
-            text: '评论次数',
-            color: 'rgb(117, 56, 199)',
-            key: '评'
-          },
-          {
-            title: '新闻统计',
-            subtitle: '实时',
-            count: 908,
-            allcount: 10222,
-            text: '评论次数',
-            color: 'rgb(59, 103, 164)',
-            key: '新'
-          }
-        ]
+      groups: [],
+      total: 0,
+      page: 1,
+      editGroup: {
+        groupId: "",
+        name: "",
+        creator: "",
+        owner: "",
+        status: "",
+        intro: "",
+        qrCode: "",
+        profile: "",
+        allowAddFriend: "",
+        allowSetNickname: "",
+        allowVodChat: "",
+        allowGrpQrcode: "",
+        inviteConfirm: "",
+        createTime: "",
       },
-      easyDataOption0: {
-        span: 6,
-        borderColor: '#fff',
-        data: [
-          {
-            name: '姓名1',
-            src: 'static/img/mock/card/card-1.jpg',
-            text: '介绍1'
-          },
-          {
-            name: '姓名2',
-            src: 'static/img/mock/card/card-2.jpg',
-            text: '介绍2'
-          },
-          {
-            name: '姓名3',
-            src: 'static/img/mock/card/card-3.jpg',
-            text: '介绍3'
-          },
-          {
-            name: '姓名4',
-            src: 'static/img/mock/card/card-4.jpg',
-            text: '介绍4'
-          }
-        ]
-      },
-      easyDataOption1: {
-        color: 'rgb(63, 161, 255)',
-        span: 4,
-        data: [
-          {
-            title: '今日注册',
-            count: 12678,
-            icon: 'icon-cuowu'
-          },
-          {
-            title: '今日登录',
-            count: 22139,
-            icon: 'icon-shujuzhanshi2'
-          },
-          {
-            title: '今日订阅',
-            count: 35623,
-            icon: 'icon-jiaoseguanli'
-          },
-          {
-            title: '今日评论',
-            count: 16826,
-            icon: 'icon-caidanguanli'
-          },
-          {
-            title: '今日评论',
-            count: 16826,
-            icon: 'icon-caidanguanli'
-          },
-          {
-            title: '今日评论',
-            count: 16826,
-            icon: 'icon-caidanguanli'
-          }
-        ]
-      },
-      easyDataOption2: {
-        color: 'rgb(63, 161, 255)',
-        span: 4,
-        discount: true,
-        data: [
-          {
-            title: '错误日志',
-            count: 12678,
-            icon: 'icon-cuowu'
-          },
-          {
-            title: '数据展示',
-            count: 12678,
-            icon: 'icon-shujuzhanshi2'
-          },
-          {
-            title: '权限管理',
-            count: 12678,
-            icon: 'icon-jiaoseguanli'
-          },
-          {
-            title: '菜单管理',
-            count: 12678,
-            icon: 'icon-caidanguanli'
-          },
-          {
-            title: '权限测试',
-            count: 12678,
-            icon: 'icon-caidanguanli'
-          },
-          {
-            title: '错误页面',
-            count: 12678,
-            icon: 'icon-caidanguanli'
-          }
-        ]
-      }
-    }
+    };
   },
-  created() {},
-  watch: {},
-  mounted() {},
-  computed: {}
-}
+  methods: {
+    handleCurrentChange(val) {
+      this.page = val;
+      this.getGroups();
+    },
+    getGroups() {
+      const para = {
+        page: this.page,
+        name: this.filters.name,
+        size: 10,
+      };
+      getGroupListPage(para).then((res) => {
+        this.total = res.data.total;
+        this.groups = res.data.data;
+      });
+    },
+    editGroupHandler(row) {
+      this.dialogFormVisible = true;
+      this.editGroup = Object.assign({}, row);
+    },
+    updateGroupData() {
+      this.dialogFormVisible = false;
+      this.$message({
+        message: "修改群资料成功",
+        type: "success",
+      });
+    },
+  },
+  mounted() {
+    this.getGroups();
+  },
+};
 </script>
 
 <style scoped>
-.item {
-  margin-bottom: 16px;
-}
-</style>
-<style lang ="scss">
-    @import '../../styles/data-card.scss';
-    @import '../../styles/data-display.scss';
-    @import '../../styles/data-icons.scss';
-    @import '../../styles/data-tabs.scss';
 </style>

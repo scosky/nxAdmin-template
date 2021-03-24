@@ -1,8 +1,8 @@
 {
-  "name": "easy-im",
+  "name": "stars",
   "version": "0.0.1",
-  "description": "easy im......",
-  "author": "sockey",
+  "description": "stars......",
+  "author": "stars",
   "scripts": {
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "lint": "eslint --ext .js,.vue src",
@@ -21,6 +21,7 @@
   "dependencies": {
     "axios": "0.17.1",
     "better-scroll": "^1.12.4",
+    "blueimp-md5": "^2.18.0",
     "cache-loader": "^4.1.0",
     "core-js": "2.6.5",
     "countup.js": "^1.9.3",
