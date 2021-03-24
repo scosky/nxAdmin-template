@@ -36,13 +36,13 @@ export const constantRouterMap = [
   {
     path: '/dashboard',
     component: Layout,
-    meta: { title: '群管理', icon: 'dashboard' },
+    meta: { title: '群基本管理', icon: 'dashboard' },
     children: [
       {
         path: 'dashboard',
-        name: '群管理',
+        name: '群基本管理',
         component: () => import('@/views/dashboard/dashboard'),
-        meta: { title: '群管理', icon: 'dashboard' }
+        meta: { title: '群基本管理', icon: 'dashboard' }
       }
     ]
   }
@@ -82,13 +82,6 @@ export const asyncRouterMap = [
             props: { id: 123 }
           },
           {
-            path: 'claim',
-            name: '赔付号设置',
-            component: () => import('@/views/group/menu/claim/index'),
-            meta: { title: '赔付号设置', icon: 'dashboard' },
-            props: { id: 123 }
-          },
-          {
             path: 'grab',
             name: '秒号设置',
             component: () => import('@/views/group/menu/grab/index'),
@@ -96,17 +89,24 @@ export const asyncRouterMap = [
             props: { id: 123 }
           },
           {
+            path: 'claim',
+            name: '赔付号设置',
+            component: () => import('@/views/group/menu/claim/index'),
+            meta: { title: '赔付号设置', icon: 'dashboard' },
+            props: { id: 123 }
+          },
+          {
             path: 'monitor',
-            name: '开奖监控',
+            name: '报奖监控',
             component: () => import('@/views/group/menu/monitor/index'),
-            meta: { title: '开奖监控', icon: 'dashboard' },
+            meta: { title: '报奖监控', icon: 'dashboard' },
             props: { id: 123 }
           },
           {
             path: 'win',
-            name: '开奖查询',
+            name: '中奖查询',
             component: () => import('@/views/group/menu/win/index'),
-            meta: { title: '开奖查询', icon: 'dashboard' },
+            meta: { title: '中奖查询', icon: 'dashboard' },
             props: { id: 123 }
           },
           {
@@ -140,13 +140,6 @@ export const asyncRouterMap = [
             props: { id: 456 }
           },
           {
-            path: 'claim1',
-            name: '赔付号设置',
-            component: () => import('@/views/group/menu/claim/index'),
-            meta: { title: '赔付号设置', icon: 'dashboard' },
-            props: { id: 456 }
-          },
-          {
             path: 'grab1',
             name: '秒号设置',
             component: () => import('@/views/group/menu/grab/index'),
@@ -154,17 +147,24 @@ export const asyncRouterMap = [
             props: { id: 456 }
           },
           {
+            path: 'claim1',
+            name: '赔付号设置',
+            component: () => import('@/views/group/menu/claim/index'),
+            meta: { title: '赔付号设置', icon: 'dashboard' },
+            props: { id: 456 }
+          },
+          {
             path: 'monitor1',
-            name: '开奖监控',
+            name: '报奖监控',
             component: () => import('@/views/group/menu/monitor/index'),
-            meta: { title: '开奖监控', icon: 'dashboard' },
+            meta: { title: '报奖监控', icon: 'dashboard' },
             props: { id: 456 }
           },
           {
             path: 'win1',
-            name: '开奖查询',
+            name: '中奖查询',
             component: () => import('@/views/group/menu/win/index'),
-            meta: { title: '开奖查询', icon: 'dashboard' },
+            meta: { title: '中奖查询', icon: 'dashboard' },
             props: { id: 456 }
           },
           {
