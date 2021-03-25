@@ -89,7 +89,7 @@ import sevenView from "./nine/seven";
 import eightView from "./nine/eight";
 import nineView from "./nine/nine";
 export default {
-  name: "odds-te",
+  name: "oddsTe",
   data() {
     return {
       currentView: fiveSigin,

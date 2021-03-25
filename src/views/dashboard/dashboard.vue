@@ -227,8 +227,8 @@ export default {
         size: 10,
       };
       getGroupListPage(para).then((res) => {
-        this.total = res.data.total;
-        this.groups = res.data.data;
+        this.groups = res.data;
+        this.total = res.total;
       });
     },
     editGroupHandler(row) {

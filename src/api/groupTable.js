@@ -7,3 +7,10 @@ export function getGroupListPage(params) {
     params: params
   })
 }
+
+export function getGroupMens() {
+  return request({
+    url: '/mgr/group/menu',
+    method: 'get',
+  })
+}

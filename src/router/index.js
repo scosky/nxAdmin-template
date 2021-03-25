@@ -47,59 +47,139 @@ export const constantRouterMap = [
       }
     ]
   }
-
-  // {
-  //   path: '/group',
-  //   component: Layout,
-  //   meta: { title: '群管理', icon: 'dashboard' },
-  //   children: [
-  //     {
-  //       path: 'group',
-  //       name: '群列表',
-  //       component: () => import('@/views/group/group'),
-  //       meta: { title: '群列表', icon: 'dashboard' }
-  //     },
-  //     {
-  //       path: 'odds',
-  //       name: '赔率设置',
-  //       component: () => import('@/views/group/odds/index'),
-  //       meta: { title: '赔率设置', icon: 'dashboard' }
-  //     },
-  //     {
-  //       path: 'trust',
-  //       name: '托号设置',
-  //       component: () => import('@/views/group/trust'),
-  //       meta: { title: '托号设置', icon: 'dashboard' }
-  //     },
-  //     {
-  //       path: 'monitor',
-  //       name: '开奖监控',
-  //       component: () => import('@/views/group/monitor'),
-  //       meta: { title: '开奖监控', icon: 'dashboard' }
-  //     }
-  //   ]
-  // }
 ]
 
 export default new Router({
   // mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
+
 })
+
+
 export const asyncRouterMap = [
 
   // {
-  //   path: '/error',
+  //   path: '/group',
   //   component: Layout,
-  //   redirect: 'noredirect',
-  //   name: 'errorPages',
-  //   meta: {
-  //     title: 'errorPages',
-  //     icon: '404'
-  //   },
+  //   meta: { title: '群功能设置', icon: 'dashboard' },
   //   children: [
-  //     { path: '401', component: () => import('@/views/errorPage/401'), name: 'page401', meta: { title: 'page401', noCache: true }},
-  //     { path: '404', component: () => import('@/views/errorPage/404'), name: 'page404', meta: { title: 'page404', noCache: true }}
+  //     {
+  //       path: '/menu',
+  //       name: 'xxx群列表',
+  //       component: () => import('@/views/group/menu/index'),
+  //       meta: { title: 'xxx群列表', icon: 'dashboard' },
+  //       redirect: "/menu/odds",
+  //       children: [
+  //         {
+  //           path: 'odds0',
+  //           name: '赔率设置',
+  //           component: () => import('@/views/group/menu/odds/index'),
+  //           meta: { title: '赔率设置', icon: 'dashboard' },
+  //           props: { id: 123 }
+  //         },
+  //         {
+  //           path: 'trust0',
+  //           name: '托号设置',
+  //           component: () => import('@/views/group/menu/trust/index'),
+  //           meta: { title: '托号设置', icon: 'dashboard' },
+  //           props: { id: 123 }
+  //         },
+  //         {
+  //           path: 'grab0',
+  //           name: '秒号设置',
+  //           component: () => import('@/views/group/menu/grab/index'),
+  //           meta: { title: '秒号设置', icon: 'dashboard' },
+  //           props: { id: 123 }
+  //         },
+  //         {
+  //           path: 'claim0',
+  //           name: '赔付号设置',
+  //           component: () => import('@/views/group/menu/claim/index'),
+  //           meta: { title: '赔付号设置', icon: 'dashboard' },
+  //           props: { id: 123 }
+  //         },
+  //         {
+  //           path: 'monitor0',
+  //           name: '报奖监控',
+  //           component: () => import('@/views/group/menu/monitor/index'),
+  //           meta: { title: '报奖监控', icon: 'dashboard' },
+  //           props: { id: 123 }
+  //         },
+  //         {
+  //           path: 'win0',
+  //           name: '中奖查询',
+  //           component: () => import('@/views/group/menu/win/index'),
+  //           meta: { title: '中奖查询', icon: 'dashboard' },
+  //           props: { id: 123 }
+  //         },
+  //         {
+  //           path: 'turnover0',
+  //           name: '流水统计',
+  //           component: () => import('@/views/group/menu/turnover/index'),
+  //           meta: { title: '流水统计', icon: 'dashboard' },
+  //           props: { id: 123 }
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: '/menu1',
+  //       name: 'xxx1群列表',
+  //       component: () => import('@/views/group/menu/index'),
+  //       redirect: "/menu1/odds1",
+  //       meta: { title: 'xxx1群列表', icon: 'dashboard', groupId: 456 },
+  //       children: [
+  //         {
+  //           path: 'odds1',
+  //           name: '赔率设置',
+  //           component: () => import('@/views/group/menu/odds/index'),
+  //           meta: { title: '赔率设置', icon: 'dashboard' },
+  //           props: { id: 456 }
+  //         },
+  //         {
+  //           path: 'trust1',
+  //           name: '托号设置',
+  //           component: () => import('@/views/group/menu/trust/index'),
+  //           meta: { title: '托号设置', icon: 'dashboard' },
+  //           props: { id: 456 }
+  //         },
+  //         {
+  //           path: 'grab1',
+  //           name: '秒号设置',
+  //           component: () => import('@/views/group/menu/grab/index'),
+  //           meta: { title: '秒号设置', icon: 'dashboard' },
+  //           props: { id: 456 }
+  //         },
+  //         {
+  //           path: 'claim1',
+  //           name: '赔付号设置',
+  //           component: () => import('@/views/group/menu/claim/index'),
+  //           meta: { title: '赔付号设置', icon: 'dashboard' },
+  //           props: { id: 456 }
+  //         },
+  //         {
+  //           path: 'monitor1',
+  //           name: '报奖监控',
+  //           component: () => import('@/views/group/menu/monitor/index'),
+  //           meta: { title: '报奖监控', icon: 'dashboard' },
+  //           props: { id: 456 }
+  //         },
+  //         {
+  //           path: 'win1',
+  //           name: '中奖查询',
+  //           component: () => import('@/views/group/menu/win/index'),
+  //           meta: { title: '中奖查询', icon: 'dashboard' },
+  //           props: { id: 456 }
+  //         },
+  //         {
+  //           path: 'turnover1',
+  //           name: '流水统计',
+  //           component: () => import('@/views/group/menu/turnover/index'),
+  //           meta: { title: '流水统计', icon: 'dashboard' },
+  //           props: { id: 456 }
+  //         }
+  //       ]
+  //     }
   //   ]
-  // },
+  // }
 ]

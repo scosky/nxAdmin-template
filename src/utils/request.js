@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '../store'
-import { getToken } from '@/utils/auth'
 import { baseUrl } from '@/config/env'
+import { getToken } from '@/utils/auth'
 // 创建axios实例
 const service = axios.create({
   baseURL: baseUrl,
@@ -12,7 +12,7 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(config => {
   if (store.getters.token) {
-    axios.defaults.headers['token'] = getToken()
+    config.headers.common['token'] = getToken()
   }
   if (config.method === 'post' || config.method === 'get') {
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -32,7 +32,7 @@ service.interceptors.response.use(
     * code为非20000是抛错 可结合自己业务进行修改
     */
     const res = response.data
-    if (res.status !== 0) {
+    if (res.status === 1) {
       Message({
         message: res.rtnMsg,
         type: 'error',
