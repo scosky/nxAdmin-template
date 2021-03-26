@@ -144,7 +144,7 @@ export default {
             groupId: this.groupId,
           };
           setIndemnity(param).then((res) => {
-            this.trusts[index].isGrab = "1";
+            this.trusts[index].isIndemnity = "1";
             this.$message({
               message: "设置成功",
               type: "success",
@@ -161,7 +161,7 @@ export default {
             groupId: this.groupId,
           };
           cancelIndemnity(param).then((res) => {
-            this.trusts[index].isGrab = "0";
+            this.trusts[index].isIndemnity = "0";
             this.$message({
               message: "取消成功",
               type: "success",
@@ -178,7 +178,7 @@ export default {
             groupId: this.groupId,
           };
           startIndemnity(param).then((res) => {
-            this.trusts[index].grabStatus = "1";
+            this.trusts[index].indemnityStatus = "1";
             this.$message({
               message: "启用成功",
               type: "success",
@@ -195,7 +195,7 @@ export default {
             groupId: this.groupId,
           };
           stopIndemnity(param).then((res) => {
-            this.trusts[index].grabStatus = "0";
+            this.trusts[index].indemnityStatus = "0";
             this.$message({
               message: "停用成功",
               type: "success",
