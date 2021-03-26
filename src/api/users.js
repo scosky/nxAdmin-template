@@ -1,15 +1,16 @@
-import axios from 'axios'
+import ajaxRequest from '@/utils/ajaxRequest'
 
-const base = ''
-
-export const getUserList = params => { return axios.get(`${base}/user/list`, { params: params }) }
-
-export const getUserListPage = params => { return axios.get(`${base}/user/listpage`, { params: params }) }
-
-export const removeUser = params => { return axios.get(`${base}/user/remove`, { params: params }) }
-
-export const batchRemoveUser = params => { return axios.get(`${base}/user/batchremove`, { params: params }) }
-
-export const editUser = params => { return axios.get(`${base}/user/edit`, { params: params }) }
-
-export const addUser = params => { return axios.get(`${base}/user/add`, { params: params }) }
+export function modifyUser(params) {
+    return ajaxRequest({
+        url: '/user/modify',
+        method: 'post',
+        data: params
+    })
+}
+export function modifyPwd(params) {
+    return ajaxRequest({
+        url: '/user/update/pwd',
+        method: 'post',
+        data: params
+    })
+}

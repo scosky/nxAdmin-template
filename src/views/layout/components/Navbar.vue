@@ -39,86 +39,59 @@
       :close-on-click-modal="false"
       :model="userInfo"
     >
-      <el-form label-width="120px" ref="editForm">
+      <el-form label-width="200px" ref="editForm">
         <el-form-item label="昵称">
           <el-input
             auto-complete="off"
             style="width: 30%"
-            v-model="userInfo.name"
+            v-model="userInfo.nickName"
           ></el-input>
         </el-form-item>
 
         <el-form-item label="性别">
-          <el-radio-group v-model="userInfo.radio">
-            <el-radio class="radio" :label="1">男</el-radio>
-            <el-radio class="radio" :label="0">女</el-radio>
-          </el-radio-group>
+          <el-radio v-model="userInfo.sex" label="0">保密</el-radio>
+          <el-radio v-model="userInfo.sex" label="1">男</el-radio>
+          <el-radio v-model="userInfo.sex" label="2">女</el-radio>
         </el-form-item>
         <el-form-item label="手机号">
           <el-input
             auto-complete="off"
             style="width: 30%"
             v-model="userInfo.phone"
+            disabled
           ></el-input>
         </el-form-item>
         <el-form-item label="出生日期">
           <el-date-picker
             v-model="userInfo.birthday"
             type="date"
+            value-format="yyyy-MM-dd"
             placeholder="选择日期"
           >
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="状态">
-          <el-radio-group v-model="userInfo.status">
-            <el-radio class="radio" :label="0">正常</el-radio>
-            <el-radio class="radio" :label="1">已冻结</el-radio>
-            <el-radio class="radio" :label="2">已注销</el-radio>
-          </el-radio-group>
+
+        <el-form-item label="添加好友是否需要验证">
+          <el-radio v-model="userInfo.friendApprove" label="0">否</el-radio>
+          <el-radio v-model="userInfo.friendApprove" label="1">是</el-radio>
         </el-form-item>
 
-        <el-form-item label="好友是否验证">
-          <el-switch
-            v-model="userInfo.friend"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          >
-          </el-switch>
+        <el-form-item label="允许二维码添加">
+          <el-radio v-model="userInfo.qrcodeAllowed" label="0">否</el-radio>
+          <el-radio v-model="userInfo.qrcodeAllowed" label="1">是</el-radio>
         </el-form-item>
 
-        <el-form-item label="允许二维码">
-          <el-switch
-            v-model="userInfo.qrcode"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          >
-          </el-switch>
+        <el-form-item label="允许手机号添加">
+          <el-radio v-model="userInfo.phoneAllowed" label="0">否</el-radio>
+          <el-radio v-model="userInfo.phoneAllowed" label="1">是</el-radio>
         </el-form-item>
-
-        <el-form-item label="允许手机号">
-          <el-switch
-            v-model="userInfo.isPhone"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          >
-          </el-switch>
+        <el-form-item label="允许群内添加">
+          <el-radio v-model="userInfo.groupAllowed" label="0">否</el-radio>
+          <el-radio v-model="userInfo.groupAllowed" label="1">是</el-radio>
         </el-form-item>
-        <el-form-item label="允许群内">
-          <el-switch
-            v-model="userInfo.group"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          >
-          </el-switch>
-        </el-form-item>
-
-        <el-form-item label="允许通过名片">
-          <el-switch
-            v-model="userInfo.card"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-          >
-          </el-switch>
+        <el-form-item label="允许通过名片添加">
+          <el-radio v-model="userInfo.cardAllowed" label="0">否</el-radio>
+          <el-radio v-model="userInfo.cardAllowed" label="1">是</el-radio>
         </el-form-item>
         <el-form-item label="个性签名">
           <el-input v-model="userInfo.signature" type="textarea"></el-input>
@@ -130,33 +103,32 @@
       </div>
     </el-dialog>
 
-    <!-- 修改密码 -->
     <el-dialog
       :title="passwordNmae"
       :visible.sync="passwordFormVisible"
       :close-on-click-modal="false"
     >
       <el-form
-        :model="ruleForm"
+        :model="pwdForm"
         status-icon
+        ref="pwdForm"
         :rules="rules"
-        ref="ruleForm"
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="旧密码" prop="oldPass">
+        <el-form-item label="旧密码" prop="oldPassword">
           <el-input
             style="width: 50%"
             type="password"
-            v-model="ruleForm.oldPass"
+            v-model="pwdForm.oldPassword"
             autocomplete="off"
           ></el-input>
         </el-form-item>
-        <el-form-item label="新密码" prop="pass">
+        <el-form-item label="新密码" prop="password">
           <el-input
             style="width: 50%"
             type="password"
-            v-model="ruleForm.pass"
+            v-model="pwdForm.password"
             autocomplete="off"
           ></el-input>
         </el-form-item>
@@ -164,16 +136,16 @@
           <el-input
             style="width: 50%"
             type="password"
-            v-model="ruleForm.checkPass"
+            v-model="pwdForm.checkPass"
             autocomplete="off"
           ></el-input>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')"
+          <el-button type="primary" @click="submitForm('pwdForm')"
             >提交</el-button
           >
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button @click="resetForm('pwdForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -182,72 +154,69 @@
 
 <script>
 import { mapGetters } from "vuex";
-
 import nxBreadcrumb from "@/components/nx-breadcrumb";
 import nxHamburger from "@/components/nx-hamburger";
 import nxLangSelect from "@/components/nx-lang-select/index";
+import { getInfo } from "@/api/login";
+import { modifyUser, modifyPwd } from "@/api/users";
+import md5 from "blueimp-md5";
 
 export default {
   name: "navBar",
   data() {
-    var validateOldPass = (rule, value, callback) => {
+    var validateoldPassword = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输旧密码"));
-      } else if (this.ruleForm.oldPass.length < 6) {
-        callback(new Error("密码不能小于6位"));
       }
       callback();
     };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输新密码"));
-      } else if (this.ruleForm.checkPass.length < 6) {
+      } else if (value.length < 6) {
         callback(new Error("密码不能小于6位"));
-      } else if (this.ruleForm.checkPass != this.ruleForm.oldPass) {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
-        }
-      } else {
-        callback(new Error("新密码和旧密码不能一样"));
+      } else if (value == this.pwdForm.oldPassword) {
+        callback(new Error("新密码与旧密码不能一样"));
       }
       callback();
     };
-    var validatePass2 = (rule, value, callback) => {
+    var validateCheckPass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.pass) {
+      } else if (value != this.pwdForm.password) {
         callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
       }
+      callback();
     };
     return {
       userInfo: {
-        name: "你的名字",
-        phone: 13768354544,
-        birthday: "1991-03-14",
-        signature: "testesteste",
-        radio: 1,
-        friend: true,
-        qrcode: true,
-        isPhone: true,
-        group: true,
-        card: true,
-        status: 0,
+        userId: 0,
+        nickName: "",
+        name: "",
+        phone: "",
+        sex: "",
+        birthday: "",
+        signature: "",
+        friendApprove: "",
+        qrcodeAllowed: "",
+        phoneAllowed: "",
+        groupAllowed: "",
+        cardAllowed: "",
+        status: "",
       },
       passwordFormVisible: false,
       dialogFormVisible: false,
       passwordNmae: "修改密码",
       userInfoName: "个人信息",
-      ruleForm: {
-        oldPass: "",
-        pass: "",
+      pwdForm: {
+        oldPassword: "",
+        password: "",
         checkPass: "",
       },
       rules: {
-        oldPass: [{ validator: validateOldPass, trigger: "blur" }],
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
+        oldPassword: [{ validator: validateoldPassword, trigger: "blur" }],
+        password: [{ validator: validatePass, trigger: "blur" }],
+        checkPass: [{ validator: validateCheckPass, trigger: "blur" }],
       },
     };
   },
@@ -265,11 +234,14 @@ export default {
     },
     logout() {
       this.$store.dispatch("LogOut").then(() => {
-        location.reload(); // In order to re-instantiate the vue-router object to avoid bugs
+        location.reload();
       });
     },
     handleUser() {
       this.dialogFormVisible = true;
+      getInfo().then((res) => {
+        this.userInfo = res.data;
+      });
     },
     passwordUser() {
       this.passwordFormVisible = true;
@@ -277,23 +249,39 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.passwordFormVisible = false;
-          this.$message({
-            message: "更改密码成功",
-            type: "success",
-          });
-        } else {
-          console.log("error submit!!");
-          return false;
+          this.$confirm("确认修改密码？", "修改密码", {})
+            .then(() => {
+              const param = {
+                oldPassword: md5(this.pwdForm.oldPassword),
+                password: md5(this.pwdForm.password),
+              };
+              modifyPwd(JSON.stringify(param)).then((res) => {
+                this.logout();
+              });
+            })
+            .catch((e) => {});
         }
       });
     },
     updateUser() {
-      this.dialogFormVisible = false;
-      this.$message({
-        message: "修改个人资料成功",
-        type: "success",
+      const param = {
+        nickname: this.userInfo.nickName,
+        sex: this.userInfo.sex,
+        birthday: this.userInfo.birthday,
+        signature: this.userInfo.signature,
+        friendApprove: this.userInfo.friendApprove,
+        phoneAllowed: this.userInfo.phoneAllowed,
+        qrcodeAllowed: this.userInfo.qrcodeAllowed,
+        cardAllowed: this.userInfo.cardAllowed,
+        groupAllowed: this.userInfo.groupAllowed,
+      };
+      modifyUser(JSON.stringify(param)).then((res) => {
+        this.$message({
+          message: "修改个人资料成功",
+          type: "success",
+        });
       });
+      this.dialogFormVisible = false;
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

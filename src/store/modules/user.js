@@ -28,7 +28,6 @@ const user = {
   },
 
   actions: {
-    // 登录
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
       const pwd = md5(userInfo.password.trim())
@@ -46,7 +45,6 @@ const user = {
       })
     },
 
-    // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         // getInfo(state.token).then(response => {

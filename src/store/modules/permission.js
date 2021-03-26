@@ -43,14 +43,13 @@ const permission = {
   actions: {
     GenerateRoutes({ commit }, data) {
       return new Promise(resolve => {
-        const { roles } = data
+        const menu = [{
+          path: '/group',
+          component: Layout,
+          meta: { title: '群功能设置', icon: 'dashboard', roles: ['admin'] },
+          children: []
+        }]
         if (asyncRouterMap.length == 0) {
-          var menu = {
-            path: '/group',
-            component: Layout,
-            meta: { title: '群功能设置', icon: 'dashboard', roles: ['admin'] },
-            children: []
-          }
           getGroupMens().then((res) => {
             res.data.map(function (item, index) {
               var menuChild = {
@@ -58,8 +57,7 @@ const permission = {
                 component: () => import('@/views/group/menu/index'),
                 meta: {
                   title: item.name,
-                  icon: 'dashboard',
-                  roles: ['admin']
+                  icon: 'dashboard'
                 },
                 redirect: "/menu/odds",
                 children: [
@@ -69,8 +67,7 @@ const permission = {
                     component: () => import('@/views/group/menu/odds/index'),
                     meta: {
                       title: '赔率设置',
-                      icon: 'dashboard',
-                      roles: ['admin']
+                      icon: 'dashboard'
                     },
                     props: { id: item.groupId }
                   },
@@ -80,8 +77,7 @@ const permission = {
                     component: () => import('@/views/group/menu/trust/index'),
                     meta: {
                       title: '托号设置',
-                      icon: 'dashboard',
-                      roles: ['admin']
+                      icon: 'dashboard'
                     },
                     props: { id: item.groupId }
                   },
@@ -91,8 +87,7 @@ const permission = {
                     component: () => import('@/views/group/menu/grab/index'),
                     meta: {
                       title: '秒号设置',
-                      icon: 'dashboard',
-                      roles: ['admin']
+                      icon: 'dashboard'
                     },
                     props: { id: item.groupId }
                   },
@@ -102,8 +97,7 @@ const permission = {
                     component: () => import('@/views/group/menu/claim/index'),
                     meta: {
                       title: '赔付号设置',
-                      icon: 'dashboard',
-                      roles: ['admin']
+                      icon: 'dashboard'
                     },
                     props: { id: item.groupId }
                   },
@@ -113,8 +107,7 @@ const permission = {
                     component: () => import('@/views/group/menu/monitor/index'),
                     meta: {
                       title: '报奖监控',
-                      icon: 'dashboard',
-                      roles: ['admin']
+                      icon: 'dashboard'
                     },
                     props: { id: item.groupId }
                   },
@@ -124,8 +117,7 @@ const permission = {
                     component: () => import('@/views/group/menu/win/index'),
                     meta: {
                       title: '中奖查询',
-                      icon: 'dashboard',
-                      roles: ['admin']
+                      icon: 'dashboard'
                     },
                     props: { id: item.groupId }
                   },
@@ -135,26 +127,26 @@ const permission = {
                     component: () => import('@/views/group/menu/turnover/index'),
                     meta: {
                       title: '流水统计',
-                      icon: 'dashboard',
-                      roles: ['admin']
+                      icon: 'dashboard'
                     },
                     props: { id: item.groupId }
                   }
                 ]
               }
-              menu.children.push(menuChild)
+              menu[0].children.push(menuChild)
             })
           })
-          asyncRouterMap.push(menu)
         }
-        let accessedRouters
-        if (roles.indexOf('admin') >= 0) {
-          accessedRouters = asyncRouterMap
-        } else {
-          accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-        }
+        // let accessedRouters = menu
         // console.log(accessedRouters)
-        commit('SET_ROUTERS', accessedRouters)
+        // if (roles.indexOf('admin') >= 0) {
+        //   accessedRouters = asyncRouterMap
+        // } else {
+        //   accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
+        // }
+        // console.log(accessedRouters)
+        // commit('SET_ROUTERS', accessedRouters)
+        commit('SET_ROUTERS', menu)
         resolve()
       })
     }

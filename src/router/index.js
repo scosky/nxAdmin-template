@@ -29,6 +29,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/dashboard/dashboard'
   },
+  
   { path: '/login', component: () => import('@/views/login'), name: '登录星辰', hidden: true },
   { path: '/404', component: () => import('@/views/errorPage/404'), hidden: true },
   { path: '/401', component: () => import('@/views/errorPage/401'), hidden: true },
@@ -50,7 +51,7 @@ export const constantRouterMap = [
 ]
 
 export default new Router({
-  // mode: 'history', //后端支持可开
+  mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 

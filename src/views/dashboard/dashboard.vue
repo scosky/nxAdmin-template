@@ -227,6 +227,7 @@ export default {
         size: 10,
       };
       getGroupListPage(para).then((res) => {
+        // console.log(JSON.stringify(res.data));
         this.groups = res.data;
         this.total = res.total;
       });
