@@ -49,94 +49,94 @@ const permission = {
           meta: { title: '群功能设置', icon: 'dashboard', roles: ['admin'] },
           children: []
         }]
-        if (asyncRouterMap.length == 0) {
-          getGroupMens().then((res) => {
-            res.data.map(function (item, index) {
-              var menuChild = {
-                path: '/menu' + index,
-                component: () => import('@/views/group/menu/index'),
-                meta: {
-                  title: item.name,
-                  icon: 'dashboard'
+        getGroupMens().then((res) => {
+          res.data.map(function (item, index) {
+            var menuChild = {
+              path: '/menu' + index,
+              component: () => import('@/views/group/menu/index'),
+              meta: {
+                title: item.name,
+                icon: 'dashboard'
+              },
+              redirect: "/menu/odds",
+              children: [
+                {
+                  path: 'odds',
+                  name: '赔率设置',
+                  component: () => import('@/views/group/menu/odds/index'),
+                  meta: {
+                    title: '赔率设置',
+                    icon: 'dashboard'
+                  },
+                  props: { id: item.groupId, name: item.name }
                 },
-                redirect: "/menu/odds",
-                children: [
-                  {
-                    path: 'odds',
-                    name: '赔率设置',
-                    component: () => import('@/views/group/menu/odds/index'),
-                    meta: {
-                      title: '赔率设置',
-                      icon: 'dashboard'
-                    },
-                    props: { id: item.groupId }
+                {
+                  path: 'trust' + index,
+                  name: '托号设置',
+                  component: () => import('@/views/group/menu/trust/index'),
+                  meta: {
+                    title: '托号设置',
+                    icon: 'dashboard'
                   },
-                  {
-                    path: 'trust' + index,
-                    name: '托号设置',
-                    component: () => import('@/views/group/menu/trust/index'),
-                    meta: {
-                      title: '托号设置',
-                      icon: 'dashboard'
-                    },
-                    props: { id: item.groupId }
+                  props: { id: item.groupId, name: item.name }
+                },
+                {
+                  path: 'grab' + index,
+                  name: '秒号设置',
+                  component: () => import('@/views/group/menu/grab/index'),
+                  meta: {
+                    title: '秒号设置',
+                    icon: 'dashboard'
                   },
-                  {
-                    path: 'grab' + index,
-                    name: '秒号设置',
-                    component: () => import('@/views/group/menu/grab/index'),
-                    meta: {
-                      title: '秒号设置',
-                      icon: 'dashboard'
-                    },
-                    props: { id: item.groupId }
+                  props: { id: item.groupId, name: item.name }
+                },
+                {
+                  path: 'claim' + index,
+                  name: '赔付号设置',
+                  component: () => import('@/views/group/menu/claim/index'),
+                  meta: {
+                    title: '赔付号设置',
+                    icon: 'dashboard'
                   },
-                  {
-                    path: 'claim' + index,
-                    name: '赔付号设置',
-                    component: () => import('@/views/group/menu/claim/index'),
-                    meta: {
-                      title: '赔付号设置',
-                      icon: 'dashboard'
-                    },
-                    props: { id: item.groupId }
+                  props: { id: item.groupId, name: item.name }
+                },
+                {
+                  path: 'monitor' + index,
+                  name: '报奖监控',
+                  component: () => import('@/views/group/menu/monitor/index'),
+                  meta: {
+                    title: '报奖监控',
+                    icon: 'dashboard'
                   },
-                  {
-                    path: 'monitor' + index,
-                    name: '报奖监控',
-                    component: () => import('@/views/group/menu/monitor/index'),
-                    meta: {
-                      title: '报奖监控',
-                      icon: 'dashboard'
-                    },
-                    props: { id: item.groupId }
+                  props: { id: item.groupId, name: item.name }
+                },
+                {
+                  path: 'win' + index,
+                  name: '中奖查询',
+                  component: () => import('@/views/group/menu/win/index'),
+                  meta: {
+                    title: '中奖查询',
+                    icon: 'dashboard'
                   },
-                  {
-                    path: 'win' + index,
-                    name: '中奖查询',
-                    component: () => import('@/views/group/menu/win/index'),
-                    meta: {
-                      title: '中奖查询',
-                      icon: 'dashboard'
-                    },
-                    props: { id: item.groupId }
+                  props: { id: item.groupId, name: item.name }
+                },
+                {
+                  path: 'turnover' + index,
+                  name: '流水统计',
+                  component: () => import('@/views/group/menu/turnover/index'),
+                  meta: {
+                    title: '流水统计',
+                    icon: 'dashboard'
                   },
-                  {
-                    path: 'turnover' + index,
-                    name: '流水统计',
-                    component: () => import('@/views/group/menu/turnover/index'),
-                    meta: {
-                      title: '流水统计',
-                      icon: 'dashboard'
-                    },
-                    props: { id: item.groupId }
-                  }
-                ]
-              }
-              menu[0].children.push(menuChild)
-            })
+                  props: { id: item.groupId, name: item.name }
+                }
+              ]
+            }
+            menu[0].children.push(menuChild)
           })
-        }
+          commit('SET_ROUTERS', menu)
+          resolve()
+        })
         // let accessedRouters = menu
         // console.log(accessedRouters)
         // if (roles.indexOf('admin') >= 0) {
@@ -146,8 +146,6 @@ const permission = {
         // }
         // console.log(accessedRouters)
         // commit('SET_ROUTERS', accessedRouters)
-        commit('SET_ROUTERS', menu)
-        resolve()
       })
     }
   }

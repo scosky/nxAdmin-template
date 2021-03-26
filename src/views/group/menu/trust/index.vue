@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="item">
-      <h4>XXX群托号设置</h4>
+      <h4>{{ name }} 托号设置</h4>
     </div>
     <section>
       <!--工具条-->
@@ -22,38 +22,66 @@
       <!--列表-->
       <el-table :data="trusts" highlight-current-row style="width: 100%">
         <el-table-column prop="id" label="ID" width="120"> </el-table-column>
-        <el-table-column prop="name" label="名字" width="120">
+        <el-table-column prop="nickname" label="昵称" width="120">
         </el-table-column>
-        <el-table-column prop="phone" label="手机号" width="150">
+        <el-table-column prop="phone" label="手机号" width="120">
         </el-table-column>
         <el-table-column prop="isTrust" label="是否托号" width="120">
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.isTrust === 1 ? 'success' : 'info'"
+              :type="scope.row.isTrust === '1' ? 'success' : 'info'"
               disable-transitions
             >
-              <span v-if="scope.row.isTrust === 0">否</span>
+              <span v-if="scope.row.isTrust === '0'">否</span>
               <span v-else>是</span>
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="150">
+        <el-table-column prop="trustStatus" label="是否启用" width="120">
+          <template slot-scope="scope">
+            <el-tag
+              :type="scope.row.trustStatus === '1' ? 'success' : 'info'"
+              disable-transitions
+            >
+              <span v-if="scope.row.trustStatus === '0'">停用</span>
+              <span v-else>启用</span>
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button
               :plain="true"
-              v-if="scope.row.isTrust === 0"
+              v-if="scope.row.isTrust === '0'"
               size="mini"
               type="primary"
-              @click="handleEdit(scope.$index, scope.row)"
+              @click="setTrust(scope.$index, scope.row)"
               >设置托号</el-button
             >
             <el-button
               :plain="true"
-              v-else-if="scope.row.isTrust === 1"
+              v-else-if="scope.row.isTrust === '1'"
               size="mini"
               type="primary"
-              @click="handleEdit(scope.$index, scope.row)"
+              @click="cancelTrust(scope.$index, scope.row)"
               >取消托号</el-button
+            >
+
+            <el-button
+              :plain="true"
+              v-if="scope.row.trustStatus === '0'"
+              size="mini"
+              type="primary"
+              @click="startTrust(scope.$index, scope.row)"
+              >启用</el-button
+            >
+            <el-button
+              :plain="true"
+              v-else-if="scope.row.trustStatus === '1'"
+              size="mini"
+              type="primary"
+              @click="stopTrust(scope.$index, scope.row)"
+              >停用</el-button
             >
           </template>
         </el-table-column>
@@ -74,56 +102,129 @@
   </div>
 </template>
 <script>
-import util from "@/utils/table.js";
-import { membersData } from "@/api/turst";
-
+import {
+  membersData,
+  setTrust,
+  cancelTrust,
+  startTrust,
+  stopTrust,
+} from "@/api/turst";
 export default {
   name: "trust",
+  props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
+    name: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
+      groupId: "",
       filters: {
-        phone: "",
         id: "",
+        phone: "",
+        groupId: "",
       },
       trusts: [],
       total: 0,
       page: 1,
       pageSize: 10,
-      sels: [], // 列表选中列
     };
   },
   methods: {
-    handleEdit(index, row) {
-      this.trusts[index].isTrust === 1
-        ? (row.isTrust = 0)
-        : this.trusts[index].isTrust === 0
-        ? (row.isTrust = 1)
-        : "";
-      this.$message({
-        message: "修改成功",
-        type: "success",
-      });
+    setTrust(index, row) {
+      this.$confirm("确认设置托号？", "设置托号", {})
+        .then(() => {
+          const param = {
+            userId: row.id,
+            groupId: this.groupId,
+          };
+          setTrust(param).then((res) => {
+            this.trusts[index].isTrust = "1";
+            this.$message({
+              message: "设置成功",
+              type: "success",
+            });
+          });
+        })
+        .catch((e) => {});
+    },
+    cancelTrust(index, row) {
+      this.$confirm("确认取消托号？", "取消托号", {})
+        .then(() => {
+          const param = {
+            userId: row.id,
+            groupId: this.groupId,
+          };
+          cancelTrust(param).then((res) => {
+            this.trusts[index].isTrust = "0";
+            this.$message({
+              message: "取消成功",
+              type: "success",
+            });
+          });
+        })
+        .catch((e) => {});
+    },
+    startTrust(index, row) {
+      this.$confirm("确认启用托号？", "启用托号", {})
+        .then(() => {
+          const param = {
+            userId: row.id,
+            groupId: this.groupId,
+          };
+          startTrust(param).then((res) => {
+            this.trusts[index].trustStatus = "1";
+            this.$message({
+              message: "启用成功",
+              type: "success",
+            });
+          });
+        })
+        .catch((e) => {});
+    },
+    stopTrust(index, row) {
+      this.$confirm("确认停用托号？", "停用托号", {})
+        .then(() => {
+          const param = {
+            userId: row.id,
+            groupId: this.groupId,
+          };
+          stopTrust(param).then((res) => {
+            this.trusts[index].trustStatus = "0";
+            this.$message({
+              message: "停用成功",
+              type: "success",
+            });
+          });
+        })
+        .catch((e) => {});
     },
     handleCurrent(val) {
       this.page = val;
       this.members();
     },
-    whether(row) {
-      return row.isTrust === 1 ? "是" : row.isTrust === 0 ? "否" : "";
-    },
     members() {
       const para = {
         page: this.page,
-        phone: this.filters.phone,
         id: this.filters.id,
+        phone: this.filters.phone,
+        groupId: this.groupId,
+        size: 10,
       };
       membersData(para).then((res) => {
-        this.trusts = res.data.members;
-        this.total = res.data.total;
+        console.log(res.data);
+        this.trusts = res.data;
+        this.total = res.total;
       });
     },
   },
   mounted() {
+    this.groupId = this.id;
     this.members();
   },
 };
