@@ -39,7 +39,8 @@
 </template>
 
 <script>
-import { setGroupOdds, getGroupOdds } from "@/api/groupTable";
+import { getGroupOdds } from "@/api/groupTable";
+import { setGroupOdds } from "@/api/users";
 export default {
   name: "FiveSigin",
   props: ["groupIdValue"],
@@ -55,13 +56,17 @@ export default {
   },
   methods: {
     oddsSubmit() {
-      const param = {
+      const data = {
+        isOpen: this.isOpen,
+        switchSet: this.switchSet,
+        odds: this.odds,
+      };
+      const params = {
         groupId: this.groupId,
         packs: this.packs,
-        odds: JSON.stringify(this.odds),
+        odds: JSON.stringify(data),
       };
-      console.log(param);
-      setGroupOdds(param).then((res) => {
+      setGroupOdds(params).then((res) => {
         this.$message({
           message: "成功",
           type: "success",
@@ -83,9 +88,8 @@ export default {
         packs: this.packs,
       };
       getGroupOdds(param).then((res) => {
-        console.log("res:" + JSON.stringify(res));
         var data = res.data;
-        if (data == undefined) {
+        if (data == "" || data == null) {
           this.odds = [
             { index: 1, val: "0" },
             { index: 2, val: "0" },
@@ -96,7 +100,10 @@ export default {
           this.isOpen = "1";
           this.switchSet = false;
         } else {
-          console.log(data);
+          let result = JSON.parse(data);
+          this.odds = result.odds;
+          this.isOpen = result.isOpen;
+          this.switchSet = result.switchSet;
         }
       });
     },

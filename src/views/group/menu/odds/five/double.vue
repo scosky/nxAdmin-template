@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import { getGroupOdds } from "@/api/groupTable";
+import { setGroupOdds } from "@/api/users";
 export default {
   name: "FiveDouble",
   props: ["groupIdValue"],
@@ -44,37 +46,68 @@ export default {
     return {
       groupId: 0,
       name: "5包赔率 多雷",
-      odds: [
-        { index: 2, val: "0" },
-        { index: 3, val: "0" },
-        { index: 4, val: "0" },
-        { index: 5, val: "0" },
-      ],
+      packs: 52,
+      odds: [],
       isOpen: "1",
       switchSet: false,
     };
   },
   methods: {
     oddsSubmit() {
-      this.$message({
-        message: "成功",
-        type: "success",
+      const data = {
+        isOpen: this.isOpen,
+        switchSet: this.switchSet,
+        odds: this.odds,
+      };
+      const params = {
+        groupId: this.groupId,
+        packs: this.packs,
+        odds: JSON.stringify(data),
+      };
+      setGroupOdds(params).then((res) => {
+        this.$message({
+          message: "成功",
+          type: "success",
+        });
       });
     },
     oddRest() {
-      console.log("......");
+      this.getFiveDouble();
     },
-    //开启
     openSet() {
       this.switchSet = false;
     },
-    //关闭
     closeSet() {
       this.switchSet = true;
+    },
+    getFiveDouble() {
+      const param = {
+        groupId: this.groupId,
+        packs: this.packs,
+      };
+      getGroupOdds(param).then((res) => {
+        var data = res.data;
+        if (data == "" || data == null) {
+          this.odds = [
+            { index: 2, val: "0" },
+            { index: 3, val: "0" },
+            { index: 4, val: "0" },
+            { index: 5, val: "0" },
+          ];
+          this.isOpen = "1";
+          this.switchSet = false;
+        } else {
+          let result = JSON.parse(data);
+          this.odds = result.odds;
+          this.isOpen = result.isOpen;
+          this.switchSet = result.switchSet;
+        }
+      });
     },
   },
   mounted() {
     this.groupId = this.groupIdValue;
+    this.getFiveDouble();
   },
 };
 </script>

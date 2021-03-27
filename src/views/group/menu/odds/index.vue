@@ -69,7 +69,7 @@
         </el-menu>
       </el-aside>
 
-      <router-view :is="currentView" :groupIdValue="groupIdValue"></router-view>
+      <component :is="currentView" :groupIdValue="groupIdValue"></component>
     </el-container>
   </div>
 </template>

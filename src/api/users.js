@@ -14,3 +14,11 @@ export function modifyPwd(params) {
         data: params
     })
 }
+
+export function setGroupOdds(params) {
+    return ajaxRequest({
+        url: '/group/set/odds',
+        method: 'post',
+        data: params
+    })
+}

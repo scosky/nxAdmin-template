@@ -33,7 +33,6 @@ const user = {
       const pwd = md5(userInfo.password.trim())
       return new Promise((resolve, reject) => {
         login(username, pwd).then(response => {
-          console.log("response:" + JSON.stringify(response))
           const data = response
           setToken(data.token)
           console.log("token:" + data.token)
