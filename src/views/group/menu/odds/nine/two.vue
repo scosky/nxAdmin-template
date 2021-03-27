@@ -9,8 +9,12 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>玩法设置：</span>
-          <el-radio v-model="radio" label="1" @change="openSet">开启</el-radio>
-          <el-radio v-model="radio" label="2"  @change="closeSet">关闭</el-radio>
+            <el-radio v-model="isOpen" label="1" @change="openSet"
+              >开启</el-radio
+            >
+            <el-radio v-model="isOpen" label="2" @change="closeSet"
+              >关闭</el-radio
+            >
           </div></el-col
         >
         <el-col :span="7"
@@ -47,41 +51,84 @@
 </template>
 
 <script>
+import { getGroupOdds } from "@/api/groupTable";
+import { setGroupOdds } from "@/api/users";
 export default {
   name: "twoView",
+  props: ["groupIdValue"],
   data() {
     return {
+      groupId: 0,
       name: "9包赔率 双雷",
-      odds: [
-        { index: 3, val: "0" },
-        { index: 4, val: "0" },
-        { index: 5, val: "0" },
-        { index: 6, val: "0" },
-        { index: 7, val: "0" },
-        { index: 8, val: "0" },
-        { index: 9, val: "0" },
-      ],
-      radio: "1",
-      tage: "0",
-      switchSet:false
+      packs: 92,
+      odds: [],
+      isOpen: "",
+      tage: "",
+      switchSet: false,
     };
   },
   methods: {
     oddsSubmit() {
-      this.$message({
-        message: "成功",
-        type: "success",
+      const data = {
+        isOpen: this.isOpen,
+        switchSet: this.switchSet,
+        odds: this.odds,
+        tage: this.tage,
+      };
+      const params = {
+        groupId: this.groupId,
+        packs: this.packs,
+        odds: JSON.stringify(data),
+      };
+      setGroupOdds(params).then((res) => {
+        this.$message({
+          message: "成功",
+          type: "success",
+        });
       });
     },
-    oddRest() {},
-        //开启
-    openSet(){
-        this.switchSet= false
+    oddRest() {
+      this.getTwoView();
     },
-    //关闭
-    closeSet(){
-      this.switchSet= true
-    }
+    openSet() {
+      this.switchSet = false;
+    },
+    closeSet() {
+      this.switchSet = true;
+    },
+    getTwoView() {
+      const param = {
+        groupId: this.groupId,
+        packs: this.packs,
+      };
+      getGroupOdds(param).then((res) => {
+        var data = res.data;
+        if (data == "" || data == null) {
+          this.odds = [
+            { index: 3, val: "0" },
+            { index: 4, val: "0" },
+            { index: 5, val: "0" },
+            { index: 6, val: "0" },
+            { index: 7, val: "0" },
+            { index: 8, val: "0" },
+            { index: 9, val: "0" },
+          ];
+          this.tage = "0";
+          this.isOpen = "1";
+          this.switchSet = false;
+        } else {
+          let result = JSON.parse(data);
+          this.odds = result.odds;
+          this.isOpen = result.isOpen;
+          this.switchSet = result.switchSet;
+          this.tage = result.tage;
+        }
+      });
+    },
+  },
+  mounted() {
+    this.groupId = this.groupIdValue;
+    this.getTwoView();
   },
 };
 </script>

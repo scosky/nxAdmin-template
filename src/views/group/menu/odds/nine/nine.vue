@@ -9,10 +9,10 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>赔率：</span>
-            <el-radio v-model="radio" label="1" @change="openSet"
+            <el-radio v-model="isOpen" label="1" @change="openSet"
               >开启</el-radio
             >
-            <el-radio v-model="radio" label="2" @change="closeSet"
+            <el-radio v-model="isOpen" label="2" @change="closeSet"
               >关闭</el-radio
             >
           </div></el-col
@@ -22,7 +22,7 @@
             <span>单个赔率</span>
             <el-input
               size="mini"
-              v-model="flag"
+              v-model="tage"
               :disabled="switchSet"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
             ></el-input>
@@ -40,33 +40,72 @@
 </template>
 
 <script>
+import { getGroupOdds } from "@/api/groupTable";
+import { setGroupOdds } from "@/api/users";
 export default {
   name: "eightView",
+  props: ["groupIdValue"],
   data() {
     return {
+      groupId: 0,
       name: "9包赔率 九雷",
-      odds: [{ index: 9, val: "1" }],
-      radio: "1",
+      packs: 99,
+      isOpen: "",
       switchSet: false,
-      flag: "0"
+      tage: "",
     };
   },
   methods: {
     oddsSubmit() {
-      this.$message({
-        message: "成功",
-        type: "success",
+      const data = {
+        isOpen: this.isOpen,
+        switchSet: this.switchSet,
+        tage: this.tage,
+      };
+      const params = {
+        groupId: this.groupId,
+        packs: this.packs,
+        odds: JSON.stringify(data),
+      };
+      setGroupOdds(params).then((res) => {
+        this.$message({
+          message: "成功",
+          type: "success",
+        });
       });
     },
-    oddRest() {},
-    //开启
+    oddRest() {
+      this.getEightView();
+    },
     openSet() {
       this.switchSet = false;
     },
-    //关闭
     closeSet() {
       this.switchSet = true;
     },
+    getEightView() {
+      const param = {
+        groupId: this.groupId,
+        packs: this.packs,
+      };
+      getGroupOdds(param).then((res) => {
+        var data = res.data;
+        if (data == "" || data == null) {
+          this.tage = "0";
+          this.isOpen = "1";
+          this.switchSet = false;
+        } else {
+          let result = JSON.parse(data);
+          this.isOpen = result.isOpen;
+          this.switchSet = result.switchSet;
+          this.tage = result.tage;
+        }
+      });
+    },
+  },
+  mounted() {
+    this.groupId = this.groupIdValue;
+    this.getEightView();
   },
 };
 </script>
