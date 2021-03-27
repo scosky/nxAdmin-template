@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <div class="item">
-      <h4>{{ name }} 群中奖信息</h4>
+    <div class="item" style="color: #42b983">
+      <h4>【{{ name }} &nbsp;群】中奖信息</h4>
     </div>
   </div>
 </template>

@@ -62,7 +62,7 @@ const permission = {
               children: [
                 {
                   path: 'odds',
-                  name: '赔率设置',
+                  name: '赔率设置【' + item.groupId + '】',
                   component: () => import('@/views/group/menu/odds/index'),
                   meta: {
                     title: '赔率设置',
@@ -72,7 +72,7 @@ const permission = {
                 },
                 {
                   path: 'trust' + index,
-                  name: '托号设置',
+                  name: '托号设置【' + item.groupId + '】',
                   component: () => import('@/views/group/menu/trust/index'),
                   meta: {
                     title: '托号设置',
@@ -82,7 +82,7 @@ const permission = {
                 },
                 {
                   path: 'grab' + index,
-                  name: '秒号设置',
+                  name: '秒号设置【' + item.groupId + '】',
                   component: () => import('@/views/group/menu/grab/index'),
                   meta: {
                     title: '秒号设置',
@@ -92,7 +92,7 @@ const permission = {
                 },
                 {
                   path: 'claim' + index,
-                  name: '赔付号设置',
+                  name: '赔付号设置【' + item.groupId + '】',
                   component: () => import('@/views/group/menu/claim/index'),
                   meta: {
                     title: '赔付号设置',
@@ -102,7 +102,7 @@ const permission = {
                 },
                 {
                   path: 'monitor' + index,
-                  name: '报奖监控',
+                  name: '报奖监控【' + item.groupId + '】',
                   component: () => import('@/views/group/menu/monitor/index'),
                   meta: {
                     title: '报奖监控',
@@ -112,7 +112,7 @@ const permission = {
                 },
                 {
                   path: 'win' + index,
-                  name: '中奖查询',
+                  name: '中奖查询【' + item.groupId + '】',
                   component: () => import('@/views/group/menu/win/index'),
                   meta: {
                     title: '中奖查询',
@@ -122,7 +122,7 @@ const permission = {
                 },
                 {
                   path: 'turnover' + index,
-                  name: '流水统计',
+                  name: '流水统计【' + item.groupId + '】',
                   component: () => import('@/views/group/menu/turnover/index'),
                   meta: {
                     title: '流水统计',

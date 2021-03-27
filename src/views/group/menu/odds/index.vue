@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <div class="item">
-      <h4>{{ name }} 群赔设置</h4>
+    <div class="item" style="color: #42b983">
+      <h4>【{{ name }} &nbsp;群】赔设置</h4>
     </div>
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
@@ -142,8 +142,8 @@ export default {
 };
 </script>
 
-<style scopedd>
-.el-input .el-input__inner {
+<style>
+.odds-wap .el-input .el-input__inner {
   text-align: center !important;
 }
 .el-aside {
@@ -170,5 +170,4 @@ export default {
 .gf input.el-input__inner:focus {
   border-bottom-color: #42b983;
 }
-</style>
 </style>

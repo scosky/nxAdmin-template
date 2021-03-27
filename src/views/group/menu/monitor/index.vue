@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <div class="item">
-      <h4>XXX群中奖信息</h4>
+    <div class="item" style="color: #42b983">
+      <h4>【{{ name }} &nbsp;群】报奖信息</h4>
     </div>
     <div
       v-infinite-scroll="loadMore"
@@ -26,6 +26,16 @@
 import Mock from "mockjs";
 export default {
   name: "monitor",
+  props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
+    name: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
       count: 0,
