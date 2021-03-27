@@ -9,8 +9,12 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>玩法设置:</span>
-            <el-radio v-model="radio" label="1" @change="openSet">开启</el-radio>
-            <el-radio v-model="radio" label="2"  @change="closeSet">关闭</el-radio>
+            <el-radio v-model="isOpen" label="1" @change="openSet"
+              >开启</el-radio
+            >
+            <el-radio v-model="isOpen" label="0" @change="closeSet"
+              >关闭</el-radio
+            >
           </div></el-col
         >
       </el-row>
@@ -19,7 +23,7 @@
         <span style="margin-left: 20px"> 中{{ odd.index }}雷:返</span>
         <el-input
           v-model="odd.val"
-            :disabled="switchSet"
+          :disabled="switchSet"
           oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
         ></el-input>
         <span>倍</span>
@@ -35,6 +39,7 @@
 <script>
 export default {
   name: "SixSigin",
+  props: ["groupIdValue"],
   data() {
     return {
       name: "6包赔率 单雷",
@@ -46,8 +51,8 @@ export default {
         { index: 5, val: "0" },
         { index: 6, val: "0" },
       ],
-      radio: "1",
-     switchSet:false
+      isOpen: "1",
+      switchSet: false,
     };
   },
   methods: {
@@ -60,14 +65,14 @@ export default {
     oddRest() {
       console.log("......");
     },
-      //开启
-    openSet(){
-        this.switchSet= false
+    //开启
+    openSet() {
+      this.switchSet = false;
     },
     //关闭
-    closeSet(){
-      this.switchSet= true
-    }
+    closeSet() {
+      this.switchSet = true;
+    },
   },
 };
 </script>

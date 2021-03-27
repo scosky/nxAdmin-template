@@ -26,13 +26,13 @@
         </el-table-column>
         <el-table-column prop="phone" label="手机号" width="120">
         </el-table-column>
-        <el-table-column prop="isGrab" label="是否秒号" width="120">
+        <el-table-column prop="autoGrab" label="是否秒号" width="120">
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.isGrab === '1' ? 'success' : 'info'"
+              :type="scope.row.autoGrab === '1' ? 'success' : 'info'"
               disable-transitions
             >
-              <span v-if="scope.row.isGrab === '0'">否</span>
+              <span v-if="scope.row.autoGrab === '0'">否</span>
               <span v-else>是</span>
             </el-tag>
           </template>
@@ -52,7 +52,7 @@
           <template slot-scope="scope">
             <el-button
               :plain="true"
-              v-if="scope.row.isGrab === '0'"
+              v-if="scope.row.autoGrab === '0'"
               size="mini"
               type="primary"
               @click="setGrab(scope.$index, scope.row)"
@@ -60,7 +60,7 @@
             >
             <el-button
               :plain="true"
-              v-else-if="scope.row.isGrab === '1'"
+              v-else-if="scope.row.autoGrab === '1'"
               size="mini"
               type="primary"
               @click="cancelGrab(scope.$index, scope.row)"
@@ -144,7 +144,7 @@ export default {
             groupId: this.groupId,
           };
           setGrab(param).then((res) => {
-            this.trusts[index].isGrab = "1";
+            this.trusts[index].autoGrab = "1";
             this.$message({
               message: "设置成功",
               type: "success",
@@ -161,7 +161,7 @@ export default {
             groupId: this.groupId,
           };
           cancelGrab(param).then((res) => {
-            this.trusts[index].isGrab = "0";
+            this.trusts[index].autoGrab = "0";
             this.$message({
               message: "取消成功",
               type: "success",

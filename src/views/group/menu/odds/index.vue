@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
-     <div class="item">
-      <h4>XXX群赔设置</h4>
+    <div class="item">
+      <h4>{{ name }} 群赔设置</h4>
     </div>
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['1','2','3']">
+        <el-menu :default-openeds="['1', '2', '3']">
           <el-submenu index="1">
             <template slot="title"
               ><i class="el-icon-setting"></i>5包赔率</template
@@ -69,7 +69,7 @@
         </el-menu>
       </el-aside>
 
-      <component :is="currentView"></component>
+      <router-view :is="currentView" :groupIdValue="groupIdValue"></router-view>
     </el-container>
   </div>
 </template>
@@ -90,8 +90,20 @@ import eightView from "./nine/eight";
 import nineView from "./nine/nine";
 export default {
   name: "oddsTe",
+  props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
+    name: {
+      type: String,
+      default: "",
+    },
+  },
   data() {
     return {
+      groupId: 0,
+      groupIdValue: 0,
       currentView: fiveSigin,
     };
   },
@@ -119,6 +131,10 @@ export default {
       if (index == 8) this.currentView = eightView;
       if (index == 9) this.currentView = nineView;
     },
+  },
+  created() {
+    this.groupId = this.id;
+    this.groupIdValue = this.id;
   },
   mounted() {
     this.fiveSiginHandler();

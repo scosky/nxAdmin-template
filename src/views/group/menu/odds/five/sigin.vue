@@ -9,8 +9,12 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>玩法设置:</span>
-            <el-radio v-model="radio" label="1" @change="openSet">开启</el-radio>
-            <el-radio v-model="radio" label="2"  @change="closeSet">关闭</el-radio>
+            <el-radio v-model="isOpen" label="1" @change="openSet"
+              >开启</el-radio
+            >
+            <el-radio v-model="isOpen" label="0" @change="closeSet"
+              >关闭</el-radio
+            >
           </div></el-col
         >
       </el-row>
@@ -35,40 +39,71 @@
 </template>
 
 <script>
+import { setGroupOdds, getGroupOdds } from "@/api/groupTable";
 export default {
   name: "FiveSigin",
+  props: ["groupIdValue"],
   data() {
     return {
+      groupId: 0,
       name: "5包赔率 单雷",
-      odds: [
-        { index: 1, val: "0" },
-        { index: 2, val: "0" },
-        { index: 3, val: "0" },
-        { index: 4, val: "0" },
-        { index: 5, val: "0" },
-      ],
-      radio: "1",
-    switchSet:false
+      packs: 51,
+      odds: [],
+      isOpen: "",
+      switchSet: false,
     };
   },
   methods: {
     oddsSubmit() {
-      this.$message({
-        message: "成功",
-        type: "success",
+      const param = {
+        groupId: this.groupId,
+        packs: this.packs,
+        odds: JSON.stringify(this.odds),
+      };
+      console.log(param);
+      setGroupOdds(param).then((res) => {
+        this.$message({
+          message: "成功",
+          type: "success",
+        });
       });
     },
     oddRest() {
-      console.log("......");
+      this.getFiveSigin();
     },
-    //开启
-    openSet(){
-        this.switchSet= false
+    openSet() {
+      this.switchSet = false;
     },
-    //关闭
-    closeSet(){
-      this.switchSet= true
-    }
+    closeSet() {
+      this.switchSet = true;
+    },
+    getFiveSigin() {
+      const param = {
+        groupId: this.groupId,
+        packs: this.packs,
+      };
+      getGroupOdds(param).then((res) => {
+        console.log("res:" + JSON.stringify(res));
+        var data = res.data;
+        if (data == undefined) {
+          this.odds = [
+            { index: 1, val: "0" },
+            { index: 2, val: "0" },
+            { index: 3, val: "0" },
+            { index: 4, val: "0" },
+            { index: 5, val: "0" },
+          ];
+          this.isOpen = "1";
+          this.switchSet = false;
+        } else {
+          console.log(data);
+        }
+      });
+    },
+  },
+  mounted() {
+    this.groupId = this.groupIdValue;
+    this.getFiveSigin();
   },
 };
 </script>

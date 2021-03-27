@@ -14,3 +14,19 @@ export function getGroupMens() {
     method: 'get',
   })
 }
+
+export function setGroupOdds(params) {
+  return request({
+    url: '/group/set/odds',
+    method: 'post',
+    params: params
+  })
+}
+
+export function getGroupOdds(params) {
+  return request({
+    url: '/group/get/odds',
+    method: 'get',
+    params: params
+  })
+}

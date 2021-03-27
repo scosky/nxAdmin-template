@@ -14,6 +14,7 @@ service.interceptors.request.use(config => {
   if (store.getters.token) {
     config.headers.common['token'] = getToken()
   }
+  config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
   config.withCredentials = true
   return config
 }, error => {
@@ -26,9 +27,9 @@ service.interceptors.response.use(
     const res = response.data
     if (res.status === 1) {
       Message({
-        message: res.rtnMsg,
+        message: res.msg,
         type: 'error',
-        duration: 5 * 1000
+        duration: 3 * 1000
       })
 
       if (res.status === 2) {
@@ -48,11 +49,10 @@ service.interceptors.response.use(
     }
   },
   error => {
-    // console.log('err' + error)
     Message({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 3 * 1000
     })
     return Promise.reject(error)
   }

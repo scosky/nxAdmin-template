@@ -26,24 +26,24 @@
         </el-table-column>
         <el-table-column prop="phone" label="手机号" width="120">
         </el-table-column>
-        <el-table-column prop="isTrust" label="是否托号" width="120">
+        <el-table-column prop="msend" label="是否托号" width="120">
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.isTrust === '1' ? 'success' : 'info'"
+              :type="scope.row.msend === '1' ? 'success' : 'info'"
               disable-transitions
             >
-              <span v-if="scope.row.isTrust === '0'">否</span>
+              <span v-if="scope.row.msend === '0'">否</span>
               <span v-else>是</span>
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="trustStatus" label="是否启用" width="120">
+        <el-table-column prop="mstatus" label="是否启用" width="120">
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.trustStatus === '1' ? 'success' : 'info'"
+              :type="scope.row.mstatus === '1' ? 'success' : 'info'"
               disable-transitions
             >
-              <span v-if="scope.row.trustStatus === '0'">停用</span>
+              <span v-if="scope.row.mstatus === '0'">停用</span>
               <span v-else>启用</span>
             </el-tag>
           </template>
@@ -52,7 +52,7 @@
           <template slot-scope="scope">
             <el-button
               :plain="true"
-              v-if="scope.row.isTrust === '0'"
+              v-if="scope.row.msend === '0'"
               size="mini"
               type="primary"
               @click="setTrust(scope.$index, scope.row)"
@@ -60,7 +60,7 @@
             >
             <el-button
               :plain="true"
-              v-else-if="scope.row.isTrust === '1'"
+              v-else-if="scope.row.msend === '1'"
               size="mini"
               type="primary"
               @click="cancelTrust(scope.$index, scope.row)"
@@ -69,7 +69,7 @@
 
             <el-button
               :plain="true"
-              v-if="scope.row.trustStatus === '0'"
+              v-if="scope.row.mstatus === '0'"
               size="mini"
               type="primary"
               @click="startTrust(scope.$index, scope.row)"
@@ -77,7 +77,7 @@
             >
             <el-button
               :plain="true"
-              v-else-if="scope.row.trustStatus === '1'"
+              v-else-if="scope.row.mstatus === '1'"
               size="mini"
               type="primary"
               @click="stopTrust(scope.$index, scope.row)"
@@ -144,7 +144,7 @@ export default {
             groupId: this.groupId,
           };
           setTrust(param).then((res) => {
-            this.trusts[index].isTrust = "1";
+            this.trusts[index].msend = "1";
             this.$message({
               message: "设置成功",
               type: "success",
@@ -161,7 +161,7 @@ export default {
             groupId: this.groupId,
           };
           cancelTrust(param).then((res) => {
-            this.trusts[index].isTrust = "0";
+            this.trusts[index].msend = "0";
             this.$message({
               message: "取消成功",
               type: "success",
@@ -178,7 +178,7 @@ export default {
             groupId: this.groupId,
           };
           startTrust(param).then((res) => {
-            this.trusts[index].trustStatus = "1";
+            this.trusts[index].mstatus = "1";
             this.$message({
               message: "启用成功",
               type: "success",
@@ -195,7 +195,7 @@ export default {
             groupId: this.groupId,
           };
           stopTrust(param).then((res) => {
-            this.trusts[index].trustStatus = "0";
+            this.trusts[index].mstatus = "0";
             this.$message({
               message: "停用成功",
               type: "success",
@@ -217,7 +217,6 @@ export default {
         size: 10,
       };
       membersData(para).then((res) => {
-        console.log(res.data);
         this.trusts = res.data;
         this.total = res.total;
       });

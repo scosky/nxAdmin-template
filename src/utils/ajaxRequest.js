@@ -29,9 +29,9 @@ ajaxService.interceptors.response.use(
         const res = response.data
         if (res.status === 1) {
             Message({
-                message: res.rtnMsg,
+                message: res.msg,
                 type: 'error',
-                duration: 5 * 1000
+                duration: 3 * 1000
             })
 
             if (res.status === 2) {
@@ -54,7 +54,7 @@ ajaxService.interceptors.response.use(
         Message({
             message: error.message,
             type: 'error',
-            duration: 5 * 1000
+            duration: 3 * 1000
         })
         return Promise.reject(error)
     }

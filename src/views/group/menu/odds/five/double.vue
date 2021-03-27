@@ -9,8 +9,12 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>玩法设置:</span>
-             <el-radio v-model="radio" label="1" @change="openSet">开启</el-radio>
-            <el-radio v-model="radio" label="2"  @change="closeSet">关闭</el-radio>
+            <el-radio v-model="isOpen" label="1" @change="openSet"
+              >开启</el-radio
+            >
+            <el-radio v-model="isOpen" label="0" @change="closeSet"
+              >关闭</el-radio
+            >
           </div></el-col
         >
       </el-row>
@@ -35,8 +39,10 @@
 <script>
 export default {
   name: "FiveDouble",
+  props: ["groupIdValue"],
   data() {
     return {
+      groupId: 0,
       name: "5包赔率 多雷",
       odds: [
         { index: 2, val: "0" },
@@ -44,8 +50,8 @@ export default {
         { index: 4, val: "0" },
         { index: 5, val: "0" },
       ],
-      radio: "1",
-       switchSet:false
+      isOpen: "1",
+      switchSet: false,
     };
   },
   methods: {
@@ -58,14 +64,17 @@ export default {
     oddRest() {
       console.log("......");
     },
-       //开启
-    openSet(){
-        this.switchSet= false
+    //开启
+    openSet() {
+      this.switchSet = false;
     },
     //关闭
-    closeSet(){
-      this.switchSet= true
-    }
+    closeSet() {
+      this.switchSet = true;
+    },
+  },
+  mounted() {
+    this.groupId = this.groupIdValue;
   },
 };
 </script>

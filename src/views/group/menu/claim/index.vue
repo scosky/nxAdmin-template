@@ -26,24 +26,24 @@
         </el-table-column>
         <el-table-column prop="phone" label="手机号" width="120">
         </el-table-column>
-        <el-table-column prop="isIndemnity" label="是否托号" width="120">
+        <el-table-column prop="autoPaid" label="是否赔付号" width="120">
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.isIndemnity === '1' ? 'success' : 'info'"
+              :type="scope.row.autoPaid === '1' ? 'success' : 'info'"
               disable-transitions
             >
-              <span v-if="scope.row.isIndemnity === '0'">否</span>
+              <span v-if="scope.row.autoPaid === '0'">否</span>
               <span v-else>是</span>
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="indemnityStatus" label="是否启用" width="120">
+        <el-table-column prop="paidStatus" label="是否启用" width="120">
           <template slot-scope="scope">
             <el-tag
-              :type="scope.row.indemnityStatus === '1' ? 'success' : 'info'"
+              :type="scope.row.paidStatus === '1' ? 'success' : 'info'"
               disable-transitions
             >
-              <span v-if="scope.row.indemnityStatus === '0'">停用</span>
+              <span v-if="scope.row.paidStatus === '0'">停用</span>
               <span v-else>启用</span>
             </el-tag>
           </template>
@@ -52,7 +52,7 @@
           <template slot-scope="scope">
             <el-button
               :plain="true"
-              v-if="scope.row.isIndemnity === '0'"
+              v-if="scope.row.autoPaid === '0'"
               size="mini"
               type="primary"
               @click="setIndemnity(scope.$index, scope.row)"
@@ -60,7 +60,7 @@
             >
             <el-button
               :plain="true"
-              v-else-if="scope.row.isIndemnity === '1'"
+              v-else-if="scope.row.autoPaid === '1'"
               size="mini"
               type="primary"
               @click="cancelIndemnity(scope.$index, scope.row)"
@@ -69,7 +69,7 @@
 
             <el-button
               :plain="true"
-              v-if="scope.row.indemnityStatus === '0'"
+              v-if="scope.row.paidStatus === '0'"
               size="mini"
               type="primary"
               @click="startIndemnity(scope.$index, scope.row)"
@@ -77,7 +77,7 @@
             >
             <el-button
               :plain="true"
-              v-else-if="scope.row.indemnityStatus === '1'"
+              v-else-if="scope.row.paidStatus === '1'"
               size="mini"
               type="primary"
               @click="stopIndemnity(scope.$index, scope.row)"
@@ -144,7 +144,7 @@ export default {
             groupId: this.groupId,
           };
           setIndemnity(param).then((res) => {
-            this.trusts[index].isIndemnity = "1";
+            this.trusts[index].autoPaid = "1";
             this.$message({
               message: "设置成功",
               type: "success",
@@ -161,7 +161,7 @@ export default {
             groupId: this.groupId,
           };
           cancelIndemnity(param).then((res) => {
-            this.trusts[index].isIndemnity = "0";
+            this.trusts[index].autoPaid = "0";
             this.$message({
               message: "取消成功",
               type: "success",
@@ -178,7 +178,7 @@ export default {
             groupId: this.groupId,
           };
           startIndemnity(param).then((res) => {
-            this.trusts[index].indemnityStatus = "1";
+            this.trusts[index].paidStatus = "1";
             this.$message({
               message: "启用成功",
               type: "success",
@@ -195,7 +195,7 @@ export default {
             groupId: this.groupId,
           };
           stopIndemnity(param).then((res) => {
-            this.trusts[index].indemnityStatus = "0";
+            this.trusts[index].paidStatus = "0";
             this.$message({
               message: "停用成功",
               type: "success",
@@ -203,6 +203,10 @@ export default {
           });
         })
         .catch((e) => {});
+    },
+    handleCurrent(val) {
+      this.page = val;
+      this.members();
     },
     members() {
       const para = {
