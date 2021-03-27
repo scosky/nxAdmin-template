@@ -162,6 +162,7 @@ export default {
           };
           cancelTrust(param).then((res) => {
             this.trusts[index].msend = "0";
+            this.trusts[index].mstatus = "0";
             this.$message({
               message: "取消成功",
               type: "success",

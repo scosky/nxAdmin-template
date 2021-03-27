@@ -162,6 +162,7 @@ export default {
           };
           cancelIndemnity(param).then((res) => {
             this.trusts[index].autoPaid = "0";
+            this.trusts[index].paidStatus = "0";
             this.$message({
               message: "取消成功",
               type: "success",

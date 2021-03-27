@@ -162,6 +162,7 @@ export default {
           };
           cancelGrab(param).then((res) => {
             this.trusts[index].autoGrab = "0";
+            this.trusts[index].grabStatus = "0";
             this.$message({
               message: "取消成功",
               type: "success",
