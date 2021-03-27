@@ -22,3 +22,12 @@ export function getGroupOdds(params) {
     params: params
   })
 }
+
+export function getTurnovers(params) {
+  return request({
+    url: '/group/trade/stat',
+    method: 'get',
+    params: params
+  })
+}
+

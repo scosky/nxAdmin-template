@@ -97,7 +97,7 @@
       <el-pagination
         layout="prev, pager, next"
         @current-change="handleCurrentChange"
-        :page-size="20"
+        :page-size="10"
         :total="total"
         style="float: right"
       >
@@ -227,7 +227,6 @@ export default {
         size: 10,
       };
       getGroupListPage(para).then((res) => {
-        // console.log(JSON.stringify(res.data));
         this.groups = res.data;
         this.total = res.total;
       });
