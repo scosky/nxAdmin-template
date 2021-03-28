@@ -39,8 +39,13 @@
       :close-on-click-modal="false"
       :model="userInfo"
     >
-      <el-form label-width="200px" ref="editForm">
-        <el-form-item label="昵称">
+      <el-form
+        :model="userInfo"
+        label-width="200px"
+        ref="userInfo"
+        :rules="userRules"
+      >
+        <el-form-item label="昵称" prop="nickName">
           <el-input
             auto-complete="off"
             style="width: 30%"
@@ -93,12 +98,14 @@
           <el-radio v-model="userInfo.cardAllowed" label="0">否</el-radio>
           <el-radio v-model="userInfo.cardAllowed" label="1">是</el-radio>
         </el-form-item>
-        <el-form-item label="个性签名">
+        <el-form-item label="个性签名" prop="signature">
           <el-input v-model="userInfo.signature" type="textarea"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="updateUser">修改</el-button>
+        <el-button type="primary" @click="updateUser('userInfo')"
+          >修改</el-button
+        >
         <el-button @click.native="dialogFormVisible = false">取消</el-button>
       </div>
     </el-dialog>
@@ -204,6 +211,14 @@ export default {
         cardAllowed: "",
         status: "",
       },
+      userRules: {
+        nickName: [
+          { required: true, message: "请输入用户昵称", trigger: "blur" },
+        ],
+        signature: [
+          { required: true, message: "请输入个性签名", trigger: "blur" },
+        ],
+      },
       passwordFormVisible: false,
       dialogFormVisible: false,
       passwordNmae: "修改密码",
@@ -263,25 +278,31 @@ export default {
         }
       });
     },
-    updateUser() {
-      const param = {
-        nickname: this.userInfo.nickName,
-        sex: this.userInfo.sex,
-        birthday: this.userInfo.birthday,
-        signature: this.userInfo.signature,
-        friendApprove: this.userInfo.friendApprove,
-        phoneAllowed: this.userInfo.phoneAllowed,
-        qrcodeAllowed: this.userInfo.qrcodeAllowed,
-        cardAllowed: this.userInfo.cardAllowed,
-        groupAllowed: this.userInfo.groupAllowed,
-      };
-      modifyUser(JSON.stringify(param)).then((res) => {
-        this.$message({
-          message: "修改个人资料成功",
-          type: "success",
-        });
+    updateUser(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          const param = {
+            nickname: this.userInfo.nickName,
+            sex: this.userInfo.sex,
+            birthday: this.userInfo.birthday,
+            signature: this.userInfo.signature,
+            friendApprove: this.userInfo.friendApprove,
+            phoneAllowed: this.userInfo.phoneAllowed,
+            qrcodeAllowed: this.userInfo.qrcodeAllowed,
+            cardAllowed: this.userInfo.cardAllowed,
+            groupAllowed: this.userInfo.groupAllowed,
+          };
+          modifyUser(JSON.stringify(param)).then((res) => {
+            this.dialogFormVisible = false;
+            this.$message({
+              message: "修改个人资料成功",
+              type: "success",
+            });
+          });
+        } else {
+          return false;
+        }
       });
-      this.dialogFormVisible = false;
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

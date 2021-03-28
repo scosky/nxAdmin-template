@@ -22,3 +22,10 @@ export function setGroupOdds(params) {
         data: params
     })
 }
+export function modifyGroup(params) {
+    return ajaxRequest({
+        url: '/group/modify',
+        method: 'post',
+        data: params
+    })
+}

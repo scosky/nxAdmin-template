@@ -8,6 +8,14 @@ export function getGroupListPage(params) {
   })
 }
 
+export function getGroupDetail(params) {
+  return request({
+    url: '/mgr/group/detail',
+    method: 'get',
+    params: params
+  })
+}
+
 export function getGroupMens() {
   return request({
     url: '/mgr/group/menu',

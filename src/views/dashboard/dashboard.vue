@@ -21,43 +21,6 @@
       <el-table-column prop="creator" label="创建人" width="80">
       </el-table-column>
       <el-table-column prop="owner" label="群主" width="80"> </el-table-column>
-      <!-- <el-table-column
-        prop="allowAddFriend"
-        label="添加好友"
-        width="80"
-      ></el-table-column> -->
-      <!-- <el-table-column prop="allowSetNickname" label="修改群昵称" width="120">
-        <template slot-scope="scope">
-          <el-tag
-            :type="scope.row.allowSetNickname === 1 ? 'success' : 'info'"
-            disable-transitions
-          >
-            <span v-if="scope.row.allowSetNickname === 1">允许</span>
-            <span v-else>不允许</span>
-          </el-tag>
-        </template>
-      </el-table-column> -->
-      <!-- <el-table-column
-        prop="allowVodChat"
-        label="语音/视频"
-        width="80"
-      ></el-table-column>
-      <el-table-column
-        prop="allowGrpQrcode"
-        label="启用群二维码"
-        width="80"
-      ></el-table-column> -->
-      <!-- <el-table-column prop="inviteConfirm" label="邀请成员确认" width="120">
-        <template slot-scope="scope">
-          <el-tag
-            :type="scope.row.inviteConfirm === 1 ? 'info' : 'success'"
-            disable-transitions
-          >
-            <span v-if="scope.row.inviteConfirm === 1">需要确认</span>
-            <span v-else>无需确认</span>
-          </el-tag>
-        </template>
-      </el-table-column> -->
       <el-table-column prop="status" label="状态" width="80">
         <template slot-scope="scope">
           <el-tag
@@ -107,15 +70,20 @@
       :visible.sync="dialogFormVisible"
       :close-on-click-modal="false"
     >
-      <el-form :model="editGroup" label-width="120px" ref="editGroup">
-        <el-form-item label="群ID" prop="groupId">
+      <el-form
+        :model="editGroup"
+        label-width="160px"
+        ref="editGroup"
+        :rules="editGroupRules"
+      >
+        <el-form-item label="群编号" prop="groupId">
           <el-input
             v-model="editGroup.groupId"
             auto-complete="off"
             disabled
           ></el-input>
         </el-form-item>
-        <el-form-item label="创建人" prop="name">
+        <el-form-item label="创建人" prop="creator">
           <el-input
             v-model="editGroup.creator"
             auto-complete="off"
@@ -133,49 +101,33 @@
           <el-input v-model="editGroup.name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="允许加好友">
-          <el-radio-group v-model="editGroup.isAddFriend">
-            <el-radio class="radio" :label="1">是</el-radio>
-            <el-radio class="radio" :label="0">否</el-radio>
-          </el-radio-group>
+          <el-radio v-model="editGroup.allowAddFriend" label="1">是</el-radio>
+          <el-radio v-model="editGroup.allowAddFriend" label="0">否</el-radio>
         </el-form-item>
-        <el-form-item label="修改昵称">
-          <el-radio-group v-model="editGroup.isSetNickname">
-            <el-radio class="radio" :label="1">是</el-radio>
-            <el-radio class="radio" :label="0">否</el-radio>
-          </el-radio-group>
+        <el-form-item label="允许成员修改昵称">
+          <el-radio v-model="editGroup.allowSetNickname" label="1">是</el-radio>
+          <el-radio v-model="editGroup.allowSetNickname" label="0">否</el-radio>
         </el-form-item>
-        <el-form-item label="允许语音/视频">
-          <el-radio-group v-model="editGroup.isVodChat">
-            <el-radio class="radio" :label="1">是</el-radio>
-            <el-radio class="radio" :label="0">否</el-radio>
-          </el-radio-group>
+        <el-form-item label="允许成员语音/视频通话">
+          <el-radio v-model="editGroup.allowVodChat" label="1">是</el-radio>
+          <el-radio v-model="editGroup.allowVodChat" label="0">否</el-radio>
         </el-form-item>
         <el-form-item label="启用群二维码">
-          <el-radio-group v-model="editGroup.isGrpQrcode">
-            <el-radio class="radio" :label="1">是</el-radio>
-            <el-radio class="radio" :label="0">否</el-radio>
-          </el-radio-group>
+          <el-radio v-model="editGroup.allowGrpQrcode" label="1">是</el-radio>
+          <el-radio v-model="editGroup.allowGrpQrcode" label="0">否</el-radio>
         </el-form-item>
         <el-form-item label="邀请成员需确认">
-          <el-radio-group v-model="editGroup.inviteConfirm">
-            <el-radio class="radio" :label="1">是</el-radio>
-            <el-radio class="radio" :label="0">否</el-radio>
-          </el-radio-group>
+          <el-radio v-model="editGroup.inviteConfirm" label="1">是</el-radio>
+          <el-radio v-model="editGroup.inviteConfirm" label="0">否</el-radio>
         </el-form-item>
-        <el-form-item label="状态">
-          <el-select placeholder="群状态">
-            <el-option label="正产" value="正产"></el-option>
-            <el-option label="禁言" value="禁言"></el-option>
-            <el-option label="冻结" value="冻结"></el-option>
-            <el-option label="删除" value="删除"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="群公告">
+        <el-form-item label="群公告" prop="intro">
           <el-input type="textarea" v-model="editGroup.intro"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="updateGroupData">修改</el-button>
+        <el-button type="primary" @click="updateGroupData('editGroup')"
+          >修改</el-button
+        >
         <el-button @click.native="dialogFormVisible = false">取消</el-button>
       </div>
     </el-dialog>
@@ -227,8 +179,9 @@
 </template>
 
 <script>
-import { getGroupListPage } from "@/api/groupTable";
+import { getGroupListPage, getGroupDetail } from "@/api/groupTable";
 import { membersData } from "@/api/turst";
+import { modifyGroup } from "@/api/users";
 export default {
   data() {
     return {
@@ -245,16 +198,12 @@ export default {
         name: "",
         creator: "",
         owner: "",
-        status: "",
         intro: "",
-        qrCode: "",
-        profile: "",
         allowAddFriend: "",
         allowSetNickname: "",
         allowVodChat: "",
         allowGrpQrcode: "",
         inviteConfirm: "",
-        createTime: "",
       },
       groupMembers: [],
       groupfilters: {
@@ -264,6 +213,10 @@ export default {
         total: 0,
         page: 1,
         pageSize: 10,
+      },
+      editGroupRules: {
+        name: [{ required: true, message: "请输入群昵称", trigger: "blur" }],
+        intro: [{ required: true, message: "请输入群公告", trigger: "blur" }],
       },
     };
   },
@@ -284,14 +237,43 @@ export default {
       });
     },
     editGroupHandler(row) {
-      this.dialogFormVisible = false;
-      // this.editGroup = Object.assign({}, row);
+      this.dialogFormVisible = true;
+      this.groupDetail(row);
     },
-    updateGroupData() {
-      this.dialogFormVisible = false;
-      this.$message({
-        message: "修改群资料成功",
-        type: "success",
+    groupDetail(row) {
+      const param = { groupId: row.groupId };
+      getGroupDetail(param).then((res) => {
+        this.editGroup.owner = row.owner;
+        this.editGroup.creator = row.creator;
+        this.editGroup.name = res.data.name;
+        this.editGroup.groupId = res.data.groupId;
+        this.editGroup.allowAddFriend = res.data.allowAddFriend;
+        this.editGroup.allowSetNickname = res.data.allowSetNickname;
+        this.editGroup.allowVodChat = res.data.allowVodChat;
+        this.editGroup.allowGrpQrcode = res.data.allowGrpQrcode;
+        this.editGroup.inviteConfirm = res.data.inviteConfirm;
+        this.editGroup.intro = res.data.intro;
+      });
+    },
+    updateGroupData(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$confirm("确认修改群信息？", "修改密码", {})
+            .then(() => {
+              const param = JSON.stringify(this.editGroup);
+              modifyGroup(param).then((res) => {
+                this.dialogFormVisible = false;
+                this.$message({
+                  message: "修改群资料成功",
+                  type: "success",
+                });
+                this.getGroups();
+              });
+            })
+            .catch((e) => {});
+        } else {
+          return false;
+        }
       });
     },
     handleCurrent(val) {
