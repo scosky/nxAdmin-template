@@ -89,13 +89,13 @@ export default {
         packs: this.packs,
       };
       getGroupOdds(param).then((res) => {
-        var data = res.data;
+        const data = res.data;
         if (data == "" || data == null) {
           this.tage = "0";
           this.isOpen = "1";
           this.switchSet = false;
         } else {
-          let result = JSON.parse(data);
+          const result = JSON.parse(data);
           this.isOpen = result.isOpen;
           this.switchSet = result.switchSet;
           this.tage = result.tage;

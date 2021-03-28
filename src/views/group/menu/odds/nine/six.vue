@@ -159,7 +159,7 @@ export default {
         packs: this.packs,
       };
       getGroupOdds(param).then((res) => {
-        var data = res.data;
+        const data = res.data;
         if (data == "" || data == null) {
           this.odds = [
             { index: 7, val: "0" },
@@ -172,7 +172,7 @@ export default {
           this.flag = "0";
           this.checkMe(this.flag);
         } else {
-          let result = JSON.parse(data);
+          const result = JSON.parse(data);
           this.odds = result.odds;
           this.isOpen = result.isOpen;
           this.tage = result.tage;

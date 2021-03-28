@@ -284,8 +284,8 @@ export default {
       });
     },
     editGroupHandler(row) {
-      this.dialogFormVisible = true;
-      this.editGroup = Object.assign({}, row);
+      this.dialogFormVisible = false;
+      // this.editGroup = Object.assign({}, row);
     },
     updateGroupData() {
       this.dialogFormVisible = false;

@@ -86,7 +86,7 @@ export default {
         packs: this.packs,
       };
       getGroupOdds(param).then((res) => {
-        var data = res.data;
+        const data = res.data;
         if (data == "" || data == null) {
           this.odds = [
             { index: 2, val: "0" },
@@ -97,7 +97,7 @@ export default {
           this.isOpen = "1";
           this.switchSet = false;
         } else {
-          let result = JSON.parse(data);
+          const result = JSON.parse(data);
           this.odds = result.odds;
           this.isOpen = result.isOpen;
           this.switchSet = result.switchSet;

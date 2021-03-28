@@ -119,10 +119,6 @@ export default {
     };
   },
   methods: {
-    startTimeBlur(e) {
-      console.log(this.filters.startTime);
-    },
-    endTimeBlur() {},
     handleCurrent(val) {
       this.page = val;
       this.getTurs();

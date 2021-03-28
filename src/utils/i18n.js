@@ -5,9 +5,6 @@ export function generateTitle(title) {
   if (hasKey) {
     return translatedTitle
   }
-  if (title.length > 10) {
-    return title.substring(1, 10)
-  }
   return title
 }
 export function generateSkinColor(color) {

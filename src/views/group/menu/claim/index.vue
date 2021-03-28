@@ -218,7 +218,6 @@ export default {
         size: 10,
       };
       membersData(para).then((res) => {
-        console.log(res.data);
         this.trusts = res.data;
         this.total = res.total;
       });

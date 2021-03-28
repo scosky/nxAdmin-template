@@ -7,20 +7,20 @@ function padding(s, len) {
 }
 
 export default {
-  getQueryStringByName: function(name) {
+  getQueryStringByName: function (name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-    var r = window.location.search.substr(1).match(reg)
+    var rfgh = window.location.search.substr(1).match(reg)
     var context = ''
-    if (r != null) { context = r[2] }
+    if (rfgh != null) { context = rfgh[2] }
     reg = null
-    r = null
+    rfgh = null
     return context == null || context === '' || context === 'undefined' ? '' : context
   },
   formatDate: {
 
-    format: function(date, pattern) {
+    format: function (date, pattern) {
       pattern = pattern || DEFAULT_PATTERN
-      return pattern.replace(SIGN_REGEXP, function($0) {
+      return pattern.replace(SIGN_REGEXP, function ($0) {
         switch ($0.charAt(0)) {
           case 'y': return padding(date.getFullYear(), $0.length)
           case 'M': return padding(date.getMonth() + 1, $0.length)
@@ -32,7 +32,7 @@ export default {
         }
       })
     },
-    parse: function(dateString, pattern) {
+    parse: function (dateString, pattern) {
       var matchs1 = pattern.match(SIGN_REGEXP)
       var matchs2 = dateString.match(/(\d)+/g)
       if (matchs1.length === matchs2.length) {
@@ -53,7 +53,5 @@ export default {
       }
       return null
     }
-
   }
-
 }

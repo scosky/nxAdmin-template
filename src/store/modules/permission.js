@@ -1,6 +1,33 @@
-import { constantRouterMap } from '@/router'
+// import { constantRouterMap } from '@/router'
 import { getGroupMens } from '@/api/groupTable'
 import Layout from '@/views/layout/Layout'
+
+const constantRouterMap = [
+
+  {
+    path: '',
+    component: Layout,
+    redirect: '/dashboard/dashboard'
+  },
+
+  { path: '/login', component: () => import('@/views/login'), name: '登录星辰', hidden: true },
+  { path: '/404', component: () => import('@/views/errorPage/404'), hidden: true },
+  { path: '/401', component: () => import('@/views/errorPage/401'), hidden: true },
+
+  {
+    path: '/dashboard',
+    component: Layout,
+    meta: { title: 'dashboard', icon: 'dashboard' },
+    children: [
+      {
+        path: 'dashboard',
+        name: '群基本管理',
+        component: () => import('@/views/dashboard/dashboard'),
+        meta: { title: '群基本管理', icon: 'dashboard' }
+      }
+    ]
+  }
+]
 
 const permission = {
   state: {
@@ -23,7 +50,7 @@ const permission = {
           children: []
         }]
         getGroupMens().then((res) => {
-          res.data.map(function(item, index) {
+          res.data.map(function (item, index) {
             const menuChild = {
               path: '/menu' + index,
               component: () => import('@/views/group/menu/index'),
