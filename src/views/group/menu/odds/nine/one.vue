@@ -143,6 +143,7 @@ export default {
   border-left: 0px;
   border-right: 0px;
   font-size: 14px;
+  text-align: center !important;
 }
 .gf input.el-input__inner:focus {
   border-bottom-color: #42b983;

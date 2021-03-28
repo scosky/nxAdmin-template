@@ -1,4 +1,4 @@
-import { login, logout } from '@/api/login'
+import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import md5 from 'blueimp-md5'
 
@@ -6,6 +6,7 @@ const user = {
   state: {
     token: getToken(),
     name: '',
+    uuid: '',
     avatar: '',
     roles: []
 
@@ -18,6 +19,9 @@ const user = {
     SET_NAME: (state, name) => {
       state.name = name
     },
+    SET_UUId: (state, uuid) => {
+      state.uuid = uuid
+    },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
     },
@@ -26,7 +30,6 @@ const user = {
     }
 
   },
-
   actions: {
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
@@ -45,9 +48,15 @@ const user = {
 
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        const roles = ['admin']
-        commit('SET_ROLES', roles)
-        resolve({ 'roles': roles })
+        getInfo().then(response => {
+          const uuid = response.data.userId
+          const name = response.data.nickName
+          commit('SET_UUId', uuid)
+          commit('SET_NAME', name)
+          const roles = ['admin']
+          commit('SET_ROLES', roles)
+          resolve({ 'roles': roles })
+        })
       })
     },
 

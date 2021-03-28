@@ -23,7 +23,6 @@
   </div>
 </template>
 <script>
-import Mock from "mockjs";
 export default {
   name: "monitor",
   props: {
