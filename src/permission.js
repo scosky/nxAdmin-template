@@ -1,35 +1,32 @@
 import router from './router'
 import store from './store'
-import NProgress from 'nprogress' // Progress 进度条
-import 'nprogress/nprogress.css'// Progress 进度条样式
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 import { Message } from 'element-ui'
-import { getToken } from '@/utils/auth' // 验权
+import { getToken } from '@/utils/auth'
 import {
   setTitle
-} from '@/utils/util' // 设置浏览器头部标题
+} from '@/utils/util'
 
-// permission judge function
 function hasPermission(roles, permissionRoles) {
-  if (roles.indexOf('admin') >= 0) return true // admin permission passed directly
+  if (roles.indexOf('admin') >= 0) return true
   if (!permissionRoles) return true
   return roles.some(role => permissionRoles.indexOf(role) >= 0)
 }
-const whiteList = ['/login'] // 不重定向白名单
+const whiteList = ['/login']
 router.beforeEach((to, from, next) => {
-  // console.log("to" + JSON.stringify(to))
   NProgress.start()
   if (getToken()) {
-    /* has token*/
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       if (store.getters.roles.length === 0) {
-        store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          const roles = res.roles // note: roles must be a array! such as: ['editor','develop']
-          store.dispatch('GenerateRoutes', { roles }).then(() => { // 根据roles权限生成可访问的路由表
-            router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+        store.dispatch('GetInfo').then(res => {
+          const roles = res.roles
+          store.dispatch('GenerateRoutes', { roles }).then(() => {
+            router.addRoutes(store.getters.addRouters)
+            next({ ...to, replace: true })
           })
         }).catch((err) => {
           store.dispatch('FedLogOut').then(() => {
@@ -38,9 +35,8 @@ router.beforeEach((to, from, next) => {
           })
         })
       } else {
-        // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
         if (hasPermission(store.getters.roles, to.meta.roles)) {
-          next()//
+          next()
         } else {
           next({ path: '/401', replace: true, query: { noGoBack: true } })
         }
@@ -57,7 +53,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(() => {
-  NProgress.done() // 结束Progress
+  NProgress.done()
   setTimeout(() => {
     const browserHeaderTitle = store.getters.browserHeaderTitle
     setTitle(browserHeaderTitle)

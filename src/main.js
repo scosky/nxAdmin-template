@@ -5,13 +5,10 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 import '@/assets/css/iconfont/1.0.0/index.css' /* icofont*/
 
-// css
 import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 import '@/styles/index.scss' // global css
 
 // import './mock'
-
-// font-awesome
 import '@/assets/library/font-awesome-4.7.0/css/font-awesome.min.css'
 
 import App from './App'
@@ -60,7 +57,5 @@ new Vue({
   router,
   store,
   i18n,
-  // template: '<App/>',
-  // components: { App }
   render: h => h(App)
 })

@@ -1,33 +1,6 @@
-import { asyncRouterMap, constantRouterMap } from '@/router'
-import { getGroupMens } from "@/api/groupTable"
+import { constantRouterMap } from '@/router'
+import { getGroupMens } from '@/api/groupTable'
 import Layout from '@/views/layout/Layout'
-
-/**
- * 通过meta.role判断是否与当前用户权限匹配
- * @param roles
- * @param route
- */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.indexOf(role) >= 0)
-  } else {
-    return true
-  }
-}
-
-/**
- * 递归过滤异步路由表，返回符合用户角色权限的路由表
- * @param asyncRouterMap
- * @param roles
- */
-function filterAsyncRouter(asyncRouterMap, roles) {
-  const accessedRouters = asyncRouterMap.filter(route => {
-    if (route.children && route.children.length) {
-      route.children = filterAsyncRouter(route.children, roles)
-    }
-  })
-  return accessedRouters
-}
 
 const permission = {
   state: {
@@ -50,15 +23,15 @@ const permission = {
           children: []
         }]
         getGroupMens().then((res) => {
-          res.data.map(function (item, index) {
-            var menuChild = {
+          res.data.map(function(item, index) {
+            const menuChild = {
               path: '/menu' + index,
               component: () => import('@/views/group/menu/index'),
               meta: {
                 title: item.name,
                 icon: 'dashboard'
               },
-              redirect: "/menu/odds",
+              redirect: '/menu/odds',
               children: [
                 {
                   path: 'odds',
@@ -137,15 +110,6 @@ const permission = {
           commit('SET_ROUTERS', menu)
           resolve()
         })
-        // let accessedRouters = menu
-        // console.log(accessedRouters)
-        // if (roles.indexOf('admin') >= 0) {
-        //   accessedRouters = asyncRouterMap
-        // } else {
-        //   accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-        // }
-        // console.log(accessedRouters)
-        // commit('SET_ROUTERS', accessedRouters)
       })
     }
   }

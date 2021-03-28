@@ -71,7 +71,7 @@ export default {
     };
     return {
       loginForm: {
-        username: "13758114542",
+        username: "",
         password: "",
       },
       checked: false,
