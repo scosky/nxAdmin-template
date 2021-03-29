@@ -23,17 +23,25 @@ export function getGroupMens() {
   })
 }
 
-export function getGroupOdds(params) {
+export function getTurnovers(params) {
   return request({
-    url: '/group/get/odds',
+    url: '/group/trade/stat',
     method: 'get',
     params: params
   })
 }
 
-export function getTurnovers(params) {
+export function getPaidRate(params) {
   return request({
-    url: '/group/trade/stat',
+    url: '/group/get/paidRate',
+    method: 'get',
+    params: params
+  })
+}
+
+export function getNinePaidRate(params) {
+  return request({
+    url: '/group/get/ninePaidRate',
     method: 'get',
     params: params
   })

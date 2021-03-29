@@ -9,10 +9,10 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>玩法设置：</span>
-            <el-radio v-model="isOpen" label="1" @change="openSet"
+            <el-radio v-model="using" label="1" @change="openSet"
               >开启</el-radio
             >
-            <el-radio v-model="isOpen" label="2" @change="closeSet"
+            <el-radio v-model="using" label="0" @change="closeSet"
               >关闭</el-radio
             >
           </div></el-col
@@ -21,24 +21,26 @@
           ><div class="grid-content bg-purple gf">
             <span>单个赔率</span>
             <el-input
-              v-model="tage"
+              v-model="rate"
               size="mini"
               :disabled="switchSet"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+              :min="0.0"
             ></el-input>
             <span>倍</span>
           </div></el-col
         >
       </el-row>
       <span style="color: #409eff">奖率设置:</span>
-      <div v-for="odd in odds" :key="odd.index" class="odds-wap gf">
-        <span style="margin-left: 20px"> 中{{ odd.index }}个:奖</span>
+      <div v-for="(item, index) in award" class="odds-wap gf">
+        <span style="margin-left: 20px"> 中{{ item.index }}个:奖</span>
         <el-input
-          v-model="odd.val"
+          v-model="item.val"
           size="mini"
           :disabled="switchSet"
           oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
           class="oddsinput"
+          :min="0.0"
         ></el-input>
         <span>倍</span>
       </div>
@@ -51,8 +53,8 @@
 </template>
 
 <script>
-import { getGroupOdds } from "@/api/groupTable";
-import { setGroupOdds } from "@/api/users";
+import { getPaidRate } from "@/api/groupTable";
+import { setPaidRate } from "@/api/users";
 export default {
   name: "oneView",
   props: ["groupIdValue"],
@@ -60,27 +62,29 @@ export default {
     return {
       groupId: 0,
       name: "9包赔率 单雷",
-      packs: 91,
-      odds: [],
-      isOpen: "",
-      tage: "",
+      paid: "9:1",
+      using: "1",
+      fix: "0",
+      rate: "1",
+      award: [],
       switchSet: false,
     };
   },
   methods: {
     oddsSubmit() {
-      const data = {
-        isOpen: this.isOpen,
-        switchSet: this.switchSet,
-        odds: this.odds,
-        tage: this.tage,
-      };
+      let award = {};
+      for (let item of this.award) {
+        award[item.index] = item.val;
+      }
+      award.using = this.using;
+      award.fix = this.fix;
+      award.rate = this.rate;
       const params = {
         groupId: this.groupId,
-        packs: this.packs,
-        odds: JSON.stringify(data),
+        paid: this.paid,
+        value: JSON.stringify(award),
       };
-      setGroupOdds(params).then((res) => {
+      setPaidRate(params).then((res) => {
         this.$message({
           message: "成功",
           type: "success",
@@ -99,30 +103,43 @@ export default {
     getOneView() {
       const param = {
         groupId: this.groupId,
-        packs: this.packs,
+        paid: this.paid,
       };
-      getGroupOdds(param).then((res) => {
+      getPaidRate(param).then((res) => {
         const data = res.data;
-        if (data == "" || data == null) {
-          this.odds = [
-            { index: 2, val: "0" },
-            { index: 3, val: "0" },
-            { index: 4, val: "0" },
-            { index: 5, val: "0" },
-            { index: 6, val: "0" },
-            { index: 7, val: "0" },
-            { index: 8, val: "0" },
-            { index: 9, val: "0" },
-          ];
-          this.tage = "0";
-          this.isOpen = "1";
-          this.switchSet = false;
+        if (data.length > 0) {
+          const award = JSON.parse(data);
+          for (let key in award) {
+            if (key === "using") {
+              this.using = award[key];
+              break;
+            }
+            if (key === "fix") {
+              this.fix = award[key];
+              break;
+            }
+            if (key === "rate") {
+              this.rate = award[key];
+              break;
+            }
+            this.award.push({ index: key, val: award[key] });
+          }
+          if (this.using == "0") {
+            this.switchSet = true;
+          } else {
+            this.switchSet = false;
+          }
         } else {
-          const result = JSON.parse(data);
-          this.odds = result.odds;
-          this.isOpen = result.isOpen;
-          this.switchSet = result.switchSet;
-          this.tage = result.tage;
+          this.using = "1";
+          this.fix = "0";
+          this.rate = "1";
+          this.award = [
+            { index: "5", val: 1 },
+            { index: "6", val: 1 },
+            { index: "7", val: 1 },
+            { index: "8", val: 1 },
+            { index: "9", val: 1 },
+          ];
         }
       });
     },

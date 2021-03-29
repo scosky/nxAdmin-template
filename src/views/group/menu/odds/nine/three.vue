@@ -9,20 +9,20 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>玩法设置：</span>
-            <el-radio v-model="isOpen" label="1" @change="openSet"
+            <el-radio v-model="using" label="1" @change="openSet"
               >开启</el-radio
             >
-            <el-radio v-model="isOpen" label="2" @change="closeSet"
+            <el-radio v-model="using" label="0" @change="closeSet"
               >关闭</el-radio
             >
           </div></el-col
         >
         <el-col :span="7"
           ><div class="grid-content bg-purple">
-            <span>固定赔率：</span>
+            <span>固定奖率：</span>
             <el-checkbox
               v-model="checked"
-              @change="checkMe(flag)"
+              @change="checkMe(fix)"
               :disabled="Select"
               >选中</el-checkbox
             >
@@ -34,10 +34,11 @@
           <div class="grid-content bg-purple gf">
             <span>单个赔率</span>
             <el-input
-              v-model="tage"
+              v-model="rate"
               size="mini"
               :disabled="switchSet"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+              :min="0.0"
             ></el-input>
             <span>倍</span>
           </div>
@@ -45,26 +46,28 @@
 
         <el-col :span="7"
           ><div class="grid-content bg-purple gf">
-            <span>赔率</span>
+            <span>固定赔率</span>
             <el-input
               size="mini"
-              v-model="pay"
-              :disabled="fixedOdds"
+              v-model="fixedRate"
+              :disabled="fixedStatus"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+              :min="0.0"
             ></el-input>
             <span>倍</span>
           </div></el-col
         >
       </el-row>
       <span style="color: #409eff">奖率设置:</span>
-      <div v-for="odd in odds" :key="odd.index" class="odds-wap gf">
-        <span style="margin-left: 20px"> 中{{ odd.index }}个:奖</span>
+      <div v-for="(item, index) in award" class="odds-wap gf">
+        <span style="margin-left: 20px"> 中{{ item.index }}个:奖</span>
         <el-input
-          v-model="odd.val"
+          v-model="item.val"
           size="mini"
           :disabled="switchSet"
           oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
           class="oddsinput"
+          :min="0.0"
         ></el-input>
         <span>倍</span>
       </div>
@@ -77,8 +80,8 @@
 </template>
 
 <script>
-import { getGroupOdds } from "@/api/groupTable";
-import { setGroupOdds } from "@/api/users";
+import { getNinePaidRate } from "@/api/groupTable";
+import { setNinePaidRate } from "@/api/users";
 export default {
   name: "threeView",
   props: ["groupIdValue"],
@@ -86,34 +89,42 @@ export default {
     return {
       groupId: 0,
       name: "9包赔率 三雷",
-      packs: 93,
-      odds: [],
-      isOpen: "",
-      tage: "",
-      pay: "",
-      flag: "",
+      paid: "9:3",
+      using: "1",
+      fix: "0",
+      rate: 0,
+      fixedRate: 0,
+      award: [],
       switchSet: false,
       checked: false,
       Select: false,
-      fixedOdds: false,
+      fixedStatus: false,
     };
   },
   methods: {
     oddsSubmit() {
-      const data = {
-        isOpen: this.isOpen,
-        switchSet: this.switchSet,
-        odds: this.odds,
-        tage: this.tage,
-        flag: this.flag,
-        pay: this.pay,
-      };
+      let rate = { using: this.using };
+      if (this.fix == "1") {
+        rate.fix = "0";
+        rate.rate = this.rate;
+      } else {
+        rate.fix = "1";
+        rate.rate = this.fixedRate;
+      }
+
+      let award = {};
+      for (let item of this.award) {
+        award[item.index] = item.val;
+      }
+
       const params = {
         groupId: this.groupId,
-        packs: this.packs,
-        odds: JSON.stringify(data),
+        paid: this.paid,
+        fix: rate.fix,
+        value: JSON.stringify(rate),
+        award: JSON.stringify(award),
       };
-      setGroupOdds(params).then((res) => {
+      setNinePaidRate(params).then((res) => {
         this.$message({
           message: "成功",
           type: "success",
@@ -123,26 +134,26 @@ export default {
     oddRest() {
       this.getThreeView();
     },
-    checkMe(flag) {
-      if (flag == 1) {
+    checkMe(fix) {
+      if (fix == 1) {
         this.checked = true;
         this.switchSet = true;
-        this.fixedOdds = false;
-        this.flag = 0;
+        this.fixedStatus = false;
+        this.fix = 0;
       }
 
-      if (flag == 0) {
+      if (fix == 0) {
         this.checked = false;
         this.switchSet = false;
-        this.fixedOdds = true;
-        this.flag = 1;
+        this.fixedStatus = true;
+        this.fix = 1;
       }
     },
     openSet() {
       this.switchSet = false;
       this.Select = false;
-      this.fixedOdds = false;
-      if (this.flag == "0") {
+      this.fixedStatus = false;
+      if (this.fix == "0") {
         this.checkMe("1");
       } else {
         this.checkMe("0");
@@ -151,41 +162,60 @@ export default {
     closeSet() {
       this.switchSet = true;
       this.Select = true;
-      this.fixedOdds = true;
+      this.fixedStatus = true;
     },
     getThreeView() {
       const param = {
         groupId: this.groupId,
-        packs: this.packs,
+        paid: this.paid,
       };
-      getGroupOdds(param).then((res) => {
-        const data = res.data;
-        if (data == "" || data == null) {
-          this.odds = [
-            { index: 4, val: "0" },
-            { index: 5, val: "0" },
-            { index: 6, val: "0" },
-            { index: 7, val: "0" },
-            { index: 8, val: "0" },
-            { index: 9, val: "0" },
-          ];
-          this.tage = "0";
-          this.pay = "0";
-          this.isOpen = "1";
-          this.flag = "0";
-          this.checkMe(this.flag);
-        } else {
-          const result = JSON.parse(data);
-          this.odds = result.odds;
-          this.isOpen = result.isOpen;
-          this.tage = result.tage;
-          this.pay = result.pay;
-          this.flag = result.flag;
-          if (this.flag == "0") {
-            this.checkMe("1");
-          } else {
-            this.checkMe("0");
+      getNinePaidRate(param).then((res) => {
+        const awardStr = res.award;
+        const dataStr = res.data;
+        if (awardStr.length > 0) {
+          const awardObj = JSON.parse(res.award);
+          for (let item in awardObj) {
+            this.award.push({ index: item, val: awardObj[item] });
           }
+        } else {
+          this.award = [
+            { index: "5", val: 1 },
+            { index: "6", val: 1 },
+            { index: "7", val: 1 },
+            { index: "8", val: 1 },
+            { index: "9", val: 1 },
+          ];
+        }
+
+        if (dataStr.length > 0) {
+          const value = JSON.parse(res.data);
+          for (let key in value) {
+            if (key === "using") {
+              this.using = value[key];
+              continue;
+            }
+            if (key === "fix") {
+              this.fix = value[key];
+              continue;
+            }
+            if (key == "rate") {
+              if (this.fix == "1") {
+                this.fixedRate = value[key];
+                this.rate = 1;
+              } else {
+                this.rate = value[key];
+                this.fixedRate = 1;
+              }
+              continue;
+            }
+          }
+          this.checkMe(this.fix);
+        } else {
+          this.using = "1";
+          this.rate = 1;
+          this.fixedRate = 1;
+          this.fix = "0";
+          this.checkMe(this.fix);
         }
       });
     },

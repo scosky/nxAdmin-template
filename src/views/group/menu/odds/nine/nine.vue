@@ -9,22 +9,23 @@
         <el-col :span="7"
           ><div class="grid-content bg-purple">
             <span>赔率：</span>
-            <el-radio v-model="isOpen" label="1" @change="openSet"
+            <el-radio v-model="using" label="1" @change="openSet"
               >开启</el-radio
             >
-            <el-radio v-model="isOpen" label="2" @change="closeSet"
+            <el-radio v-model="using" label="0" @change="closeSet"
               >关闭</el-radio
             >
           </div></el-col
         >
         <el-col :span="7"
           ><div class="grid-content bg-purple gf">
-            <span>单个赔率</span>
+            <span>固定赔率</span>
             <el-input
               size="mini"
-              v-model="tage"
+              v-model="rate"
               :disabled="switchSet"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+              :min="0.0"
             ></el-input>
             <span>倍</span>
           </div></el-col
@@ -40,34 +41,31 @@
 </template>
 
 <script>
-import { getGroupOdds } from "@/api/groupTable";
-import { setGroupOdds } from "@/api/users";
+import { getPaidRate } from "@/api/groupTable";
+import { setPaidRate } from "@/api/users";
 export default {
-  name: "eightView",
+  name: "nineView",
   props: ["groupIdValue"],
   data() {
     return {
       groupId: 0,
       name: "9包赔率 九雷",
-      packs: 99,
-      isOpen: "",
+      using: "1",
+      paid: "9:9",
+      rate: 0,
+      fix: "1",
       switchSet: false,
-      tage: "",
     };
   },
   methods: {
     oddsSubmit() {
-      const data = {
-        isOpen: this.isOpen,
-        switchSet: this.switchSet,
-        tage: this.tage,
-      };
+      const paidRate = { using: this.using, fix: this.fix, rate: this.rate };
       const params = {
         groupId: this.groupId,
-        packs: this.packs,
-        odds: JSON.stringify(data),
+        paid: this.paid,
+        value: JSON.stringify(paidRate),
       };
-      setGroupOdds(params).then((res) => {
+      setPaidRate(params).then((res) => {
         this.$message({
           message: "成功",
           type: "success",
@@ -75,7 +73,7 @@ export default {
       });
     },
     oddRest() {
-      this.getEightView();
+      this.getNineView();
     },
     openSet() {
       this.switchSet = false;
@@ -83,29 +81,45 @@ export default {
     closeSet() {
       this.switchSet = true;
     },
-    getEightView() {
+    getNineView() {
       const param = {
         groupId: this.groupId,
-        packs: this.packs,
+        paid: this.paid,
       };
-      getGroupOdds(param).then((res) => {
+      getPaidRate(param).then((res) => {
         const data = res.data;
-        if (data == "" || data == null) {
-          this.tage = "0";
-          this.isOpen = "1";
-          this.switchSet = false;
+        if (data.length > 0) {
+          const paidRate = JSON.parse(data);
+          for (let key in paidRate) {
+            if (key === "using") {
+              this.using = paidRate[key];
+              continue;
+            }
+            if (key === "fix") {
+              this.fix = paidRate[key];
+              continue;
+            }
+            if (key === "rate") {
+              this.rate = paidRate[key];
+              continue;
+            }
+          }
+          if (this.using == "0") {
+            this.switchSet = true;
+          } else {
+            this.switchSet = false;
+          }
         } else {
-          const result = JSON.parse(data);
-          this.isOpen = result.isOpen;
-          this.switchSet = result.switchSet;
-          this.tage = result.tage;
+          this.rate = 1;
+          this.switchSet = false;
+          this.using = "1";
         }
       });
     },
   },
   mounted() {
     this.groupId = this.groupIdValue;
-    this.getEightView();
+    this.getNineView();
   },
 };
 </script>

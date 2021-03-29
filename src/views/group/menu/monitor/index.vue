@@ -12,17 +12,20 @@
       ref="chatContent"
     >
       <div v-for="item in data" :key="item.index" class="content">
-        <p>红包发送者:&nbsp;{{ item.name }}</p>
-        <p>发包:&nbsp;{{ item.sendBox }}</p>
-        <p>金额:&nbsp;{{ item.amount }}元</p>
-        <p>开奖:&nbsp;{{ item.draw }}</p>
-        <p>赔付:&nbsp;{{ item.money }}元</p>
-        <p>时间:&nbsp;{{ item.createTime }}</p>
+        <p>发包人昵称:&nbsp;{{ item.nickname }}</p>
+        <p>发包金额:&nbsp;{{ item.amount }}</p>
+        <p>发包个数:&nbsp;{{ item.recvNum }}</p>
+        <p>红包备注:&nbsp;{{ item.remark }}</p>
+        <p>赔率:&nbsp;{{ item.paidRate }}</p>
+        <p>赔付金额:&nbsp;{{ item.paidAmt }}</p>
+        <p>开奖结果:&nbsp;{{ item.result }}</p>
+        <p>时间:&nbsp;{{ item.time }}</p>
       </div>
     </div>
   </div>
 </template>
 <script>
+import store from "@/store";
 export default {
   name: "monitor",
   props: {
@@ -37,57 +40,62 @@ export default {
   },
   data() {
     return {
-      count: 0,
       data: [],
-      busy: false,
+      busy: true,
+      userId: 0,
+      websock: null,
     };
   },
   methods: {
-    loadMore: function () {
-      this.busy = true;
-      setTimeout(() => {
-        const data = {
-          name: Mock.Random.cname(),
-          sendBox:
-            "[" +
-            Mock.Random.integer(1, 9) +
-            "-" +
-            Mock.Random.integer(1, 9) +
-            "-" +
-            Mock.Random.integer(1, 9) +
-            "]-" +
-            Mock.Random.integer(1, 9),
-          amount: Mock.Random.integer(0, 100),
-          draw:
-            Mock.Random.integer(1, 9) +
-            "-" +
-            Mock.Random.integer(1, 9) +
-            "-" +
-            Mock.Random.integer(1, 9) +
-            "-" +
-            Mock.Random.integer(1, 9) +
-            "-" +
-            Mock.Random.integer(1, 9) +
-            "-" +
-            Mock.Random.integer(1, 9),
-          money:
-            Mock.Random.integer(1, 10000) +
-            " 赔率:" +
-            Mock.Random.integer(1, 20),
-          createTime: Mock.Random.now("yyyy-MM-dd HH:mm:ss"),
-        };
-        this.data.push(data);
-        this.busy = false;
-        this.scrollToBottom();
-      }, 1000);
-    },
+    loadMore: function () {},
     scrollToBottom() {
       this.$nextTick(() => {
         this.$refs.chatContent.scrollTop = this.$refs.chatContent.scrollHeight;
       });
     },
+    webSocketInit() {
+      const url = "ws://8.136.115.108:8888/zxmc";
+      this.websock = new WebSocket(url);
+      this.websock.onopen = this.websocketonopen;
+      this.websock.onmessage = this.websocketonmessage;
+    },
+    websocketonopen() {
+      if (this.websock.readyState === 1) {
+        const reg = {
+          cmd: "REG",
+          type: "0",
+          uid: this.userId,
+          groupId: this.groupId,
+        };
+        this.websock.send(JSON.stringify(reg));
+      }
+    },
+    websocketonmessage(event) {
+      console.log("Received Message: " + event.data);
+      const data = JSON.parse(event.data);
+      if (data.status == undefined) {
+        this.data.push(data);
+        this.loading = false;
+        this.scrollToBottom();
+      } else {
+        console.log("注册成功......");
+      }
+    },
+    onClose() {
+      if (this.websock.readyState === 1) {
+        this.websock.close();
+      }
+    },
   },
-  mounted() {},
+  mounted() {
+    this.groupId = this.id;
+    this.userId = store.getters.uuid;
+    this.webSocketInit();
+    this.websocketonopen();
+  },
+  destroyed() {
+    this.onClose();
+  },
 };
 </script>
 <style scoped>

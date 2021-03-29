@@ -15,13 +15,23 @@ export function modifyPwd(params) {
     })
 }
 
-export function setGroupOdds(params) {
+export function setPaidRate(params) {
     return ajaxRequest({
-        url: '/group/set/odds',
+        url: '/group/set/paidRate',
         method: 'post',
         data: params
     })
 }
+
+export function setNinePaidRate(params) {
+    return ajaxRequest({
+        url: '/group/set/ninePaidRate',
+        method: 'post',
+        data: params
+    })
+}
+
+
 export function modifyGroup(params) {
     return ajaxRequest({
         url: '/group/modify',
