@@ -46,6 +46,14 @@
           ><div class="grid-content bg-purple">
             总人数:&nbsp;{{persons}}</span></div
         ></el-col>
+        <el-col :span="4"
+          ><div class="grid-content bg-purple">
+            错包数:&nbsp;{{errorPack}}</span></div
+        ></el-col>
+        <el-col :span="4"
+          ><div class="grid-content bg-purple">
+            错包流水:&nbsp;{{errorWaters}}</span></div
+        ></el-col>
       </el-row>
 
       <el-table :data="data" highlight-current-row style="width: 100%">
@@ -94,9 +102,11 @@ export default {
         endTime: "",
       },
       data: [],
+      errorPack: "0",
+      errorWaters: "0",
       pack: "0",
       persons: "0",
-      waters: "0.00",
+      waters: "0",
       total: 0,
       page: 1,
       startTime: {
@@ -137,6 +147,16 @@ export default {
         this.persons = res.data.persons;
         this.pack = res.data.pack;
         this.waters = res.data.waters;
+        if (res.data.errorPack == null) {
+          this.errorPack = 0;
+        } else {
+          this.errorPack = res.data.errorPack;
+        }
+        if (res.data.errorPack == null) {
+          this.errorWaters = 0;
+        } else {
+          this.errorWaters = res.data.errorWaters;
+        }
       });
     },
   },
