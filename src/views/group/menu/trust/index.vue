@@ -48,7 +48,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="300">
           <template slot-scope="scope">
             <el-button
               :plain="true"
@@ -83,6 +83,25 @@
               @click="stopTrust(scope.$index, scope.row)"
               >停用</el-button
             >
+
+            <el-button
+              :plain="true"
+              v-if="scope.row.mstatus === '0'"
+              size="mini"
+              type="primary"
+              :disabled="true"
+              @click="getTrustRule(scope.$index, scope.row)"
+              >规则设置</el-button
+            >
+            <el-button
+              :plain="true"
+              v-else-if="scope.row.mstatus === '1'"
+              size="mini"
+              type="primary"
+              :disabled="false"
+              @click="getTrustRule(scope.$index, scope.row)"
+              >规则设置</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -98,6 +117,63 @@
         >
         </el-pagination>
       </el-col>
+
+      <el-dialog
+        title="发包规则设置"
+        :visible.sync="ruleVisible"
+        :close-on-click-modal="false"
+      >
+        <el-form :model="ruleFrom" ref="ruleFrom">
+          <el-form-item label="发包周期" prop="period">
+            <el-input-number
+              v-model="ruleFrom.period"
+              oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+              :controls="false"
+            ></el-input-number
+            ><span>&nbsp;秒</span>
+          </el-form-item>
+
+          <el-form-item label="发包金额" prop="amount">
+            <el-input-number
+              v-model="ruleFrom.amount"
+              oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+              :controls="false"
+            ></el-input-number
+            ><span>&nbsp;元</span>
+          </el-form-item>
+
+          <el-form-item label="玩法规则">
+            <el-input-number
+              v-model="ruleFrom.pack"
+              change="value=value.replace(/^\.+|[^\d.]/g,'')"
+              @input="packHandler"
+              :controls="false"
+              style="width: 75px"
+              :min="5"
+              :max="9"
+            ></el-input-number
+            ><span>&nbsp;&nbsp;包&nbsp;&nbsp;</span>
+
+            <el-input-number
+              v-model="ruleFrom.thunder"
+              change="value=value.replace(/^\.+|[^\d.]/g,'')"
+              @input="thunderHandler"
+              :controls="false"
+              style="width: 75px"
+              :min="1"
+              :max="9"
+            ></el-input-number>
+            <span>&nbsp;&nbsp;雷&nbsp;&nbsp;</span>
+          </el-form-item>
+        </el-form>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="setTrustRule('paid')"
+            >确认</el-button
+          >
+          <el-button @click.native="ruleVisible = false">取消</el-button>
+        </div>
+      </el-dialog>
     </section>
   </div>
 </template>
@@ -109,6 +185,8 @@ import {
   startTrust,
   stopTrust,
 } from "@/api/turst";
+import { getPaidRule } from "@/api/groupTable";
+import { setPaidRule } from "@/api/users";
 export default {
   name: "trust",
   props: {
@@ -133,9 +211,133 @@ export default {
       total: 0,
       page: 1,
       pageSize: 10,
+      ruleVisible: false,
+      ruleFrom: {
+        period: 5,
+        amount: 10,
+        pack: 5,
+        thunder: 1,
+        userId: 0,
+      },
     };
   },
   methods: {
+    packHandler(value) {
+      if (!/^(5|6|9){1}$/.test(value)) {
+        this.$message({
+          message: "只能输入[5|6|9包]",
+          type: "warning",
+        });
+        return;
+      }
+
+      if (value == 5) {
+        if (!/^(1|2|3|4|5){1}$/.test(this.ruleFrom.thunder)) {
+          this.$message({
+            message: "只能输入[1,2,3,4,5]雷",
+            type: "warning",
+          });
+          return false;
+        }
+      } else if (value == 6) {
+        if (!/^(1|2|3|4|5|6){1}$/.test(this.ruleFrom.thunder)) {
+          this.$message({
+            message: "只能输入[1,2,3,4,5,6]雷",
+            type: "warning",
+          });
+          return false;
+        }
+      }
+    },
+    thunderHandler(value) {
+      if (!/^(5|6|9){1}$/.test(this.ruleFrom.pack)) {
+        this.ruleFrom.packval = false;
+        this.$message({
+          message: "只能输入[5|6|9包]",
+          type: "warning",
+        });
+        return;
+      }
+
+      if (this.ruleFrom.pack == 5) {
+        if (!/^(1|2|3|4|5){1}$/.test(value)) {
+          this.$message({
+            message: "只能输入[1,2,3,4,5]雷",
+            type: "warning",
+          });
+          return false;
+        }
+      } else if (this.ruleFrom.pack == 6) {
+        if (!/^(1|2|3|4|5|6){1}$/.test(value)) {
+          this.$message({
+            message: "只能输入[1,2,3,4,5,6]雷",
+            type: "warning",
+          });
+          return false;
+        }
+      }
+    },
+    getTrustRule(index, row) {
+      this.ruleVisible = true;
+      this.ruleFrom.userId = row.id;
+      const param = { groupId: this.groupId, userId: this.ruleFrom.userId };
+      getPaidRule(param).then((res) => {
+        if (res.data.length > 0) {
+          let obj = JSON.parse(res.data);
+          this.ruleFrom.period = obj.period;
+          this.ruleFrom.amount = obj.amount;
+          this.ruleFrom.pack = obj.rule.split("-")[0];
+          this.ruleFrom.thunder = obj.rule.split("-")[1];
+        }
+      });
+    },
+    setTrustRule() {
+      if (!/^(5|6|9){1}$/.test(this.ruleFrom.pack)) {
+        this.ruleFrom.packval = false;
+        this.$message({
+          message: "只能输入[5|6|9包]",
+          type: "warning",
+        });
+        return;
+      }
+
+      if (this.ruleFrom.pack == 5) {
+        if (!/^(1|2|3|4|5){1}$/.test(this.ruleFrom.thunder)) {
+          this.$message({
+            message: "只能输入[1,2,3,4,5]雷",
+            type: "warning",
+          });
+          return false;
+        }
+      } else if (this.ruleFrom.pack == 6) {
+        if (!/^(1|2|3|4|5|6){1}$/.test(this.ruleFrom.thunder)) {
+          this.$message({
+            message: "只能输入[1,2,3,4,5,6]雷",
+            type: "warning",
+          });
+          return false;
+        }
+      }
+      this.$confirm("发包规则设置", "发包规则设置", {})
+        .then(() => {
+          const param = {
+            userId: this.ruleFrom.userId,
+            groupId: this.groupId,
+            period: this.ruleFrom.period,
+            amount: this.ruleFrom.amount,
+            rule: this.ruleFrom.pack + "-" + this.ruleFrom.thunder,
+          };
+          console.log(JSON.stringify(param));
+          setPaidRule(param).then((res) => {
+            this.ruleVisible = false;
+            this.$message({
+              message: "修改成功",
+              type: "success",
+            });
+          });
+        })
+        .catch((e) => {});
+    },
     setTrust(index, row) {
       this.$confirm("确认设置托号？", "设置托号", {})
         .then(() => {
@@ -197,7 +399,7 @@ export default {
           };
           stopTrust(param).then((res) => {
             this.trusts[index].mstatus = "0";
-            this.$message({
+            this.this.$message({
               message: "停用成功",
               type: "success",
             });

@@ -47,3 +47,27 @@ export function getNinePaidRate(params) {
   })
 }
 
+export function setPaidMoney(params) {
+  return request({
+    url: '/set/topLimit',
+    method: 'get',
+    params: params
+  })
+}
+
+export function getPaidMoney(params) {
+  return request({
+    url: '/get/topLimit',
+    method: 'get',
+    params: params
+  })
+}
+
+export function getPaidRule(params) {
+  return request({
+    url: '/get/paidRule',
+    method: 'get',
+    params: params
+  })
+}
+

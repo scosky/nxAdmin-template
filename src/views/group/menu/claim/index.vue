@@ -16,6 +16,11 @@
           <el-form-item>
             <el-button type="primary" v-on:click="members">查询</el-button>
           </el-form-item>
+          <el-form-item>
+            <el-button type="success" v-on:click="claim"
+              >赔付金上限设置</el-button
+            >
+          </el-form-item>
         </el-form>
       </el-col>
 
@@ -98,6 +103,31 @@
         >
         </el-pagination>
       </el-col>
+
+      <el-dialog
+        title="赔付金上限设置"
+        :visible.sync="paidMoneyVisible"
+        :close-on-click-modal="false"
+      >
+        <el-form
+          :model="paid"
+          ref="paid"
+          :rules="moenyRules"
+          @submit.native.prevent
+        >
+          <el-input-number
+            v-model="paid.money"
+            oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+          ></el-input-number>
+        </el-form>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="updatePaiMoney('paid')"
+            >确认</el-button
+          >
+          <el-button @click.native="paidMoneyVisible = false">取消</el-button>
+        </div>
+      </el-dialog>
     </section>
   </div>
 </template>
@@ -109,6 +139,7 @@ import {
   startIndemnity,
   stopIndemnity,
 } from "@/api/turst";
+import { setPaidMoney, getPaidMoney } from "@/api/groupTable";
 export default {
   name: "claim",
   props: {
@@ -133,9 +164,45 @@ export default {
       total: 0,
       page: 1,
       pageSize: 10,
+      paidMoneyVisible: false,
+      paid: {
+        money: 1,
+      },
+      moenyRules: {
+        money: [{ required: true, message: "请输入金额", trigger: "blur" }],
+      },
     };
   },
   methods: {
+    claim() {
+      this.paidMoneyVisible = true;
+      const param = { groupId: this.groupId };
+      getPaidMoney(param).then((res) => {
+        this.paid.money = res.max;
+      });
+    },
+    updatePaiMoney(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$confirm(
+            "最多赔付:【" + this.paid.money + "】金额",
+            "赔付金额",
+            {}
+          )
+            .then(() => {
+              const param = { groupId: this.groupId, max: this.paid.money };
+              setPaidMoney(param).then((res) => {
+                this.paidMoneyVisible = false;
+                this.$message({
+                  message: "修改成功",
+                  type: "success",
+                });
+              });
+            })
+            .catch((e) => {});
+        }
+      });
+    },
     setIndemnity(index, row) {
       this.$confirm("确认设置赔付号？", "设置赔付号", {})
         .then(() => {

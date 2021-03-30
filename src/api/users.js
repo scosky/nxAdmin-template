@@ -31,6 +31,13 @@ export function setNinePaidRate(params) {
     })
 }
 
+export function setPaidRule(params) {
+    return ajaxRequest({
+        url: '/set/paidRule',
+        method: 'post',
+        data: params
+    })
+}
 
 export function modifyGroup(params) {
     return ajaxRequest({

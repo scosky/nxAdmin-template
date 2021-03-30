@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="item" style="color: #42b983">
-      <h4>【{{ name }} &nbsp;群】赔设置</h4>
+      <h4>【{{ name }} &nbsp;群】赔率设置</h4>
     </div>
     <el-container style="height: 500px; border: 1px solid #eee">
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
