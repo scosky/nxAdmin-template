@@ -46,7 +46,7 @@ const permission = {
         const menu = [{
           path: '/group',
           component: Layout,
-          meta: { title: '群功能设置', icon: 'dashboard', roles: ['admin'] },
+          meta: { title: '群功能设置', icon: 'tab', roles: ['admin'] },
           children: []
         }]
         getGroupMens().then((res) => {
@@ -56,7 +56,7 @@ const permission = {
               component: () => import('@/views/group/menu/index'),
               meta: {
                 title: item.name,
-                icon: 'dashboard'
+                icon: 'group'
               },
               redirect: '/menu/odds',
               children: [
@@ -66,7 +66,7 @@ const permission = {
                   component: () => import('@/views/group/menu/odds/index'),
                   meta: {
                     title: '赔率设置',
-                    icon: 'dashboard'
+                    icon: 'setting'
                   },
                   props: { id: item.groupId, name: item.name }
                 },
@@ -76,7 +76,7 @@ const permission = {
                   component: () => import('@/views/group/menu/trust/index'),
                   meta: {
                     title: '托号设置',
-                    icon: 'dashboard'
+                    icon: 'setting'
                   },
                   props: { id: item.groupId, name: item.name }
                 },
@@ -86,7 +86,7 @@ const permission = {
                   component: () => import('@/views/group/menu/grab/index'),
                   meta: {
                     title: '秒号设置',
-                    icon: 'dashboard'
+                    icon: 'setting'
                   },
                   props: { id: item.groupId, name: item.name }
                 },
@@ -96,7 +96,7 @@ const permission = {
                   component: () => import('@/views/group/menu/claim/index'),
                   meta: {
                     title: '赔付号设置',
-                    icon: 'dashboard'
+                    icon: 'setting'
                   },
                   props: { id: item.groupId, name: item.name }
                 },
@@ -106,7 +106,7 @@ const permission = {
                   component: () => import('@/views/group/menu/monitor/index'),
                   meta: {
                     title: '报奖监控',
-                    icon: 'dashboard'
+                    icon: 'setting'
                   },
                   props: { id: item.groupId, name: item.name }
                 },
@@ -116,7 +116,7 @@ const permission = {
                   component: () => import('@/views/group/menu/win/index'),
                   meta: {
                     title: '中奖查询',
-                    icon: 'dashboard'
+                    icon: 'setting'
                   },
                   props: { id: item.groupId, name: item.name }
                 },
@@ -126,7 +126,7 @@ const permission = {
                   component: () => import('@/views/group/menu/turnover/index'),
                   meta: {
                     title: '流水统计',
-                    icon: 'dashboard'
+                    icon: 'setting'
                   },
                   props: { id: item.groupId, name: item.name }
                 }

@@ -1,6 +1,6 @@
 {
-  "name": "stars",
-  "version": "0.0.1",
+  "name": "mc-start",
+  "version": "0.0.8",
   "description": "stars......",
   "author": "stars",
   "scripts": {
@@ -140,9 +140,5 @@
       "eslint --fix",
       "git add"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mgbq/nx-admin.git"
   }
 }
