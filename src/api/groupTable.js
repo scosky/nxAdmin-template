@@ -31,6 +31,14 @@ export function getTurnovers(params) {
   })
 }
 
+export function getThisField(params) {
+  return request({
+    url: '/group/trade/stat/thisField',
+    method: 'get',
+    params: params
+  })
+}
+
 export function getPaidRate(params) {
   return request({
     url: '/group/get/paidRate',
