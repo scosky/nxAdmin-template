@@ -347,6 +347,7 @@ export default {
           };
           setTrust(param).then((res) => {
             this.trusts[index].msend = "1";
+            this.trusts[index].mstatus = "1";
             this.$message({
               message: "设置成功",
               type: "success",

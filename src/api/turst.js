@@ -103,3 +103,35 @@ export function stopIndemnity(params) {
     params: params
   })
 }
+
+export function setRobot(params) {
+  return request({
+    url: '/set/robot',
+    method: 'get',
+    params: params
+  })
+}
+
+export function cancelRobot(params) {
+  return request({
+    url: '/cancel/robot',
+    method: 'get',
+    params: params
+  })
+}
+
+export function startRobot(params) {
+  return request({
+    url: '/start/robot',
+    method: 'get',
+    params: params
+  })
+}
+
+export function stopRobot(params) {
+  return request({
+    url: '/stop/robot',
+    method: 'get',
+    params: params
+  })
+}

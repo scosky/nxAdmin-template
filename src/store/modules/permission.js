@@ -101,6 +101,16 @@ const permission = {
                   props: { id: item.groupId, name: item.name }
                 },
                 {
+                  path: 'robot' + index,
+                  name: '机器人设置【' + item.groupId + '】',
+                  component: () => import('@/views/group/menu/robot/index'),
+                  meta: {
+                    title: '机器人设置',
+                    icon: 'setting'
+                  },
+                  props: { id: item.groupId, name: item.name }
+                },
+                {
                   path: 'monitor' + index,
                   name: '报奖监控【' + item.groupId + '】',
                   component: () => import('@/views/group/menu/monitor/index'),
