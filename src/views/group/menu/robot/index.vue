@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="item" style="color: #42b983">
-      <h4>【{{ name }}&nbsp;群】 托号机器人</h4>
+      <h4>【{{ name }}&nbsp;群】机器人设置</h4>
     </div>
     <section>
       <!--工具条-->
