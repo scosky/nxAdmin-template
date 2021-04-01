@@ -9,14 +9,17 @@
     <nx-breadcrumb class="breadcrumb-container"></nx-breadcrumb>
 
     <div class="right-menu">
-      <!-- <nx-lang-select class="international right-menu-item"></nx-lang-select> -->
-
+      <nx-lang-select class="international right-menu-item"></nx-lang-select>
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <img
+          <!-- <img
             class="user-avatar"
             src="https://mgbq.github.io/nx-admin-site/home.png"
-          />
+          /> -->
+          <svg-icon
+            icon-class="si-glyph-electron"
+            style="font-size: 30px"
+          ></svg-icon>
           <i class="el-icon-caret-bottom"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -163,11 +166,10 @@
 import { mapGetters } from "vuex";
 import nxBreadcrumb from "@/components/nx-breadcrumb";
 import nxHamburger from "@/components/nx-hamburger";
-// import nxLangSelect from "@/components/nx-lang-select/index";
+import nxLangSelect from "@/components/nx-lang-select/index";
 import { getInfo } from "@/api/login";
 import { modifyUser, modifyPwd } from "@/api/users";
 import md5 from "blueimp-md5";
-
 export default {
   name: "navBar",
   data() {
@@ -238,7 +240,7 @@ export default {
   components: {
     nxBreadcrumb,
     nxHamburger,
-    // nxLangSelect,
+    nxLangSelect,
   },
   computed: {
     ...mapGetters(["sidebar", "name", "avatar"]),

@@ -259,7 +259,7 @@ export default {
           if (element.paid == null) {
             element.paid = 0;
           }
-          const paid = element.water - element.paid;
+          const paid = element.paid - element.water;
           element.paid = paid;
         });
         this.total = res.data.total;
@@ -300,7 +300,7 @@ export default {
           if (element.paid == null) {
             element.paid = 0;
           }
-          const paid = element.water - element.paid;
+          const paid = element.paid - element.water;
           element.paid = paid;
         });
         this.total = res.data.total;

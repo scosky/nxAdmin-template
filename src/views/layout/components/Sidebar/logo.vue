@@ -1,18 +1,26 @@
 <template>
   <div class="logo">
     <transition name="fade">
-      <span v-if="isCollapse" class="logo_title is-bold " key="0" :class="{'is-text':!type,'is-img':type}">
+      <span
+        v-if="isCollapse"
+        class="logo_title is-bold"
+        key="0"
+        :class="{ 'is-text': !type, 'is-img': type }"
+      >
         <template v-if="type">
           <img :src="website.logo" width="40" height="40" />
         </template>
         <template v-else>
-          {{website.logo}}
+          {{ website.logo }}
         </template>
       </span>
     </transition>
     <transition-group name="fade">
       <template v-if="!isCollapse">
-        <span class="logo_title is-bold" key="1">{{website.title}} </span>
+        <span class="logo_title is-bold" key="1">
+          <svg-icon icon-class="si-glyph-electron"></svg-icon>
+          {{ website.title }}
+        </span>
         <!-- <span class="logo_subtitle" key="2">{{website.author}}</span> -->
       </template>
     </transition-group>
@@ -20,22 +28,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
-  name: 'logo',
+  name: "logo",
   data() {
-    return {}
+    return {};
   },
-  props: ['isCollapse'],
+  props: ["isCollapse"],
   created() {},
   computed: {
-    ...mapGetters(['website']),
-    type: function(val) {
-      return this.website.logo.indexOf('static') !== -1
-    }
+    ...mapGetters(["website"]),
+    type: function (val) {
+      return this.website.logo.indexOf("static") !== -1;
+    },
   },
-  methods: {}
-}
+  methods: {},
+};
 </script>
 
 <style scoped="scoped" lang="scss">
@@ -57,7 +65,7 @@ export default {
   // width: 230px;
   height: 64px;
   line-height: 64px;
-  background: #473C8B;
+  background: #473c8b;
   color: #fdfdfd;
   text-align: center;
   font-size: 20px;

@@ -1,47 +1,49 @@
 <template>
-  <el-dropdown trigger="click" class='international' @command="handleSetLanguage">
-    <div>
-      <nx-svg-icon class-name='international-icon' icon-class="language" />
-  
-    </div>
-    <el-dropdown-menu slot="dropdown">
-      <el-dropdown-item command="zh" :disabled="language==='zh'">中文</el-dropdown-item>
-      <el-dropdown-item command="en" :disabled="language==='en'">English</el-dropdown-item>
-    </el-dropdown-menu>
-  </el-dropdown>
+  <el-tooltip effect="dark" content="刷新群功能" placement="bottom">
+    <el-button class="btn-text can-hover" type="text" @click="refMenu">
+      <nx-svg-icon
+        class-name="ref-icon"
+        icon-class="ref"
+        style="font-size: 35px; margin-top: -6px"
+        @click="refMenu"
+      />
+    </el-button>
+  </el-tooltip>
 </template>
 
 <script>
-import nxSvgIcon from '@/components/nx-svg-icon/index'
+import router from "@/router";
+import store from "@/store";
+import nxSvgIcon from "@/components/nx-svg-icon/index";
 export default {
-  name: 'nx-lang-select',
+  name: "nx-ref-menu",
   components: { nxSvgIcon },
-  computed: {
-    language() {
-      return this.$store.getters.language
-    }
-  },
   methods: {
-    handleSetLanguage(lang) {
-      this.$i18n.locale = lang
-      this.$store.dispatch('setLanguage', lang)
-      this.$message({
-        message: 'switch language success',
-        type: 'success'
-      })
-    }
-  }
-}
+    refMenu() {
+      store
+        .dispatch("GetInfo")
+        .then((res) => {
+          const roles = res.roles;
+          store.dispatch("GenerateRoutes", { roles }).then(() => {
+            router.addRoutes(store.getters.addRouters);
+          });
+        })
+        .catch((err) => {
+          store.dispatch("FedLogOut").then(() => {
+            Message.error(err || "Verification failed, please login again");
+            next({ path: "/" });
+          });
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
-.international-icon {
+.ref-icon {
   font-size: 22px;
   cursor: pointer;
-  vertical-align: -5px!important;
-}
-.el-dropdown{
-  color:#5a5e66;
+  vertical-align: -5px !important;
 }
 </style>
 
