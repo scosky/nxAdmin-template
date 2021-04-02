@@ -108,7 +108,6 @@ export default {
             { index: "3", val: 1 },
             { index: "4", val: 1 },
             { index: "5", val: 1 },
-            { index: "6", val: 1 },
           ];
           this.switchSet = false;
           this.using = "1";

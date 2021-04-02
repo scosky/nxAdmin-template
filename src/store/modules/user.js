@@ -65,6 +65,7 @@ const user = {
         logout().then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
+          commit('SET_NAME', '')
           removeToken()
           resolve()
         }).catch(error => {

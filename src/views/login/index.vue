@@ -11,10 +11,9 @@
         </li>
       </ul>
     </div> -->
-    <div class="login-border  animated fadeInRight">
+    <div class="login-border animated fadeInRight">
       <div class="login-main">
-        <h4 class="login-title">{{website.title}}
-        </h4>
+        <h4 class="login-title">{{ website.title }}</h4>
         <el-tabs v-model="activeName">
           <el-tab-pane label="用户密码" name="user">
             <userLogin></userLogin>
@@ -25,32 +24,31 @@
         </el-tabs>
       </div>
     </div>
-
   </div>
 </template>
 <script>
-import userLogin from './userlogin'
-import codeLogin from './codelogin'
-import { mapGetters } from 'vuex'
+import userLogin from "./userlogin";
+import codeLogin from "./codelogin";
+import { mapGetters } from "vuex";
 export default {
-  name: 'login',
+  name: "login",
   components: {
     userLogin,
-    codeLogin
+    codeLogin,
   },
   data() {
     return {
-      activeName: 'user'
-    }
+      activeName: "user",
+    };
   },
   created() {},
   mounted() {},
   computed: {
-    ...mapGetters(['website'])
+    ...mapGetters(["website"]),
   },
   props: [],
-  methods: {}
-}
+  methods: {},
+};
 </script>
 
 <style lang="scss">
@@ -60,7 +58,8 @@ export default {
   justify-content: space-around;
   background: rgba(0, 0, 0, 0.2);
   position: relative;
-  height: 900px;
+  height: 100%;
+  top: -25px;
 }
 .login-container::before {
   z-index: -999;

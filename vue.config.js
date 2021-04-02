@@ -35,7 +35,9 @@ module.exports = {
   //   },
   // },
   pluginOptions: {
+
     electronBuilder: {
+      nodeIntegration: true,
       chainWebpackMainProcess: (config) => {
         // Chain webpack config for electron main process only
       },
@@ -105,29 +107,31 @@ module.exports = {
         config.optimization.runtimeChunk('single')
       },
       builderOptions: {
-        'appId': 'vip.mc.star',
-        'productName': 'mc-star',
-        'copyright': 'Copyright © 2021',
-        'directories': {
-          'output': './dist'
+        appId: 'vip.mc.star',
+        productName: 'mc - star',
+        copyright: 'Copyright © 2021',
+        directories: {
+          output: './dist'
         },
-        'mac': {
-          'icon': 'build/icons/icon.ico',
-          'gatekeeperAssess': false
+        mac: {
+          icon: 'build/icons/icon.ico',
+          gatekeeperAssess: false
         },
-        'win': {
-          'icon': 'build/icons/icon.ico'
+        win: {
+          icon: 'build/icons/icon.ico'
         },
-        'nsis': {
-          'oneClick': false,
-          'perMachine': false,
-          'allowElevation': true,
-          'allowToChangeInstallationDirectory': true,
-          'runAfterFinish': false,
-          'deleteAppDataOnUninstall': true
+        nsis: {
+          oneClick: false,
+          perMachine: true,
+          allowElevation: true,
+          allowToChangeInstallationDirectory: false,
+          runAfterFinish: false,
+          deleteAppDataOnUninstall: true,
+          createStartMenuShortcut: true  // 布尔值 - 是否创建开始菜单快捷方式
+          // 'shortcutName':  快捷方式的名称。默认为应用程序名称
         },
-        'electronDownload': {
-          'mirror': 'https://npm.taobao.org/mirrors/electron/'
+        electronDownload: {
+          mirror: 'https://npm.taobao.org/mirrors/electron/'
         }
       }
     }

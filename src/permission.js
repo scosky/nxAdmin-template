@@ -1,7 +1,7 @@
 import router from './router'
 import store from './store'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+// import NProgress from 'nprogress'
+// import 'nprogress/nprogress.css'
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth'
 import {
@@ -15,11 +15,11 @@ function hasPermission(roles, permissionRoles) {
 }
 const whiteList = ['/login']
 router.beforeEach((to, from, next) => {
-  NProgress.start()
+  // NProgress.start()
   if (getToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
-      NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
+      // NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       if (store.getters.roles.length === 0) {
         store.dispatch('GetInfo').then(res => {
@@ -47,13 +47,13 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next('/login')
-      NProgress.done()
+      // NProgress.done()
     }
   }
 })
 
 router.afterEach(() => {
-  NProgress.done()
+  // NProgress.done()
   setTimeout(() => {
     const browserHeaderTitle = store.getters.browserHeaderTitle
     setTitle(browserHeaderTitle)

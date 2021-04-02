@@ -63,8 +63,8 @@ export default {
   justify-content: center;
   align-items: center;
   // width: 230px;
-  height: 64px;
-  line-height: 64px;
+  height: 45px;
+  line-height: 45px;
   background: #473c8b;
   color: #fdfdfd;
   text-align: center;
