@@ -86,7 +86,7 @@
 
             <el-button
               :plain="true"
-              v-if="scope.row.mstatus === '0'"
+              v-if="scope.row.msend === '0'"
               size="mini"
               type="primary"
               :disabled="true"
@@ -95,7 +95,7 @@
             >
             <el-button
               :plain="true"
-              v-else-if="scope.row.mstatus === '1'"
+              v-else-if="scope.row.msend === '1'"
               size="mini"
               type="primary"
               :disabled="false"
@@ -129,6 +129,7 @@
               v-model="ruleFrom.period"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
               :controls="false"
+              :disabled="ruleFrom.status"
             ></el-input-number
             ><span>&nbsp;秒</span>
           </el-form-item>
@@ -138,6 +139,7 @@
               v-model="ruleFrom.amount"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
               :controls="false"
+              :disabled="ruleFrom.status"
             ></el-input-number
             ><span>&nbsp;元</span>
           </el-form-item>
@@ -148,6 +150,7 @@
               change="value=value.replace(/^\.+|[^\d.]/g,'')"
               @input="packHandler"
               :controls="false"
+              :disabled="ruleFrom.status"
               style="width: 75px"
               :min="5"
               :max="9"
@@ -159,6 +162,7 @@
               change="value=value.replace(/^\.+|[^\d.]/g,'')"
               @input="thunderHandler"
               :controls="false"
+              :disabled="ruleFrom.status"
               style="width: 75px"
               :min="1"
               :max="9"
@@ -168,7 +172,10 @@
         </el-form>
 
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="setTrustRule('paid')"
+          <el-button
+            type="primary"
+            @click="setTrustRule('paid')"
+            :disabled="ruleFrom.status"
             >确认</el-button
           >
           <el-button @click.native="ruleVisible = false">取消</el-button>
@@ -218,6 +225,7 @@ export default {
         pack: 5,
         thunder: 1,
         userId: 0,
+        status: false,
       },
     };
   },
@@ -278,6 +286,16 @@ export default {
       }
     },
     getTrustRule(index, row) {
+      if (row.msend == "1") {
+        if (row.mstatus == "0") {
+          this.ruleFrom.status = false;
+        } else {
+          this.ruleFrom.status = true;
+        }
+      }
+      if (row.msend == "0") {
+        this.ruleFrom.status = true;
+      }
       this.ruleVisible = true;
       this.ruleFrom.userId = row.id;
       const param = { groupId: this.groupId, userId: this.ruleFrom.userId };
@@ -347,7 +365,6 @@ export default {
           };
           setTrust(param).then((res) => {
             this.trusts[index].msend = "1";
-            this.trusts[index].mstatus = "1";
             this.$message({
               message: "设置成功",
               type: "success",

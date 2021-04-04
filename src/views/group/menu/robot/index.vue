@@ -153,7 +153,6 @@ export default {
           };
           setRobot(param).then((res) => {
             this.trusts[index].mc = "1";
-            this.trusts[index].mcStatus = "1";
             this.$message({
               message: "设置成功",
               type: "success",
