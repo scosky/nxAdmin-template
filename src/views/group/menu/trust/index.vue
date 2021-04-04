@@ -69,23 +69,6 @@
 
             <el-button
               :plain="true"
-              v-if="scope.row.mstatus === '0'"
-              size="mini"
-              type="primary"
-              @click="startTrust(scope.$index, scope.row)"
-              >启用</el-button
-            >
-            <el-button
-              :plain="true"
-              v-else-if="scope.row.mstatus === '1'"
-              size="mini"
-              type="primary"
-              @click="stopTrust(scope.$index, scope.row)"
-              >停用</el-button
-            >
-
-            <el-button
-              :plain="true"
               v-if="scope.row.msend === '0'"
               size="mini"
               type="primary"
@@ -101,6 +84,23 @@
               :disabled="false"
               @click="getTrustRule(scope.$index, scope.row)"
               >规则设置</el-button
+            >
+
+            <el-button
+              :plain="true"
+              v-if="scope.row.mstatus === '0'"
+              size="mini"
+              type="primary"
+              @click="startTrust(scope.$index, scope.row)"
+              >启用</el-button
+            >
+            <el-button
+              :plain="true"
+              v-else-if="scope.row.mstatus === '1'"
+              size="mini"
+              type="primary"
+              @click="stopTrust(scope.$index, scope.row)"
+              >停用</el-button
             >
           </template>
         </el-table-column>
@@ -336,7 +336,7 @@ export default {
           return false;
         }
       }
-      this.$confirm("发包规则设置", "发包规则设置", {})
+      this.$confirm("提示信息", "确认设置此规则", {})
         .then(() => {
           const param = {
             userId: this.ruleFrom.userId,

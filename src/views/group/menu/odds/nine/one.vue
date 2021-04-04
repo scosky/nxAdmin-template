@@ -1,12 +1,12 @@
 <template>
   <el-container>
-    <el-header style="text-align: right; font-size: 12px">
+    <el-header style="text-align: right; font-size: 18px">
       <span style="margin-right: 45%">{{ name }}</span>
     </el-header>
 
     <el-main>
       <el-row :gutter="20">
-        <el-col :span="7"
+        <el-col :span="10"
           ><div class="grid-content bg-purple">
             <span>玩法设置：</span>
             <el-radio v-model="using" label="1" @change="openSet"
@@ -17,7 +17,7 @@
             >
           </div></el-col
         >
-        <el-col :span="7"
+        <el-col :span="10"
           ><div class="grid-content bg-purple gf">
             <span>单个赔率</span>
             <el-input
@@ -32,7 +32,11 @@
         >
       </el-row>
       <span style="color: #409eff">奖率设置:</span>
-      <div v-for="(item, index) in award" class="odds-wap gf">
+      <div
+        v-for="(item, index) in award"
+        class="odds-wap gf"
+        style="min-width: 360px"
+      >
         <span style="margin-left: 20px"> 中{{ item.index }}个:奖</span>
         <el-input
           v-model="item.val"
@@ -231,8 +235,10 @@ export default {
   min-height: 36px;
   height: 50px;
   text-align: center;
+  padding-left: 10px;
   margin: 0 auto;
   line-height: 50px;
+  min-width: 314px;
 }
 .grid-content e {
   margin-right: 10px;

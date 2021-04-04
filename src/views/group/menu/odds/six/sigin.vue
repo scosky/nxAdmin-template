@@ -1,13 +1,13 @@
 <template>
   <el-container>
-    <el-header style="text-align: right; font-size: 12px">
+    <el-header style="text-align: right; font-size: 18px">
       <span style="margin-right: 45%">{{ name }}</span>
     </el-header>
 
     <el-main>
       <el-row :gutter="20">
         <el-col :span="7"
-          ><div class="grid-content bg-purple">
+          ><div class="grid-content bg-purple" style="min-width: 314px">
             <span>玩法设置:</span>
             <el-radio v-model="using" label="1" @change="openSet"
               >开启</el-radio
@@ -18,9 +18,13 @@
           </div></el-col
         >
       </el-row>
-      <span style="color: #409eff">返倍设置:</span>
-      <div v-for="(item, index) in paidRate" class="odds-wap gf">
-        <span style="margin-left: 20px"> 中{{ item.index }}雷:返</span>
+      <span style="color: #409eff">赔率设置:</span>
+      <div
+        v-for="(item, index) in paidRate"
+        class="odds-wap gf"
+        style="min-width: 360px"
+      >
+        <span style="margin-left: 20px"> 中{{ item.index }}个:返</span>
         <el-input
           v-model="item.val"
           :disabled="switchSet"
