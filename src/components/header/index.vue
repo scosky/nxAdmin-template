@@ -18,9 +18,21 @@
       </div>
       <div class="header-close">
         <span class="login-name">{{ userName }}</span>
-        <svg-icon icon-class="min" @click.native="minimizeWin"></svg-icon>
-        <svg-icon icon-class="max" @click.native="maximizeWin"></svg-icon>
-        <svg-icon icon-class="close" @click.native="closeWin"></svg-icon>
+        <svg-icon
+          icon-class="min"
+          @click.native="minimizeWin"
+          style="-webkit-app-region: no-drag"
+        ></svg-icon>
+        <svg-icon
+          icon-class="max"
+          @click.native="maximizeWin"
+          style="-webkit-app-region: no-drag"
+        ></svg-icon>
+        <svg-icon
+          icon-class="close"
+          @click.native="closeWin"
+          style="-webkit-app-region: no-drag"
+        ></svg-icon>
       </div>
     </div>
     <!-- <div class="more"></div> -->
