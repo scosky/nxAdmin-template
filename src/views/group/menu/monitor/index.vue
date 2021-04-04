@@ -43,6 +43,7 @@ export default {
       data: [],
       busy: true,
       userId: 0,
+      wsUrl: "",
       websock: null,
     };
   },
@@ -54,8 +55,7 @@ export default {
       });
     },
     webSocketInit() {
-      const url = "ws://8.136.115.108:8888/zxmc";
-      this.websock = new WebSocket(url);
+      this.websock = new WebSocket(this.wsUrl);
       this.websock.onopen = this.websocketonopen;
       this.websock.onmessage = this.websocketonmessage;
     },
@@ -74,22 +74,28 @@ export default {
       console.log("Received Message: " + event.data);
       const data = JSON.parse(event.data);
       if (data.status == undefined) {
-        this.data.push(data);
-        this.loading = false;
-        this.scrollToBottom();
+        if (dat.msgType == 888 || dat.msgType == 999) {
+          this.data.push(data);
+          this.loading = false;
+          this.scrollToBottom();
+        }
       } else {
         console.log("注册成功......");
       }
     },
     onClose() {
-      if (this.websock.readyState === 1) {
-        this.websock.close();
+      if (this.websock != null) {
+        if (this.websock.readyState === 1) {
+          this.websock.close();
+        }
       }
     },
   },
   mounted() {
     this.groupId = this.id;
     this.userId = store.getters.uuid;
+    this.wsUrl = store.getters.wsUrl;
+    console.log("wsUrl:" + this.wsUrl);
     this.webSocketInit();
     this.websocketonopen();
   },

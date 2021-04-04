@@ -108,7 +108,7 @@ module.exports = {
       },
       builderOptions: {
         appId: 'vip.mc.star',
-        productName: 'mc - star',
+        productName: 'mc-star',
         copyright: 'Copyright © 2021',
         directories: {
           output: './dist'

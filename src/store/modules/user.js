@@ -8,6 +8,7 @@ const user = {
     name: '',
     uuid: '',
     avatar: '',
+    wsUrl: '',
     roles: []
 
   },
@@ -27,8 +28,10 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_WS_URL: (state, wsUrl) => {
+      state.wsUrl = wsUrl
     }
-
   },
   actions: {
     Login({ commit }, userInfo) {
@@ -36,9 +39,11 @@ const user = {
       const pwd = md5(userInfo.password.trim())
       return new Promise((resolve, reject) => {
         login(username, pwd).then(response => {
+          console.log(response)
           const data = response
           setToken(data.token)
           commit('SET_TOKEN', data.token)
+          commit('SET_WS_URL', data.wsUrl)
           resolve()
         }).catch(error => {
           reject(error)
@@ -66,6 +71,7 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           commit('SET_NAME', '')
+          commit('SET_WS_URL', '')
           removeToken()
           resolve()
         }).catch(error => {
@@ -77,6 +83,9 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
+        commit('SET_ROLES', [])
+        commit('SET_NAME', '')
+        commit('SET_WS_URL', '')
         removeToken()
         resolve()
       })
