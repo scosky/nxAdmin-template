@@ -97,7 +97,7 @@ export default {
       console.log("Received Message: " + event.data);
       const data = JSON.parse(event.data);
       if (data.status == undefined) {
-        if (dat.msgType == 888 || dat.msgType == 999) {
+        if (data.msgType == 888 || data.msgType == 999) {
           this.data.push(data);
           this.loading = false;
           this.scrollToBottom();
