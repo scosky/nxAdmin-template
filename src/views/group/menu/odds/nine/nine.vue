@@ -6,7 +6,7 @@
 
     <el-main>
       <el-row :gutter="20">
-        <el-col :span="6"
+        <el-col :span="8"
           ><div class="grid-content bg-purple">
             <span>&nbsp;&nbsp;赔率：</span>
             <el-radio v-model="using" label="1" @change="openSet"
@@ -18,7 +18,7 @@
           </div></el-col
         >
         <el-col :span="8">
-          <div class="grid-content bg-purple">
+          <div class="grid-content bg-purple" style="margin-left: 40px">
             <span>&nbsp;&nbsp;最小金额:</span>
             <el-input-number
               v-model="min"
@@ -27,31 +27,35 @@
               :disabled="switchSet"
               :min="1"
               :precision="0"
-              style="width: 75px"
+              style="width: 80px"
             ></el-input-number>
             <span>&nbsp;&nbsp;最大金额:</span>
             <el-input-number
               v-model="max"
               change="value=value.replace(/[^\d]/g, '')"
               :controls="false"
-              style="width: 75px"
+              style="width: 80px"
               :min="1"
+              :max="99999"
               :precision="0"
               :disabled="switchSet"
             ></el-input-number>
           </div>
         </el-col>
-
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="8"
-          ><div class="grid-content bg-purple gf">
+          ><div class="grid-content bg-purple">
             <span>&nbsp;&nbsp;固定赔率</span>
-            <el-input
-              size="mini"
+            <el-input-number
               v-model="rate"
               :disabled="switchSet"
+              :controls="false"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-              :min="0.0"
-            ></el-input>
+              :min="1"
+              :max="99999"
+              style="width: 80px"
+            ></el-input-number>
             <span>倍</span>
           </div></el-col
         >
@@ -253,6 +257,7 @@ export default {
   text-align: left;
   margin: 0 auto;
   line-height: 50px;
+  min-width: 350px;
 }
 .grid-content e {
   margin-right: 10px;

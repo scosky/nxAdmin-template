@@ -6,7 +6,7 @@
 
     <el-main>
       <el-row :gutter="20">
-        <el-col :span="6"
+        <el-col :span="8"
           ><div class="grid-content bg-purple">
             <span>&nbsp;&nbsp;玩法设置：</span>
             <el-radio v-model="using" label="1" @change="openSet"
@@ -18,7 +18,7 @@
           </div></el-col
         >
         <el-col :span="10">
-          <div class="grid-content bg-purple">
+          <div class="grid-content bg-purple" style="margin-left: 40px">
             <span>&nbsp;&nbsp;最小金额:</span>
             <el-input-number
               v-model="min"
@@ -26,8 +26,9 @@
               :controls="false"
               :disabled="amoutStatus"
               :min="1"
+              :max="99999"
               :precision="0"
-              style="width: 75px"
+              style="width: 80px"
             ></el-input-number>
             <span>&nbsp;&nbsp;最大金额:</span>
             <el-input-number
@@ -35,8 +36,9 @@
               change="value=value.replace(/[^\d]/g, '')"
               :controls="false"
               :min="1"
+              :max="99999"
               :precision="0"
-              style="width: 75px"
+              style="width: 80px"
               :disabled="amoutStatus"
             ></el-input-number>
           </div>
@@ -55,45 +57,46 @@
           </div>
         </el-col>
         <el-col :span="10"
-          ><div class="grid-content bg-purple gf">
+          ><div class="grid-content bg-purple">
             <span>&nbsp;&nbsp;赔</span>
-            <el-input
-              size="mini"
+            <el-input-number
+              :controls="false"
               v-model="fixedRate"
               :disabled="fixedStatus"
               oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-              :min="0.0"
-            ></el-input>
+              :min="1"
+              :max="9999"
+              style="width: 80px"
+            ></el-input-number>
             <span>倍</span>
           </div></el-col
         >
       </el-row>
       <span style="color: #409eff">奖率设置:</span>
-      <div class="odds-wap gf">
+      <div class="odds-wap">
         <span style="margin-left: 20px">单个赔率</span>
-        <el-input
+        <el-input-number
           v-model="rate"
-          size="mini"
+          :controls="false"
           :disabled="switchSet"
           oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-          :min="0.0"
-        ></el-input>
+          :min="1"
+          :max="9999"
+          style="width: 80px"
+        ></el-input-number>
         <span>倍</span>
       </div>
-      <div
-        v-for="(item, index) in award"
-        class="odds-wap gf"
-        style="min-width: 360px"
-      >
+      <div v-for="(item, index) in award" class="odds-wap">
         <span style="margin-left: 20px"> 中{{ item.index }}个:奖</span>
-        <el-input
+        <el-input-number
           v-model="item.val"
-          size="mini"
+          :controls="false"
           :disabled="switchSet"
           oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
           class="oddsinput"
-          :min="0.0"
-        ></el-input>
+          :min="1"
+          style="width: 80px"
+        ></el-input-number>
         <span>倍</span>
       </div>
       <el-row>
@@ -360,7 +363,7 @@ export default {
   text-align: left;
   margin: 0 auto;
   line-height: 50px;
-  min-width: 314px;
+  min-width: 350px;
 }
 .grid-content e {
   margin-right: 10px;
