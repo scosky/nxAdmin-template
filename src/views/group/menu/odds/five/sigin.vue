@@ -5,10 +5,10 @@
     </el-header>
 
     <el-main>
-      <el-row :gutter="20">
-        <el-col :span="7"
-          ><div class="grid-content bg-purple" style="min-width: 314px">
-            <span>玩法设置:</span>
+      <el-row :gutter="40">
+        <el-col :span="8">
+          <div class="grid-content bg-purple">
+            <span>&nbsp;&nbsp;玩法设置:</span>
             <el-radio v-model="using" label="1" @change="openSet"
               >开启</el-radio
             >
@@ -17,20 +17,38 @@
             >
           </div></el-col
         >
-      </el-row>
 
+        <el-col :span="10">
+          <div class="grid-content bg-purple">
+            <span>&nbsp;&nbsp;最小金额:</span>
+            <el-input-number
+              v-model="min"
+              oninput="value=value.replace(/[^\d]/g, '')"
+              :controls="false"
+              :disabled="switchSet"
+              :min="1"
+              style="width: 75px"
+            ></el-input-number>
+            <span>&nbsp;&nbsp;最大金额:</span>
+            <el-input-number
+              v-model="max"
+              oninput="value=value.replace(/[^\d]/g, '')"
+              :controls="false"
+              style="width: 75px"
+              :disabled="switchSet"
+              :min="1"
+            ></el-input-number>
+          </div>
+        </el-col>
+      </el-row>
       <span style="color: #409eff">赔率设置:</span>
 
-      <div
-        class="odds-wap gf"
-        v-for="(item, index) in paidRate"
-        style="min-width: 360px"
-      >
+      <div class="odds-wap gf" v-for="(item, index) in paidRate">
         <span style="margin-left: 20px"> 中{{ item.index }}个:返</span>
         <el-input
           v-model="item.val"
           :disabled="switchSet"
-          oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+          oninput="value=value.replace(/[^\d]/g,'')"
           :min="0.0"
         ></el-input>
         <span>倍</span>
@@ -57,15 +75,26 @@ export default {
       using: "1",
       paidRate: [],
       switchSet: false,
+      min: 10,
+      max: 200,
     };
   },
   methods: {
     oddsSubmit() {
+      if (this.min >= this.max) {
+        this.$message({
+          message: "最小金额不能打与最大金额",
+          type: "warning",
+        });
+        return false;
+      }
       let paidRate = {};
       for (let item of this.paidRate) {
         paidRate[item.index] = item.val;
       }
       paidRate.using = this.using;
+      paidRate.min = this.min;
+      paidRate.max = this.max;
       const params = {
         groupId: this.groupId,
         paid: this.paid,
@@ -101,6 +130,14 @@ export default {
               this.using = paidRate[key];
               continue;
             }
+            if (key === "min") {
+              this.min = paidRate[key];
+              continue;
+            }
+            if (key === "max") {
+              this.max = paidRate[key];
+              continue;
+            }
             this.paidRate.push({ index: key, val: paidRate[key] });
           }
           if (this.using == "0") {
@@ -118,6 +155,8 @@ export default {
           ];
           this.switchSet = false;
           this.using = "1";
+          this.min = 10;
+          this.max = 200;
         }
       });
     },
@@ -164,7 +203,7 @@ export default {
   background: #99a9bf;
 }
 .bg-purple {
-  background: #d3dce6;
+  /* background: #d3dce6; */
 }
 .bg-purple-light {
   background: #e5e9f2;
@@ -173,7 +212,7 @@ export default {
   border-radius: 4px;
   min-height: 36px;
   height: 50px;
-  text-align: center;
+  text-align: left;
   margin: 0 auto;
   line-height: 50px;
 }
@@ -191,7 +230,7 @@ export default {
 .odds-wap {
   margin: 20px 0;
   letter-spacing: 1px;
-  background: #eef1f6;
+  /* background: #eef1f6; */
   width: 58%;
   border-radius: 4px;
   height: 50px;

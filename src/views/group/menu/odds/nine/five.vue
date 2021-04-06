@@ -6,9 +6,9 @@
 
     <el-main>
       <el-row :gutter="20">
-        <el-col :span="10"
+        <el-col :span="6"
           ><div class="grid-content bg-purple">
-            <span>玩法设置：</span>
+            <span>&nbsp;&nbsp;玩法设置：</span>
             <el-radio v-model="using" label="1" @change="openSet"
               >开启</el-radio
             >
@@ -17,9 +17,35 @@
             >
           </div></el-col
         >
-        <el-col :span="10"
+        <el-col :span="10">
+          <div class="grid-content bg-purple">
+            <span>&nbsp;&nbsp;最小金额:</span>
+            <el-input-number
+              v-model="min"
+              change="value=value.replace(/[^\d]/g, '')"
+              :controls="false"
+              :disabled="amoutStatus"
+              :min="1"
+              :precision="0"
+              style="width: 75px"
+            ></el-input-number>
+            <span>&nbsp;&nbsp;最大金额:</span>
+            <el-input-number
+              v-model="max"
+              change="value=value.replace(/[^\d]/g, '')"
+              :controls="false"
+              :min="1"
+              :precision="0"
+              style="width: 75px"
+              :disabled="amoutStatus"
+            ></el-input-number>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6"
           ><div class="grid-content bg-purple">
-            <span>固定赔率：</span>
+            <span>&nbsp;&nbsp;固定奖率：</span>
             <el-checkbox
               v-model="checked"
               @change="checkMe(fix)"
@@ -28,25 +54,9 @@
             >
           </div>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="10">
-          <div class="grid-content bg-purple gf">
-            <span>单个赔率</span>
-            <el-input
-              v-model="rate"
-              size="mini"
-              :disabled="switchSet"
-              oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-              :min="0.0"
-            ></el-input>
-            <span>倍</span>
-          </div>
-        </el-col>
-
         <el-col :span="10"
           ><div class="grid-content bg-purple gf">
-            <span>固定赔率</span>
+            <span>&nbsp;&nbsp;赔</span>
             <el-input
               size="mini"
               v-model="fixedRate"
@@ -59,6 +69,17 @@
         >
       </el-row>
       <span style="color: #409eff">奖率设置:</span>
+      <div class="odds-wap gf">
+        <span style="margin-left: 20px">单个赔率</span>
+        <el-input
+          v-model="rate"
+          size="mini"
+          :disabled="switchSet"
+          oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+          :min="0.0"
+        ></el-input>
+        <span>倍</span>
+      </div>
       <div
         v-for="(item, index) in award"
         class="odds-wap gf"
@@ -98,16 +119,26 @@ export default {
       fix: "0",
       rate: 0,
       fixedRate: 0,
+      min: 10,
+      max: 200,
       award: [],
       switchSet: false,
       checked: false,
       Select: false,
       fixedStatus: false,
+      amoutStatus: false,
     };
   },
   methods: {
     oddsSubmit() {
-      let rate = { using: this.using };
+      if (this.min >= this.max) {
+        this.$message({
+          message: "最小金额不能打与最大金额",
+          type: "warning",
+        });
+        return false;
+      }
+      let rate = { using: this.using, min: this.min, max: this.max };
       if (this.fix == "1") {
         rate.fix = "0";
         rate.rate = this.rate;
@@ -156,6 +187,7 @@ export default {
       this.switchSet = false;
       this.Select = false;
       this.fixedStatus = false;
+      this.amoutStatus = false;
       if (this.fix == "0") {
         this.checkMe("1");
       } else {
@@ -166,6 +198,7 @@ export default {
       this.switchSet = true;
       this.Select = true;
       this.fixedOdds = true;
+      this.amoutStatus = true;
     },
     geFiveView() {
       const param = {
@@ -191,6 +224,14 @@ export default {
         if (dataStr.length > 0) {
           const value = JSON.parse(res.data);
           for (let key in value) {
+            if (key === "min") {
+              this.min = value[key];
+              continue;
+            }
+            if (key === "max") {
+              this.max = value[key];
+              continue;
+            }
             if (key === "using") {
               this.using = value[key];
               continue;
@@ -210,12 +251,18 @@ export default {
               continue;
             }
           }
+          if (this.using == "1") {
+            this.amoutStatus = false;
+          } else {
+            this.amoutStatus = true;
+          }
           this.checkMe(this.fix);
         } else {
           this.using = "1";
           this.rate = 1;
           this.fixedRate = 1;
           this.fix = "0";
+          this.amoutStatus = false;
           this.checkMe(this.fix);
         }
       });
@@ -262,7 +309,7 @@ export default {
 .odds-wap {
   margin: 20px 0;
   letter-spacing: 3px;
-  background: #eef1f6;
+  /* background: #eef1f6; */
   width: 58%;
   border-radius: 4px;
   height: 50px;
@@ -302,7 +349,7 @@ export default {
   background: #99a9bf;
 }
 .bg-purple {
-  background: #d3dce6;
+  /* background: #d3dce6; */
 }
 .bg-purple-light {
   background: #e5e9f2;
@@ -311,7 +358,7 @@ export default {
   border-radius: 4px;
   min-height: 36px;
   height: 50px;
-  text-align: center;
+  text-align: left;
   margin: 0 auto;
   line-height: 50px;
   min-width: 314px;

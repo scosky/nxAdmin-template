@@ -6,9 +6,9 @@
 
     <el-main>
       <el-row :gutter="20">
-        <el-col :span="10"
+        <el-col :span="6"
           ><div class="grid-content bg-purple">
-            <span>赔率：</span>
+            <span>&nbsp;&nbsp;赔率：</span>
             <el-radio v-model="using" label="1" @change="openSet"
               >开启</el-radio
             >
@@ -17,9 +17,34 @@
             >
           </div></el-col
         >
-        <el-col :span="10"
+        <el-col :span="8">
+          <div class="grid-content bg-purple">
+            <span>&nbsp;&nbsp;最小金额:</span>
+            <el-input-number
+              v-model="min"
+              change="value=value.replace(/[^\d]/g, '')"
+              :controls="false"
+              :disabled="switchSet"
+              :min="1"
+              :precision="0"
+              style="width: 75px"
+            ></el-input-number>
+            <span>&nbsp;&nbsp;最大金额:</span>
+            <el-input-number
+              v-model="max"
+              change="value=value.replace(/[^\d]/g, '')"
+              :controls="false"
+              style="width: 75px"
+              :min="1"
+              :precision="0"
+              :disabled="switchSet"
+            ></el-input-number>
+          </div>
+        </el-col>
+
+        <el-col :span="8"
           ><div class="grid-content bg-purple gf">
-            <span>固定赔率</span>
+            <span>&nbsp;&nbsp;固定赔率</span>
             <el-input
               size="mini"
               v-model="rate"
@@ -31,7 +56,6 @@
           </div></el-col
         >
       </el-row>
-
       <el-row>
         <el-button @click="oddsSubmit" type="primary">修改</el-button>
         <el-button @click="oddRest" type="primary">重置</el-button>
@@ -54,12 +78,27 @@ export default {
       paid: "9:9",
       rate: 0,
       fix: "1",
+      min: 10,
+      max: 200,
       switchSet: false,
     };
   },
   methods: {
     oddsSubmit() {
-      const paidRate = { using: this.using, fix: this.fix, rate: this.rate };
+      if (this.min >= this.max) {
+        this.$message({
+          message: "最小金额不能打与最大金额",
+          type: "warning",
+        });
+        return false;
+      }
+      const paidRate = {
+        using: this.using,
+        fix: this.fix,
+        rate: this.rate,
+        min: this.min,
+        max: this.max,
+      };
       const params = {
         groupId: this.groupId,
         paid: this.paid,
@@ -101,6 +140,14 @@ export default {
             }
             if (key === "rate") {
               this.rate = paidRate[key];
+              continue;
+            }
+            if (key === "min") {
+              this.min = paidRate[key];
+              continue;
+            }
+            if (key === "max") {
+              this.max = paidRate[key];
               continue;
             }
           }
@@ -154,7 +201,7 @@ export default {
 .odds-wap {
   margin: 20px 0;
   letter-spacing: 3px;
-  background: #eef1f6;
+  /* background: #eef1f6; */
   width: 58%;
   border-radius: 4px;
   height: 50px;
@@ -194,7 +241,7 @@ export default {
   background: #99a9bf;
 }
 .bg-purple {
-  background: #d3dce6;
+  /* background: #d3dce6; */
 }
 .bg-purple-light {
   background: #e5e9f2;
@@ -203,10 +250,9 @@ export default {
   border-radius: 4px;
   min-height: 36px;
   height: 50px;
-  text-align: center;
+  text-align: left;
   margin: 0 auto;
   line-height: 50px;
-  min-width: 314px;
 }
 .grid-content e {
   margin-right: 10px;
