@@ -8,7 +8,7 @@
       <el-row :gutter="20">
         <el-col :span="6"
           ><div class="grid-content bg-purple">
-            <span>&nbsp;&nbsp;玩法设置：</span>
+            <span>玩法设置：</span>
             <el-radio v-model="using" label="1" @change="openSet"
               >开启</el-radio
             >
