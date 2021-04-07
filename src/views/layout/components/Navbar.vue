@@ -163,6 +163,7 @@
 </template>
 
 <script>
+import { resetRouter } from "@/router/index";
 import { mapGetters } from "vuex";
 import nxBreadcrumb from "@/components/nx-breadcrumb";
 import nxHamburger from "@/components/nx-hamburger";
@@ -251,8 +252,8 @@ export default {
     },
     logout() {
       this.$store.dispatch("LogOut").then(() => {
+        resetRouter();
         this.$router.push({ path: "/login" });
-        location.reload();
       });
     },
     handleUser() {

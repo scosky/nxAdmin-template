@@ -144,7 +144,8 @@ const permission = {
             }
             menu[0].children.push(menuChild)
           })
-          commit('SET_ROUTERS', menu)
+          commit('SET_ROUTERS', []);
+          commit('SET_ROUTERS', menu);
           resolve()
         })
       })

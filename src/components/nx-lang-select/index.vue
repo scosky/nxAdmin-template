@@ -25,6 +25,7 @@ export default {
         .then((res) => {
           const roles = res.roles;
           store.dispatch("GenerateRoutes", { roles }).then(() => {
+            router.resetRouter();
             router.addRoutes(store.getters.addRouters);
           });
         })

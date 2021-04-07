@@ -126,6 +126,9 @@ export default {
       this.visible = false;
     },
   },
+  destroyed() {
+    this.closeAllTags();
+  },
 };
 </script>
 
