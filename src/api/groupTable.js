@@ -79,3 +79,11 @@ export function getPaidRule(params) {
   })
 }
 
+export function getWinData(params) {
+  return request({
+    url: '/group/win/list',
+    method: 'get',
+    params: params
+  })
+}
+
