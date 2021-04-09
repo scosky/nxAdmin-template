@@ -1,7 +1,5 @@
 import router from './router'
 import store from './store'
-// import NProgress from 'nprogress'
-// import 'nprogress/nprogress.css'
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth'
 import {

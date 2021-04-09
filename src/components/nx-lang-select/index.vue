@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import router from "@/router";
+import { resetRouter } from "@/router/index";
 import store from "@/store";
 import nxSvgIcon from "@/components/nx-svg-icon/index";
 export default {
@@ -25,8 +25,9 @@ export default {
         .then((res) => {
           const roles = res.roles;
           store.dispatch("GenerateRoutes", { roles }).then(() => {
-            router.resetRouter();
+            const router = resetRouter();
             router.addRoutes(store.getters.addRouters);
+            next({ ...to, replace: true });
           });
         })
         .catch((err) => {
@@ -35,6 +36,8 @@ export default {
             next({ path: "/" });
           });
         });
+      this.$store.dispatch("delAllViews");
+      this.$router.push("/");
     },
   },
 };

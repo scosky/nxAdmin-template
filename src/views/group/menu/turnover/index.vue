@@ -292,7 +292,6 @@ export default {
         userId: this.filters.userId,
         size: 10,
       };
-      console.log(JSON.stringify(para));
       getTurnovers(para).then((res) => {
         this.active = 0;
         this.data = res.data.list;
