@@ -61,10 +61,9 @@
         ></el-table-column>
         <el-table-column
           prop="winResult"
-          label="中奖结果"
+          label="开奖结果"
           width="150"
         ></el-table-column>
-        <el-table-column prop="odds" label="赔率" width="150"></el-table-column>
         <el-table-column
           prop="paidAmount"
           label="赔付金额"
