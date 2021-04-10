@@ -49,18 +49,14 @@
           width="120"
         ></el-table-column>
         <el-table-column
-          prop="money"
-          label="金额"
+          prop="sendAmount"
+          label="发包金额"
           width="120"
         ></el-table-column>
-        <el-table-column
-          prop="packs"
-          label="包数"
-          width="120"
-        ></el-table-column>
+        <el-table-column prop="pack" label="包数" width="120"></el-table-column>
         <el-table-column
           prop="sendContent"
-          label="发送内容"
+          label="发包内容"
           width="150"
         ></el-table-column>
         <el-table-column
@@ -70,7 +66,7 @@
         ></el-table-column>
         <el-table-column prop="odds" label="赔率" width="150"></el-table-column>
         <el-table-column
-          prop="payAmount"
+          prop="paidAmount"
           label="赔付金额"
           width="150"
         ></el-table-column>
@@ -138,7 +134,7 @@ export default {
   methods: {
     handleCurrent(val) {
       this.page = val;
-      // this.wins();
+      this.wins();
     },
     wins() {
       const para = {
@@ -146,17 +142,19 @@ export default {
         startTime: this.filters.startTime,
         endTime: this.filters.endTime,
         userId: this.filters.userId,
+        groupId: this.groupId,
         size: 10,
       };
       getWinData(para).then((res) => {
+        console.log(res);
         this.winData = res.data;
-        this.winData = res.total;
+        this.total = res.total;
       });
     },
   },
   mounted() {
     this.groupId = this.id;
-    // this.wins();
+    this.wins();
   },
 };
 </script>
