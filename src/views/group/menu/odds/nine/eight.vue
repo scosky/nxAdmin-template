@@ -27,7 +27,6 @@
               :controls="false"
               :disabled="switchSet"
               :min="1"
-              :precision="0"
               style="width: 80px"
             ></el-input-number>
             <span>&nbsp;&nbsp;最大金额:</span>
@@ -37,7 +36,6 @@
               :controls="false"
               :min="1"
               :max="99999"
-              :precision="0"
               style="width: 80px"
               :disabled="switchSet"
             ></el-input-number>
@@ -52,9 +50,9 @@
               v-model="rate"
               :disabled="switchSet"
               :controls="false"
-              oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-              :min="1"
-              :max="99999"
+              oninput="value=value.replace(/[^\d.]/g,'')"
+              :min="1.0"
+              :precision="2"
               style="width: 80px"
             ></el-input-number>
             <span>倍</span>

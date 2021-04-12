@@ -47,13 +47,15 @@
 
       <div class="odds-wap" v-for="(item, index) in paidRate">
         <span style="margin-left: 20px"> 中{{ item.index }}个:返</span>
-        <el-input
+        <el-input-number
           v-model="item.val"
           :disabled="switchSet"
-          oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+          oninput="value=value.replace(/[^\d]/g,'')"
           :min="1"
+          :precision="2"
+          :controls="false"
           style="width: 80px"
-        ></el-input>
+        ></el-input-number>
         <span>倍</span>
       </div>
       <el-row>
@@ -92,7 +94,15 @@ export default {
         return false;
       }
       let paidRate = {};
+      var reg = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
       for (let item of this.paidRate) {
+        if (!reg.test(item.val)) {
+          this.$message({
+            message: "输入数字最多2位小数点",
+            type: "warning",
+          });
+          return false;
+        }
         paidRate[item.index] = item.val;
       }
       paidRate.using = this.using;

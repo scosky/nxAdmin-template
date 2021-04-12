@@ -27,7 +27,6 @@
               :disabled="amoutStatus"
               :min="1"
               :max="99999"
-              :precision="0"
               style="width: 80px"
             ></el-input-number>
             <span>&nbsp;&nbsp;最大金额:</span>
@@ -37,7 +36,6 @@
               :controls="false"
               :min="1"
               :max="99999"
-              :precision="0"
               style="width: 80px"
               :disabled="amoutStatus"
             ></el-input-number>
@@ -63,9 +61,9 @@
               v-model="fixedRate"
               :disabled="fixedStatus"
               :controls="false"
-              oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-              :min="1"
-              :max="9999"
+              oninput="value=value.replace(/[^\d.]/g,'')"
+              :min="1.0"
+              :precision="2"
               style="width: 80px"
             ></el-input-number>
             <span>倍</span>
@@ -79,9 +77,9 @@
           v-model="rate"
           :disabled="switchSet"
           :controls="false"
-          oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
-          :min="1"
-          :max="9999"
+          oninput="value=value.replace(/[^\d.]/g,'')"
+          :min="1.0"
+          :precision="2"
           style="width: 80px"
         ></el-input-number>
         <span>倍</span>
@@ -92,9 +90,10 @@
           v-model="item.val"
           :disabled="switchSet"
           :controls="false"
-          oninput="value=value.replace(/^\.+|[^\d.]/g,'')"
+          oninput="value=value.replace(/[^\d.]/g,'')"
           class="oddsinput"
-          :min="1"
+          :min="0.0"
+          :precision="2"
           style="width: 80px"
         ></el-input-number>
         <span>倍</span>
@@ -151,7 +150,15 @@ export default {
       }
 
       let award = {};
+      var reg = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
       for (let item of this.award) {
+        if (!reg.test(item.val)) {
+          this.$message({
+            message: "输入数字最多2位小数点",
+            type: "warning",
+          });
+          return false;
+        }
         award[item.index] = item.val;
       }
       const params = {
@@ -218,8 +225,8 @@ export default {
           }
         } else {
           this.award = [
-            { index: "8", val: 1 },
-            { index: "9", val: 1 },
+            { index: "8", val: 0.0 },
+            { index: "9", val: 0.0 },
           ];
         }
 
