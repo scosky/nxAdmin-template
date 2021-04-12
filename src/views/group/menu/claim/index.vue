@@ -133,7 +133,7 @@
 </template>
 <script>
 import {
-  membersData,
+  paidData,
   setIndemnity,
   cancelIndemnity,
   startIndemnity,
@@ -284,7 +284,7 @@ export default {
         groupId: this.groupId,
         size: 10,
       };
-      membersData(para).then((res) => {
+      paidData(para).then((res) => {
         this.trusts = res.data;
         this.total = res.total;
       });

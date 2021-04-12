@@ -135,3 +135,36 @@ export function stopRobot(params) {
     params: params
   })
 }
+
+
+export function mSendData(params) {
+  return request({
+    url: '/group/members/mSend',
+    method: 'get',
+    params: params
+  })
+}
+
+export function grabData(params) {
+  return request({
+    url: '/group/members/grab',
+    method: 'get',
+    params: params
+  })
+}
+
+export function paidData(params) {
+  return request({
+    url: '/group/members/paid',
+    method: 'get',
+    params: params
+  })
+}
+
+export function mcData(params) {
+  return request({
+    url: '/group/members/mc',
+    method: 'get',
+    params: params
+  })
+}

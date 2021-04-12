@@ -103,7 +103,7 @@
 </template>
 <script>
 import {
-  membersData,
+  mcData,
   setRobot,
   cancelRobot,
   startRobot,
@@ -225,8 +225,7 @@ export default {
         groupId: this.groupId,
         size: 10,
       };
-      membersData(para).then((res) => {
-        console.log(res);
+      mcData(para).then((res) => {
         this.trusts = res.data;
         this.total = res.total;
       });

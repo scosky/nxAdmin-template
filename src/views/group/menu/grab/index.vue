@@ -103,7 +103,7 @@
 </template>
 <script>
 import {
-  membersData,
+  grabData,
   setGrab,
   cancelGrab,
   startGrab,
@@ -217,7 +217,7 @@ export default {
         groupId: this.groupId,
         size: 10,
       };
-      membersData(para).then((res) => {
+      grabData(para).then((res) => {
         this.trusts = res.data;
         this.total = res.total;
       });
