@@ -112,21 +112,21 @@ export default {
       page: 1,
       pageSize: 10,
       startTime: {
-        disabledDate: (time) => {
-          if (this.filters.endTime) {
-            return time.getTime() > new Date(this.filters.endTime).getTime();
-          }
-        },
+        // disabledDate: (time) => {
+        //   if (this.filters.endTime) {
+        //     return time.getTime() > new Date(this.filters.endTime).getTime();
+        //   }
+        // },
       },
       endTime: {
-        disabledDate: (time) => {
-          if (this.filters.startTime) {
-            return (
-              time.getTime() <
-              new Date(this.filters.startTime).getTime() + 86400000
-            );
-          }
-        },
+        // disabledDate: (time) => {
+        //   if (this.filters.startTime) {
+        //     return (
+        //       time.getTime() <
+        //       new Date(this.filters.startTime).getTime() + 86400000
+        //     );
+        //   }
+        // },
       },
     };
   },
