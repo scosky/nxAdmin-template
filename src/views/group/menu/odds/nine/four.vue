@@ -150,11 +150,11 @@ export default {
       }
 
       let award = {};
-      var reg = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
+      var reg = /^(([0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
       for (let item of this.award) {
         if (!reg.test(item.val)) {
           this.$message({
-            message: "输入数字最多2位小数点",
+            message: "数字限2位小数",
             type: "warning",
           });
           return false;
