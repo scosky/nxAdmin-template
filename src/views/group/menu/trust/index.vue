@@ -360,25 +360,20 @@ export default {
           return false;
         }
       }
-      this.$confirm("提示信息", "确认设置此规则", {})
-        .then(() => {
-          const param = {
-            userId: this.ruleFrom.userId,
-            groupId: this.groupId,
-            period: this.ruleFrom.period,
-            amount: this.ruleFrom.amount,
-            rule: this.ruleFrom.pack + "-" + this.ruleFrom.thunder,
-          };
-          console.log(JSON.stringify(param));
-          setPaidRule(param).then((res) => {
-            this.ruleVisible = false;
-            this.$message({
-              message: "修改成功",
-              type: "success",
-            });
-          });
-        })
-        .catch((e) => {});
+      const param = {
+        userId: this.ruleFrom.userId,
+        groupId: this.groupId,
+        period: this.ruleFrom.period,
+        amount: this.ruleFrom.amount,
+        rule: this.ruleFrom.pack + "-" + this.ruleFrom.thunder,
+      };
+      setPaidRule(param).then((res) => {
+        this.ruleVisible = false;
+        this.$message({
+          message: "修改成功",
+          type: "success",
+        });
+      });
     },
     setTrust(index, row) {
       this.pwdVisible = true;
