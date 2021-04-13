@@ -98,6 +98,25 @@
         >
         </el-pagination>
       </el-col>
+
+      <el-dialog
+        title="确认交易密码"
+        :visible.sync="pwdVisible"
+        :close-on-click-modal="false"
+      >
+        <el-input
+          v-model="pwd"
+          placeholder="请输入交易密码"
+          style="width: 200px"
+          type="password"
+        ></el-input>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="setGrabValue('paid')"
+            >确认</el-button
+          >
+          <el-button @click.native="pwdVisible = false">取消</el-button>
+        </div>
+      </el-dialog>
     </section>
   </div>
 </template>
@@ -109,6 +128,7 @@ import {
   startGrab,
   stopGrab,
 } from "@/api/turst";
+import md5 from "blueimp-md5";
 export default {
   name: "grab",
   props: {
@@ -133,25 +153,44 @@ export default {
       total: 0,
       page: 1,
       pageSize: 10,
+      pwdVisible: false,
+      pwd: "",
+      index: 0,
+      row: null,
     };
   },
   methods: {
     setGrab(index, row) {
-      this.$confirm("确认设置秒号？", "设置秒号", {})
-        .then(() => {
-          const param = {
-            userId: row.id,
-            groupId: this.groupId,
-          };
-          setGrab(param).then((res) => {
-            this.trusts[index].autoGrab = "1";
-            this.$message({
-              message: "设置成功",
-              type: "success",
-            });
-          });
-        })
-        .catch((e) => {});
+      this.pwdVisible = true;
+      this.index = index;
+      this.row = row;
+    },
+    setGrabValue() {
+      if (this.pwd.length < 6) {
+        this.pwdVisible = false;
+        this.$message({
+          message: "只能输入密码[密码最少6位]",
+          type: "warning",
+        });
+        return false;
+      }
+      this.pwdVisible = false;
+      const tradePwd = md5(this.pwd);
+      const param = {
+        userId: this.row.id,
+        groupId: this.groupId,
+        tradePwd: tradePwd,
+      };
+      setGrab(param).then((res) => {
+        this.trusts[this.index].autoGrab = "1";
+        this.index = 0;
+        this.row = null;
+        this.pwd = "";
+        this.$message({
+          message: "设置成功",
+          type: "success",
+        });
+      });
     },
     cancelGrab(index, row) {
       this.$confirm("确认取消秒号？", "取消秒号", {})

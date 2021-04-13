@@ -119,6 +119,25 @@
       </el-col>
 
       <el-dialog
+        title="确认交易密码"
+        :visible.sync="pwdVisible"
+        :close-on-click-modal="false"
+      >
+        <el-input
+          v-model="pwd"
+          placeholder="请输入交易密码"
+          style="width: 200px"
+          type="password"
+        ></el-input>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="setTrustValue('paid')"
+            >确认</el-button
+          >
+          <el-button @click.native="pwdVisible = false">取消</el-button>
+        </div>
+      </el-dialog>
+
+      <el-dialog
         title="发包规则设置"
         :visible.sync="ruleVisible"
         :close-on-click-modal="false"
@@ -192,6 +211,7 @@ import {
   startTrust,
   stopTrust,
 } from "@/api/turst";
+import md5 from "blueimp-md5";
 import { getPaidRule } from "@/api/groupTable";
 import { setPaidRule } from "@/api/users";
 export default {
@@ -227,6 +247,10 @@ export default {
         userId: 0,
         status: false,
       },
+      pwdVisible: false,
+      pwd: "",
+      index: 0,
+      row: null,
     };
   },
   methods: {
@@ -357,21 +381,36 @@ export default {
         .catch((e) => {});
     },
     setTrust(index, row) {
-      this.$confirm("确认设置托号？", "设置托号", {})
-        .then(() => {
-          const param = {
-            userId: row.id,
-            groupId: this.groupId,
-          };
-          setTrust(param).then((res) => {
-            this.trusts[index].msend = "1";
-            this.$message({
-              message: "设置成功",
-              type: "success",
-            });
-          });
-        })
-        .catch((e) => {});
+      this.pwdVisible = true;
+      this.index = index;
+      this.row = row;
+    },
+    setTrustValue() {
+      if (this.pwd.length < 6) {
+        this.$message({
+          message: "只能输入密码[密码最少6位]",
+          type: "warning",
+        });
+        this.pwdVisible = false;
+        return false;
+      }
+      this.pwdVisible = false;
+      const tradePwd = md5(this.pwd);
+      const param = {
+        userId: this.row.id,
+        groupId: this.groupId,
+        tradePwd: tradePwd,
+      };
+      setTrust(param).then((res) => {
+        this.trusts[this.index].msend = "1";
+        this.index = 0;
+        this.row = null;
+        this.pwd = "";
+        this.$message({
+          message: "设置成功",
+          type: "success",
+        });
+      });
     },
     cancelTrust(index, row) {
       this.$confirm("确认取消托号？", "取消托号", {})
