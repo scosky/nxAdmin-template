@@ -29,6 +29,8 @@
         <el-table-column prop="id" label="ID" width="120"> </el-table-column>
         <el-table-column prop="nickname" label="昵称" width="120">
         </el-table-column>
+        <el-table-column prop="name" label="群昵称" width="120">
+        </el-table-column>
         <el-table-column prop="phone" label="手机号" width="120">
         </el-table-column>
         <el-table-column prop="autoPaid" label="是否赔付号" width="120">
