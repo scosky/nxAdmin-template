@@ -24,7 +24,7 @@
         <el-table-column prop="id" label="ID" width="120"> </el-table-column>
         <el-table-column prop="nickname" label="昵称" width="120">
         </el-table-column>
-        <el-table-column prop="name" label="群成员昵称" width="120">
+        <el-table-column prop="name" label="群内昵称" width="120">
         </el-table-column>
         <el-table-column prop="phone" label="手机号" width="120">
         </el-table-column>
