@@ -16,37 +16,10 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-date-picker
-              type="datetime"
-              placeholder="开始时间"
-              v-model="filters.startTime"
-              style="width: 100%"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              :picker-options="startTime"
-            ></el-date-picker>
-          </el-form-item>
-          <el-form-item>
-            <el-date-picker
-              type="datetime"
-              placeholder="结束时间"
-              v-model="filters.endTime"
-              style="width: 100%"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              :picker-options="endTime"
-            ></el-date-picker>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" v-on:click="getTurs">统计</el-button>
-            <el-button type="primary" v-on:click="getFieldTurs">本场流水统计</el-button>
+            <el-button type="primary" v-on:click="getFieldTurs">流水统计</el-button>
             &nbsp;
-            <el-popover
-                placement="bottom"
-                width="250"
-                trigger="hover">
-                 <el-button type="primary" v-on:click="txtOut">文本导出</el-button>
-                 <el-button type="primary" v-on:click="excelOut">excel导出</el-button>
-                <el-button slot="reference">导出</el-button>
-            </el-popover>
+            <el-button type="primary" v-on:click="txtOut">文本导出</el-button> &nbsp;
+            <el-button type="primary" v-on:click="excelOut">excel导出</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -131,8 +104,6 @@ export default {
     return {
       groupId: 0,
       filters: {
-        startTime: "",
-        endTime: "",
         userId: "",
       },
       isShow: true,
@@ -145,24 +116,7 @@ export default {
       waters: "0",
       total: 0,
       page: 1,
-      active: 0,
-      startTime: {
-        // disabledDate: (time) => {
-        //   if (this.filters.endTime) {
-        //     return time.getTime() > new Date(this.filters.endTime).getTime();
-        //   }
-        // },
-      },
-      endTime: {
-        // disabledDate: (time) => {
-        //   if (this.filters.startTime) {
-        //     return (
-        //       time.getTime() <
-        //       new Date(this.filters.startTime).getTime() + 86400000
-        //     );
-        //   }
-        // },
-      },
+      active: 1,
     };
   },
   methods: {
@@ -172,78 +126,29 @@ export default {
     },
     txtOut() {
       if (this.data.length == 0) {
-        if (this.active == 0) {
-          this.$message({
-            message: "没有统计数据不能导出TXT",
-            type: "warning",
-          });
-        }
-        if (this.active == 1) {
-          this.$message({
-            message: "没有本场统计数据不能导出TXT",
-            type: "warning",
-          });
-        }
+        this.$message({
+          message: "统计已清除数据不能导出TXT",
+          type: "warning",
+        });
         return;
       }
-      if (this.active == 0) {
-        let txtUrl =
-          "http://8.136.115.108:8082/api/mc/group/trade/export/txt?type=1";
-        txtUrl +=
-          "&userId=" +
-          this.filters.userId +
-          "&groupId=" +
-          this.groupId +
-          "&startTime=" +
-          this.filters.startTime +
-          "&endTime=" +
-          this.filters.endTime;
-        window.location.href = txtUrl;
-      }
-      if (this.active == 1) {
-        let txtUrl =
-          "http://8.136.115.108:8082/api/mc/group/trade/export/txt?type=2";
-        url += "&userId=" + this.filters.userId + "&groupId=" + this.groupId;
-        window.location.href = txtUrl;
-      }
+      let txtUrl =
+        "http://8.136.115.108:8082/api/mc/group/trade/export/txt?type=2";
+      txtUrl += "&userId=" + this.filters.userId + "&groupId=" + this.groupId;
+      window.location.href = txtUrl;
     },
     excelOut() {
       if (this.data.length == 0) {
-        if (this.active == 0) {
-          this.$message({
-            message: "没有统计数据不能导出EXCEL",
-            type: "warning",
-          });
-        }
-        if (this.active == 1) {
-          this.$message({
-            message: "没有本场统计数据不能导出EXCEL",
-            type: "warning",
-          });
-        }
+        this.$message({
+          message: "统计已清除不能导出EXCEL",
+          type: "warning",
+        });
         return;
       }
-      if (this.active == 0) {
-        let excelUrl =
-          "http://8.136.115.108:8082/api/mc/group/trade/export/excel?type=1";
-        excelUrl +=
-          "&userId=" +
-          this.filters.userId +
-          "&groupId=" +
-          this.groupId +
-          "&startTime=" +
-          this.filters.startTime +
-          "&endTime=" +
-          this.filters.endTime;
-        window.location.href = excelUrl;
-      }
-      if (this.active == 1) {
-        let excelUrl =
-          "http://8.136.115.108:8082/api/mc/group/trade/export/excel?type=2";
-        excelUrl +=
-          "&userId=" + this.filters.userId + "&groupId=" + this.groupId;
-        window.location.href = excelUrl;
-      }
+      let excelUrl =
+        "http://8.136.115.108:8082/api/mc/group/trade/export/excel?type=2";
+      excelUrl += "&userId=" + this.filters.userId + "&groupId=" + this.groupId;
+      window.location.href = excelUrl;
     },
     getFieldTurs() {
       const para = {
