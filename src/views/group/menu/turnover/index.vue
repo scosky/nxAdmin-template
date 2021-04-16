@@ -186,8 +186,6 @@ export default {
         } else {
           this.profit = res.data.profit;
         }
-        console.log(this.errorWaters);
-        console.log(this.errorPack);
       });
     },
     getTurs() {

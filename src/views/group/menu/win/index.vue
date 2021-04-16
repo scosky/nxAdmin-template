@@ -42,7 +42,7 @@
       </el-col>
 
       <el-table :data="winData" highlight-current-row style="width: 100%">
-        <el-table-column prop="userId" label="ID" width="120"></el-table-column>
+        <el-table-column prop="userId" label="ID" width="100"></el-table-column>
         <el-table-column
           prop="nickname"
           label="昵称"
@@ -53,11 +53,11 @@
           label="发包金额"
           width="120"
         ></el-table-column>
-        <el-table-column prop="pack" label="包数" width="120"></el-table-column>
+        <el-table-column prop="pack" label="包数" width="100"></el-table-column>
         <el-table-column
           prop="sendContent"
           label="发包内容"
-          width="150"
+          width="100"
         ></el-table-column>
         <el-table-column
           prop="winResult"
@@ -69,7 +69,7 @@
           label="赔付金额"
           width="150"
         ></el-table-column>
-        <el-table-column prop="time" label="时间" width="150"></el-table-column>
+        <el-table-column prop="time" label="时间" width="200"></el-table-column>
       </el-table>
 
       <el-col :span="24" class="toolbar">
