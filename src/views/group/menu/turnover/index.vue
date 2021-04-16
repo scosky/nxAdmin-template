@@ -186,6 +186,8 @@ export default {
         } else {
           this.profit = res.data.profit;
         }
+        console.log(this.errorWaters);
+        console.log(this.errorPack);
       });
     },
     getTurs() {
@@ -231,7 +233,7 @@ export default {
   },
   mounted() {
     this.groupId = this.id;
-    this.getTurs();
+    this.getThisField();
   },
 };
 </script>
