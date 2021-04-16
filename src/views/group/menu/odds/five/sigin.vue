@@ -105,7 +105,6 @@ export default {
         }
         paidRate[item.index] = item.val;
       }
-      return false;
       paidRate.using = this.using;
       paidRate.min = this.min;
       paidRate.max = this.max;
