@@ -37,6 +37,18 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="200">
       </el-table-column>
+      <el-table-column prop="switchStatus" label="领包开关" width="100">
+        <template slot-scope="scope">
+          <el-switch
+            v-model="scope.row.switchStatus"
+            active-value="1"
+            inactive-value="0"
+            active-color="#13ce66"
+            @change="changeStatus($event, scope.row)"
+          >
+          </el-switch>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
           <el-button
@@ -179,7 +191,11 @@
 </template>
 
 <script>
-import { getGroupListPage, getGroupDetail } from "@/api/groupTable";
+import {
+  getGroupListPage,
+  getGroupDetail,
+  setSwitchStatus,
+} from "@/api/groupTable";
 import { membersData } from "@/api/turst";
 import { modifyGroup } from "@/api/users";
 export default {
@@ -221,6 +237,10 @@ export default {
     };
   },
   methods: {
+    changeStatus: function (val, row) {
+      const param = { groupId: row.groupId, switchStatus: val };
+      setSwitchStatus(param).then((res) => {});
+    },
     handleCurrentChange(val) {
       this.page = val;
       this.getGroups();
