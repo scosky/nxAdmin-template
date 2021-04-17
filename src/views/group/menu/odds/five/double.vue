@@ -51,7 +51,7 @@
           v-model="item.val"
           :disabled="switchSet"
           oninput="value=value.replace(/[^\d]/g,'')"
-          :min="1"
+          :min="0"
           :precision="2"
           :controls="false"
           style="width: 80px"
@@ -160,10 +160,10 @@ export default {
           }
         } else {
           this.paidRate = [
-            { index: "2", val: 1 },
-            { index: "3", val: 1 },
-            { index: "4", val: 1 },
-            { index: "5", val: 1 },
+            { index: "2", val: 0 },
+            { index: "3", val: 0 },
+            { index: "4", val: 0 },
+            { index: "5", val: 0 },
           ];
           this.switchSet = false;
           this.using = "1";
