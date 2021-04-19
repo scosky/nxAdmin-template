@@ -108,7 +108,7 @@ export default {
         return false;
       }
       let award = {};
-      var reg = /^(([0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
+      var reg = /^[0-9][0-9]*([\.][0-9]{1,2})?$/;
       for (let item of this.award) {
         if (!reg.test(item.val)) {
           this.$message({
