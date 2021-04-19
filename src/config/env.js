@@ -16,16 +16,16 @@ const iconfontUrl = `//at.alicdn.com/t/font_$key.css`
 const codeUrl = `${baseUrl}/code`
 const env = process.env
 if (env.NODE_ENV === 'development') {
-  baseUrl = 'http://8.136.115.108:8082/api/mc' // 开发环境地址
+    baseUrl = 'http://47.118.59.217:8082/api/mc' // 开发环境地址
 } else if (env.NODE_ENV === 'production') {
-  baseUrl = 'http://8.136.115.108:8082/api/mc' // 生产环境地址
+    baseUrl = 'http://47.118.59.217:8082/api/mc' // 生产环境地址
 } else if (env.NODE_ENV === 'test') {
-  baseUrl = 'http://8.136.115.108:8082/api/mc' // 测试环境地址
+    baseUrl = 'http://47.118.59.217:8082/api/mc' // 测试环境地址
 }
 export {
-  baseUrl,
-  iconfontUrl,
-  iconfontVersion,
-  codeUrl,
-  env
+    baseUrl,
+    iconfontUrl,
+    iconfontVersion,
+    codeUrl,
+    env
 }
