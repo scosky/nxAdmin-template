@@ -148,6 +148,7 @@
       title="群成员"
       :visible.sync="groupMemberVisible"
       :close-on-click-modal="false"
+      :width="dialogWidth"
     >
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px">
         <el-form :inline="true" :model="groupfilters" @submit.native.prevent>
@@ -169,10 +170,16 @@
       </el-col>
 
       <el-table :data="groupMembers" highlight-current-row style="width: 100%">
-        <el-table-column prop="id" label="ID" width="120"> </el-table-column>
+        <el-table-column prop="id" label="ID" width="110"> </el-table-column>
         <el-table-column prop="nickname" label="昵称" width="120">
         </el-table-column>
         <el-table-column prop="phone" label="手机号" width="120">
+        </el-table-column>
+        <el-table-column prop="inviter" label="邀请人ID" width="110">
+        </el-table-column>
+        <el-table-column prop="inviterName" label="邀请人" width="120">
+        </el-table-column>
+        <el-table-column prop="inviterTime" label="邀请时间" width="170">
         </el-table-column>
       </el-table>
 
@@ -201,6 +208,7 @@ import { modifyGroup } from "@/api/users";
 export default {
   data() {
     return {
+      dialogWidth: "800px",
       dialogFormVisible: false,
       groupMemberVisible: false,
       filters: {
