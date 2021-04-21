@@ -133,7 +133,7 @@ export default {
         return;
       }
       let txtUrl =
-        "http://8.136.115.108:8082/api/mc/group/trade/export/txt?type=2";
+        "http://47.118.59.217:8082/api/mc/group/trade/export/txt?type=2";
       txtUrl += "&userId=" + this.filters.userId + "&groupId=" + this.groupId;
       window.location.href = txtUrl;
     },
@@ -146,7 +146,7 @@ export default {
         return;
       }
       let excelUrl =
-        "http://8.136.115.108:8082/api/mc/group/trade/export/excel?type=2";
+        "http://47.118.59.217:8082/api/mc/group/trade/export/excel?type=2";
       excelUrl += "&userId=" + this.filters.userId + "&groupId=" + this.groupId;
       window.location.href = excelUrl;
     },
@@ -231,7 +231,7 @@ export default {
   },
   mounted() {
     this.groupId = this.id;
-    this.getThisField();
+    this.getFieldTurs();
   },
 };
 </script>
