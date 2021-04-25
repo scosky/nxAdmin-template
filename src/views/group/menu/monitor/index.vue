@@ -49,6 +49,7 @@
 </template>
 <script>
 import store from "@/store";
+import util from "@/utils/table.js";
 export default {
   name: "monitor",
   props: {
@@ -98,6 +99,10 @@ export default {
       const data = JSON.parse(event.data);
       if (data.status == undefined) {
         if (data.msgType == 888 || data.msgType == 999) {
+          let date = new Date();
+          date.setTime(data.time);
+          let timeStr = util.formatDate.format(date, "yyyy-MM-dd hh:mm:ss");
+          data.time = timeStr;
           this.data.push(data);
           this.loading = false;
           this.scrollToBottom();

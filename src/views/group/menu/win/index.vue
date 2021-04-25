@@ -145,7 +145,6 @@ export default {
         size: 10,
       };
       getWinData(para).then((res) => {
-        console.log(res);
         this.winData = res.data;
         this.total = res.total;
       });
