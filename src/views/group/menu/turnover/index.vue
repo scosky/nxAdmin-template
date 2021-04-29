@@ -188,46 +188,6 @@ export default {
         }
       });
     },
-    getTurs() {
-      const para = {
-        page: this.page,
-        startTime: this.filters.startTime,
-        endTime: this.filters.endTime,
-        groupId: this.groupId,
-        userId: this.filters.userId,
-        size: 10,
-      };
-      getTurnovers(para).then((res) => {
-        this.active = 0;
-        this.data = res.data.list;
-        this.data.forEach(function (element, index, array) {
-          if (element.paid == null) {
-            element.paid = 0;
-          }
-          const paid = element.paid - element.water;
-          element.paid = paid;
-        });
-        this.total = res.data.total;
-        this.persons = res.data.persons;
-        this.pack = res.data.pack;
-        this.waters = res.data.waters;
-        if (res.data.errorPack == null) {
-          this.errorPack = 0;
-        } else {
-          this.errorPack = res.data.errorPack;
-        }
-        if (res.data.errorPack == null) {
-          this.errorWaters = 0;
-        } else {
-          this.errorWaters = res.data.errorWaters;
-        }
-        if (res.data.profit == null) {
-          this.profit = 0;
-        } else {
-          this.profit = res.data.profit;
-        }
-      });
-    },
   },
   mounted() {
     this.groupId = this.id;
