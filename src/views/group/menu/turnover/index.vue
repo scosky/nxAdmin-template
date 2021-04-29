@@ -87,7 +87,7 @@
   </div>
 </template>
 <script>
-import { getTurnovers, getThisField } from "@/api/groupTable";
+import { getThisField } from "@/api/groupTable";
 export default {
   name: "turnover",
   props: {
@@ -122,7 +122,7 @@ export default {
   methods: {
     handleCurrent(val) {
       this.page = val;
-      this.getTurs();
+      this.getFieldTurs();
     },
     txtOut() {
       if (this.data.length == 0) {
