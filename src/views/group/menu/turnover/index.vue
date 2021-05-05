@@ -16,6 +16,16 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
+            <el-select v-model="value" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          </el-form-item>
+          <el-form-item>
             <el-button type="primary" v-on:click="getFieldTurs">流水统计</el-button>
             &nbsp;
             <el-button type="primary" v-on:click="txtOut">文本导出</el-button> &nbsp;
@@ -117,6 +127,21 @@ export default {
       total: 0,
       page: 1,
       active: 1,
+      options: [
+        {
+          value: "",
+          label: "所有",
+        },
+        {
+          value: "0",
+          label: "正常",
+        },
+        {
+          value: "1",
+          label: "托号",
+        },
+      ],
+      value: "",
     };
   },
   methods: {
@@ -155,6 +180,7 @@ export default {
         page: this.page,
         groupId: this.groupId,
         userId: this.filters.userId,
+        mc: this.value,
         size: 10,
       };
       getThisField(para).then((res) => {
@@ -164,8 +190,8 @@ export default {
           if (element.paid == null) {
             element.paid = 0;
           }
-          const paid = element.paid - element.water;
-          element.paid = paid;
+          const paid = Number(element.paid) - Number(element.water);
+          element.paid = paid.toFixed(2);
         });
         this.total = res.data.total;
         this.persons = res.data.persons;
