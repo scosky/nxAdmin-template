@@ -6,7 +6,7 @@ import { getToken } from '@/utils/auth'
 
 const ajaxService = axios.create({
     baseURL: baseUrl,
-    timeout: 10000
+    // timeout: 10000
 })
 
 // request拦截器
