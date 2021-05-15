@@ -156,12 +156,6 @@
             <el-input v-model="groupfilters.id" placeholder="ID"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input
-              v-model="groupfilters.phone"
-              placeholder="手机号"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
             <el-button type="primary" v-on:click="getGroupMembers"
               >查询</el-button
             >
@@ -172,8 +166,6 @@
       <el-table :data="groupMembers" highlight-current-row style="width: 100%">
         <el-table-column prop="id" label="ID" width="110"> </el-table-column>
         <el-table-column prop="nickname" label="昵称" width="120">
-        </el-table-column>
-        <el-table-column prop="phone" label="手机号" width="120">
         </el-table-column>
         <el-table-column prop="inviter" label="邀请人ID" width="110">
         </el-table-column>
@@ -232,7 +224,6 @@ export default {
       groupMembers: [],
       groupfilters: {
         id: "",
-        phone: "",
         groupId: "",
         total: 0,
         page: 1,
@@ -312,7 +303,6 @@ export default {
       const para = {
         page: this.page,
         id: this.groupfilters.id,
-        phone: this.groupfilters.phone,
         groupId: this.groupfilters.groupId,
         size: 10,
       };

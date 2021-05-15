@@ -61,13 +61,6 @@
           <el-radio v-model="userInfo.sex" label="1">男</el-radio>
           <el-radio v-model="userInfo.sex" label="2">女</el-radio>
         </el-form-item>
-        <el-form-item label="手机号">
-          <el-input
-            auto-complete="off"
-            style="width: 30%"
-            v-model="userInfo.phone"
-            disabled
-          ></el-input>
         </el-form-item>
         <el-form-item label="出生日期">
           <el-date-picker
@@ -203,7 +196,6 @@ export default {
         userId: 0,
         nickName: "",
         name: "",
-        phone: "",
         sex: "",
         birthday: "",
         signature: "",

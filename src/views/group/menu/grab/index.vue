@@ -11,9 +11,6 @@
             <el-input v-model="filters.id" placeholder="ID"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="filters.phone" placeholder="手机号"></el-input>
-          </el-form-item>
-          <el-form-item>
             <el-button type="primary" v-on:click="members">查询</el-button>
           </el-form-item>
         </el-form>
@@ -25,8 +22,6 @@
         <el-table-column prop="nickname" label="昵称" width="120">
         </el-table-column>
         <el-table-column prop="name" label="群内昵称" width="120">
-        </el-table-column>
-        <el-table-column prop="phone" label="手机号" width="120">
         </el-table-column>
         <el-table-column prop="autoGrab" label="是否秒号" width="120">
           <template slot-scope="scope">
@@ -148,7 +143,6 @@ export default {
       groupId: "",
       filters: {
         id: "",
-        phone: "",
         groupId: "",
       },
       trusts: [],
@@ -254,7 +248,6 @@ export default {
       const para = {
         page: this.page,
         id: this.filters.id,
-        phone: this.filters.phone,
         groupId: this.groupId,
         size: 10,
       };
